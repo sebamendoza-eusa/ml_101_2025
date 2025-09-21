@@ -1,0 +1,26 @@
+# Evitar archivos específicos de Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de configuración del sistema
+*.sys
+*.bak
+*.old
+
+# Archivos de caché del sistema
+*.tmp
+*.temp
+
+# Archivos de caché de logs
+*.log
+
+
+# Archivos generados por Windows Explorer o archivos temporales
+*.DS_Store
+*.db
+*.lzma
+
+# Archivos creados por ciertos editores de texto
+*.~*
+*.bak

@@ -1,4 +1,4 @@
-# Temario. Sistemas de aprendizaje automático
+# Sistemas de aprendizaje automático
 
 ## Tema 1. Determinación de sistemas de aprendizaje automático
 

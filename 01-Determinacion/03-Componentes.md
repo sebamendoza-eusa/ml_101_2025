@@ -237,11 +237,11 @@ Este tipo de modelos puede incluir términos polinómicos, funciones trigonomét
 
 
 > **Ejemplo:** Supongamos que queremos predecir el **precio de una vivienda** en función de una característica simple, como el **tamaño** de la casa ($x$). Un **modelo lineal** podría asumir que el precio ($y$) depende linealmente del tamaño de la vivienda, es decir:
+> 
 > $$
 > y = w_0 + w_1 x
 > $$
 > 
->
 > En este caso, el modelo asume que el precio aumenta proporcionalmente con el tamaño. Esto refleja una **relación lineal** entre el tamaño de la casa ($x$) y el precio ($y$), donde $w_0$ es el término independiente y $w_1$ es la pendiente de la recta.
 >
 > Sin embargo, el precio de una vivienda no suele depender únicamente de su tamaño. Factores más complejos, como la **ubicación**, el **número de habitaciones** y la **antigüedad** de la vivienda, pueden influir de forma no lineal. En este caso, un **modelo no lineal** sería más adecuado. Por ejemplo, un modelo podría tomar la forma:

@@ -514,6 +514,7 @@ Las ecuaciones de normalización son una forma algebraica de calcular los parám
 En términos geométricos, OLS **ajusta la línea que pasa más cerca de todos los puntos en el espacio de características**, reduciendo al mínimo las distancias verticales al cuadrado desde cada punto a la línea.
 
 > **Ejemplo**: Supongamos que estamos estudiando la relación entre el **tamaño de una casa (en metros cuadrados)** y su **precio (en miles de euros)**. Los datos de entrenamiento podrían ser los siguientes:
+> 
 > $$
 > \begin{array}{|c|c|}
 > \hline
@@ -525,6 +526,7 @@ En términos geométricos, OLS **ajusta la línea que pasa más cerca de todos l
 > \hline
 > \end{array}
 > $$
+> 
 > Aplicando el algoritmo de OLS, primero formamos la matriz $X$ (incluyendo un término de 1 para el término independiente) y el vector $y$:
 >
 > $$

@@ -310,9 +310,11 @@ Donde:
 El MSE penaliza fuertemente los **errores grandes** debido al uso del cuadrado de las diferencias. Esto significa que es más sensible a valores atípicos, ya que los errores grandes tendrán un impacto mayor en la métrica final. El resultado está en unidades cuadradas del valor objetivo, lo que puede hacer que sea menos interpretable que otras métricas.
 
 Por otro lado, el **MAE**, mide el promedio de los errores absolutos entre las predicciones y los valores reales. Su fórmula sería la siguiente:
+
 $$
 MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
 $$
+
 A diferencia del MSE, **el MAE no utiliza el cuadrado de las diferencias, sino el valor absoluto**. Esto significa que penaliza **todos los errores por igual**, sin importar si son grandes o pequeños. Es menos sensible a los valores atípicos que el MSE y su resultado se interpreta directamente en las mismas unidades que el valor objetivo, lo que a veces lo hace más intuitivo.
 
 Ambas métricas miden el **error promedio** entre las predicciones y los valores reales y son,  como se ha comentado, utilizadas en **modelos de regresión** para evaluar la precisión de las predicciones.
@@ -353,7 +355,6 @@ $$
 \text{Exactitud} = \dfrac{TP + TN}{TP + TN + FP + FN}
 $$
 
-
 > **Ejemplo:** Un modelo de reconocimiento facial identifica correctamente 98 de 100 rostros, logrando una exactitud del 98%.
 
 ###### Precisión (Precision)
@@ -363,7 +364,6 @@ La **precisión** mide el porcentaje de casos **predichos como positivos** que *
 $$
 \text{Precisión} = \dfrac{TP}{TP + FP}
 $$
-
 
 > **Ejemplo**: En un clasificador de detección de fraudes, una alta precisión significa que la mayoría de las transacciones etiquetadas como fraudulentas son efectivamente fraudes.
 
@@ -375,7 +375,6 @@ $$
 \text{Recall} = \dfrac{TP}{TP + FN}
 $$
 
-
 > **Ejemplo**: En la detección de cáncer, es vital que el modelo detecte todos los casos de cáncer (recall alto), aunque ocasionalmente marque falsos positivos.
 
 ###### F1-Score
@@ -385,7 +384,6 @@ Es la media armónica entre precisión y recall. Es útil en situaciones con dat
 $$
 \text{F1} = 2 \times \dfrac{\text{Precisión} \times \text{Recall}}{\text{Precisión} + \text{Recall}}
 $$
-
 
 > **Ejemplo**: En un sistema de clasificación de spam, donde es importante tanto detectar correctamente los correos no deseados como minimizar el número de correos válidos etiquetados como spam, el F1-Score sería una métrica clave.
 
@@ -486,7 +484,6 @@ $$
 y = \theta_0 + \theta_1 x
 $$
 
-
 Donde:
 - $y$ es el valor que queremos predecir.
 - $x$ es la característica independiente.
@@ -499,13 +496,11 @@ $$
 SSE = \sum_{i=1}^{m} (y_i - \hat{y}_i)^2
 $$
 
-
 El SSE es la suma de los cuadrados de los errores y se minimiza resolviendo el sistema de ecuaciones lineales que surge de las derivadas parciales con respecto a $\theta_0$ y $\theta_1$. Para minimizar la suma de errores, calculamos las derivadas parciales de la función de coste respecto a los parámetros $\theta_0$ y $\theta_1$ y las igualamos a cero. Esto da lugar a las **ecuaciones normales**:
 
 $$
 \theta = (X^T X)^{-1} X^T y
 $$
-
 
 Donde:
 - $\theta$ es el vector de parámetros que incluye $\theta_0$ y $\theta_1$.

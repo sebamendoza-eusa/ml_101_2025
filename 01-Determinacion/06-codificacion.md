@@ -368,8 +368,8 @@ Por contra, las principales desventajas de **TF-IDF** son su incapacidad para ca
 >
 > Donde $N$ es el número total de documentos y $DF(t)$ es el número de documentos que contienen el término $t$.
 >
-> - "El" aparece en los 3 documentos, así que su IDF es $ \log\left(\frac{3}{1+3}\right) = 0$
-> - "Gato" aparece en 2 documentos, su IDF es $ \log\left(\frac{3}{1+2}\right) = 0.18$
+> - "El" aparece en los 3 documentos, así que su IDF es $\log\left(\frac{3}{1+3}\right) = 0$
+> - "Gato" aparece en 2 documentos, su IDF es $\log\left(\frac{3}{1+2}\right) = 0.18$
 > - "Durmiendo", "jugando", "corriendo", que aparecen solo en un documento, tendrán una IDF mayor.
 >
 > **Paso 3: Multiplicar TF por IDF**

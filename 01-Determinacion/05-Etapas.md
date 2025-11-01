@@ -34,7 +34,7 @@ Uno de los aspectos más importantes es **entender el problema en términos de n
 
 Otro elemento clave es la **definición clara de las entradas y salidas** esperadas del modelo. Se debe decidir si el problema se puede resolver con un enfoque **supervisado** (donde los datos de entrenamiento incluyen las etiquetas correctas) o con un enfoque **no supervisado** (donde el objetivo es encontrar patrones ocultos sin etiquetas). También es importante determinar si se busca resolver un problema de **clasificación**, **regresión**, o de **agrupamiento**.
 
-Además, en esta fase se establece cómo se medirá el éxito del modelo. Esto puede implicar la elección de una **métrica de evaluación** adecuada, como la precisión, el error cuadrático medio (MSE), o el área bajo la curva ROC (AUC), según la naturaleza del problema. Definir correctamente los indicadores de rendimiento garantiza que se pueda evaluar de manera objetiva si el modelo está cumpliendo con los objetivos planteados.
+Además, en esta fase se establece cómo se medirá el éxito del modelo. Esto puede implicar la elección de una **métrica de evaluación** adecuada según la naturaleza del problema (precisión, error cuadrático medio (MSE), etc.). Definir correctamente los indicadores de rendimiento garantiza que se pueda evaluar de manera objetiva si el modelo está cumpliendo o no con los objetivos planteados.
 
 Por último, la fase de definición del problema debe tomar en cuenta los **recursos** disponibles, como la cantidad y calidad de los datos, el tiempo disponible y las limitaciones computacionales, lo que puede influir en la elección de los algoritmos y la estrategia de modelado.
 
@@ -43,8 +43,6 @@ Por último, la fase de definición del problema debe tomar en cuenta los **recu
 > **Ejemplo**: En un proyecto de **regresión** para predecir el precio de viviendas en una ciudad, el problema debe definirse claramente como uno en el que se buscan **predicciones continuas** basadas en variables de entrada como el tamaño de la casa, el número de habitaciones y la ubicación.
 
 > **Ejemplo**: Si el objetivo es segmentar a los clientes de un e-commerce para personalizar campañas de marketing, se define el problema como uno de **clustering no supervisado**, donde el modelo debe agrupar a los clientes según patrones de comportamiento sin etiquetas predeterminadas.
-
-
 
 **Para reflexionar...**
 
@@ -119,16 +117,21 @@ El primer paso en el preprocesamiento es la **limpieza de datos**. Los datos rea
 
 Los datos también pueden tener **outliers**, que son valores anómalos que pueden distorsionar el rendimiento del modelo. Estos se pueden identificar mediante técnicas estadísticas (como el uso de percentiles) y se pueden eliminar o ajustar.
 
-### **Normalización y estandarización**
-En muchos algoritmos de machine learning, especialmente **aquellos que se basan en la distancia** (como las redes neuronales o los modelos de regresión), es importante que los datos estén en una escala similar. Las variables que tienen rangos de valores muy diferentes pueden tener un impacto desproporcionado en el modelo, por lo que se debe aplicar **normalización** o **escalado**.
+### Escalado de datos
+En muchos algoritmos de machine learning, especialmente **aquellos que se basan en la distancia** (como las redes neuronales o los modelos de regresión), es importante que los datos estén en una escala similar. Las variables que tienen rangos de valores muy diferentes pueden tener un impacto desproporcionado en el modelo, por lo que se debe aplicar **normalización** o **estandarización**.
 
-- **Normalización**: Convierte los valores de las variables a un rango entre 0 y 1. Esto se utiliza cuando se espera que los datos sigan una distribución uniforme o, como se ha señalado antes, cuando se trabaja con algoritmos basados en distancias, como el k-NN.
-  
-  $$x_{\text{norm}} = \dfrac{x - \min(x)}{\max(x) - \min(x)}$$
+La **normalización** convierte los valores de las variables a un rango entre 0 y 1. Esto se utiliza cuando se espera que los datos sigan una distribución uniforme o, como se ha señalado antes, cuando se trabaja con algoritmos basados en distancias, como el k-NN.
 
-- **Estandarización**: Convierte los datos a una escala con media 0 y desviación estándar 1. Esto es útil cuando los datos siguen una distribución gaussiana o en métodos como la regresión logística o las redes neuronales profundas.
-  
-  $$x_{\text{std}} = \dfrac{x - \mu}{\sigma}$$
+$$
+x_{\text{norm}} = \dfrac{x - \min(x)}{\max(x) - \min(x)}
+$$
+
+
+La **estandarización** convierte los datos a una escala con media 0 y desviación estándar 1. Esto es útil cuando los datos siguen una distribución gaussiana o en métodos como la regresión logística o las redes neuronales profundas.
+
+$$
+x_{\text{std}} = \dfrac{x - \mu}{\sigma}
+$$
 
 ### **Codificación de variables categóricas**
 Los modelos de machine learning solo entienden datos numéricos, por lo que las **variables categóricas** deben ser convertidas a números. Existen dos técnicas principales para ello:
@@ -140,7 +143,7 @@ Los modelos de machine learning solo entienden datos numéricos, por lo que las 
 En algunos casos, es necesario crear nuevas variables a partir de las existentes para mejorar el rendimiento del modelo. Esto se conoce como **ingeniería de características**. Por ejemplo, en un conjunto de datos de transacciones financieras, se podría crear una nueva variable que represente el promedio de transacciones por día a partir de los datos de las transacciones totales y los días activos.
 
 ### **Reducción de dimensionalidad**
-Cuando el conjunto de datos contiene muchas variables, algunos algoritmos pueden sufrir un problema denominado  **maldición de la dimensionalidad**, derivado precisamente de la dispersión debida a la gran cantidad de datos. Para evitarlo, se puede aplicar técnicas como **PCA (Análisis de Componentes Principales)** o **Selección de características**, que permiten reducir el número de variables conservando la mayor parte de la información relevante.
+Cuando el conjunto de datos contiene muchas variables, algunos algoritmos pueden sufrir un problema denominado  **maldición de la dimensionalidad**, derivado precisamente de la dispersión debida a la gran cantidad de características. Para evitarlo, se puede aplicar técnicas como **PCA (Análisis de Componentes Principales)** o **selección de características**, que permiten reducir el número de variables conservando la mayor parte de la información relevante.
 
 > **Ejemplo:** En un proyecto de predicción de precios de viviendas, es fundamental imputar los valores faltantes en la variable 'tamaño del terreno', ya que muchos registros tienen datos incompletos. Reemplazar estos valores con la media o la mediana puede mejorar la calidad del conjunto de datos.
 
@@ -275,17 +278,9 @@ Un aspecto central en la evaluación del modelo es el uso de **métricas** que c
 
 1. **Error Cuadrático Medio (MSE)**: Mide el promedio de los errores al cuadrado entre las predicciones y los valores reales. Penaliza más los errores grandes que los pequeños, por lo que es adecuado en situaciones donde los grandes errores son críticos.
 
-   $$MSE = \dfrac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2$$
-
 2. **Error Absoluto Medio (MAE)**: Mide el promedio de los errores absolutos. A diferencia del MSE, no da tanto peso a los errores grandes, lo que puede ser útil cuando todos los errores se desean tratar por igual.
 
-   $$MAE = \dfrac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y_i}|$$
-
 3. **R² (Coeficiente de determinación)**: Mide la proporción de la varianza explicada por el modelo respecto a la varianza total. Indica cuán bien las variables independientes explican la variabilidad de la variable dependiente.
-
-   $$R^2 = 1 - \dfrac{SS_{res}}{SS_{tot}}$$
-
-   Donde $SS_{res}$ es la suma de los cuadrados de los residuos y $SS_{tot}$ es la suma total de cuadrados.
 
 > **Ejemplo:** En un modelo de predicción de precios de viviendas, el MSE es útil para penalizar grandes errores, como cuando el modelo predice un precio de vivienda muy bajo o alto en comparación con el valor real.
 
@@ -383,12 +378,4 @@ También es importante tener en cuenta el **registro de datos** y el seguimiento
 
 > ##### ¿Es siempre necesario reentrenar un modelo en producción cuando su rendimiento comienza a disminuir?
 > **Pistas**: Reflexiona sobre cómo pequeñas adaptaciones o ajustes en los hiperparámetros, junto con la recolección de nuevos datos, pueden mejorar el rendimiento sin necesidad de un reentrenamiento completo.
-
-#### A debate...
-
-> **¿Debe existir un equipo dedicado al monitoreo y mantenimiento del modelo después de la puesta en producción?**
->
-> **Clave**: Considera los riesgos y costes de mantener un modelo en producción y la necesidad de un equipo que gestione el ciclo de vida completo del modelo.
->
-> **Clave2**: Considera cómo los cambios en los datos pueden degradar el rendimiento del modelo con el tiempo. Piensa en problemas como la **deriva de datos** o la aparición de nuevos patrones que no se reflejan en el entrenamiento inicial.
 

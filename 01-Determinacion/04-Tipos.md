@@ -2,7 +2,7 @@
 
 ## Aprendizaje supervisado
 
-El **aprendizaje supervisado** es uno de los paradigmas fundamentales del aprendizaje automático. La idea es entrenar un modelo con un conjunto de datos etiquetados, donde cada entrada está asociada con una salida o etiqueta correcta. El objetivo principal es que el modelo aprenda patrones y relaciones en los datos de manera que pueda hacer predicciones precisas cuando se le presente información nueva. A lo largo de este proceso, el modelo ajusta sus parámetros internos para minimizar el error en las predicciones que realiza.
+El **aprendizaje supervisado** es uno de los paradigmas fundamentales del aprendizaje automático. La idea es **entrenar un modelo con un conjunto de datos etiquetados**, donde cada entrada está asociada con una salida o etiqueta correcta. El objetivo principal es que el modelo aprenda patrones y relaciones en los datos de manera que pueda hacer predicciones precisas cuando se le presente información nueva. A lo largo de este proceso, el modelo ajusta sus parámetros internos para minimizar el error en las predicciones que realiza.
 
 Este enfoque tiene aplicaciones muy amplias, como la clasificación de imágenes, la predicción de precios, la detección de fraudes, entre otros. En cada uno de estos casos, **se utilizan datos históricos donde las entradas y salidas correctas ya se conocen**. Por ejemplo, en la predicción de precios de vivienda, las entradas podrían ser las características de una casa (tamaño, ubicación, número de habitaciones), y la salida sería el precio. A partir de estas asociaciones, el modelo aprende a estimar el precio de nuevas propiedades.
 
@@ -12,7 +12,9 @@ El aprendizaje supervisado se puede aplicar tanto a problemas de **clasificació
 
 Una de las principales ventajas del aprendizaje supervisado es su capacidad para obtener resultados precisos cuando se cuenta con un conjunto de datos etiquetado y representativo. Además, debido a que las etiquetas son conocidas de antemano, el proceso de evaluación es más sencillo. Los modelos de aprendizaje supervisado son capaces de aprovechar al máximo la información contenida en los datos etiquetados, permitiendo realizar predicciones robustas y bien fundamentadas.
 
-Sin embargo, este enfoque también presenta desafíos. Uno de los principales es la necesidad de contar con un conjunto de datos etiquetado lo suficientemente grande y representativo del problema real, ya que en ocasiones, obtener un volumen significativo de datos etiquetados puede ser bastante costoso. Por otro lado, los modelos supervisados pueden ser susceptibles al **sobreajuste** cuando los datos de entrenamiento no son lo suficientemente variados o cuando el modelo es demasiado complejo en relación con la cantidad de datos.
+Sin embargo, este enfoque también presenta desafíos. Uno de los principales es la necesidad de **contar con un conjunto de datos etiquetado lo suficientemente grande y representativo** del problema real, ya que en ocasiones, obtener un volumen significativo de datos etiquetados puede ser bastante costoso.
+
+Por otro lado, los modelos supervisados pueden ser susceptibles al **sobreajuste** cuando los datos de entrenamiento no son lo suficientemente variados o cuando el modelo es demasiado complejo en relación con la cantidad de datos.
 
 Otro reto importante en este enfoque es la **calidad de las etiquetas**. Si los datos de entrenamiento contienen errores en las etiquetas, el modelo aprenderá patrones incorrectos, lo que afectará negativamente a su capacidad para generalizar. La supervisión humana en el proceso de etiquetado es costosa y, a veces, se pueden cometer errores, especialmente en problemas complejos donde las etiquetas son subjetivas o ambiguas.
 
@@ -41,8 +43,6 @@ Por último, podemos citar un desafío adicional, y es el que radica en la capac
 
 El **aprendizaje no supervisado** es un enfoque del machine learning en el que el modelo se entrena con datos que no tienen etiquetas asociadas, es decir, no se conoce a priori la salida correcta para cada entrada. El objetivo principal del aprendizaje no supervisado es descubrir patrones, estructuras ocultas o agrupaciones en los datos. Este enfoque es **fundamental en situaciones donde los datos etiquetados son difíciles de obtener, costosos de generar, o simplemente no están disponibles**.
 
-### Fundamentos
-
 A diferencia del **aprendizaje supervisado**, donde se cuenta con una salida o etiqueta que guía al modelo, en el aprendizaje no supervisado el modelo debe aprender de las relaciones intrínsecas en los datos. Estas relaciones se basan en **similitudes, distancias o correlaciones** que existen entre las características o variables de nuestro dataset de entrada. Los algoritmos intentan encontrar una estructura subyacente o representación útil de los datos sin requerir la intervención humana para etiquetar las muestras.
 
 Los dos problemas más comunes en el aprendizaje no supervisado son el **clustering** (agrupamiento) y la **reducción de dimensionalidad**. 
@@ -63,7 +63,7 @@ En cuanto a la técnica de la **reducción de Dimensionalidad**, ésta tiene com
 >
 > El aprendizaje no supervisado es extremadamente útil en la exploración de grandes conjuntos de datos y en la extracción de características antes de aplicar otros métodos de machine learning. A menudo, estos métodos son la primera etapa en un flujo de trabajo más complejo, donde se utilizan para identificar patrones que luego se exploran en profundidad.
 
-### Ventajas y Desafíos
+### Ventajas y desafíos del aprendizaje no supervisado
 
 El principal beneficio del aprendizaje no supervisado es que no requiere etiquetas para entrenar el modelo, lo que lo hace aplicable en muchas áreas donde los datos etiquetados son escasos o inexistentes. Este enfoque permite descubrir patrones ocultos en datos desestructurados, algo muy complicado en tareas como la segmentación de mercado, la biología computacional, o la minería de datos.
 
@@ -104,9 +104,11 @@ Los componente de cualquier sistema de aprendizaje por refuerzo son los siguient
 - **Valoración**: Una función que estima el valor futuro esperado de estar en un estado particular o tomar una acción particular.
 - **Exploración y explotación**: El agente debe equilibrar la **exploración** de nuevas estrategias para descubrir cuál es la mejor, y la **explotación** de lo que ya ha aprendido para maximizar las recompensas.
 
+![image-20251101141048640](./assets/image-20251101141048640.png)
+
 Uno de los principales desafíos en el aprendizaje por refuerzo es encontrar el **equilibrio entre exploración y explotación**. Si el agente se enfoca demasiado en la explotación, puede no descubrir mejores políticas o estrategias; si se enfoca demasiado en la exploración, puede no maximizar adecuadamente la recompensa. Este equilibrio es clave para un buen rendimiento del modelo en entornos dinámicos y complejos.
 
-> [!note]
+> **Ejemplo: Dron autónomo**
 >
 > Imagina un dron autónomo que debe aprender a moverse dentro de un almacén cerrado, lleno de estanterías, pasillos estrechos y obstáculos, con el objetivo de entregar paquetes de manera eficiente. Este dron no cuenta con un mapa previo del lugar, por lo que debe tomar decisiones a medida que navega por el entorno. El dron se convierte así en el protagonista del proceso de **aprendizaje por refuerzo**, donde sus decisiones se basan en la experiencia adquirida con cada vuelo.
 >
@@ -124,15 +126,31 @@ Uno de los principales desafíos en el aprendizaje por refuerzo es encontrar el 
 
 ### Tipos de algoritmos en aprendizaje por refuerzo
 
-En el aprendizaje por refuerzo, los algoritmos se pueden clasificar en según tres enfoques principales: los que están **basados en valor**, los **basados en política**, y los basados en**métodos mixtos**. Cada uno de ellos aborda el problema de toma de decisiones de manera diferente, dependiendo de cómo el agente aprende y optimiza sus acciones para maximizar las recompensas en su entorno.
+En el aprendizaje por refuerzo, el objetivo del agente es aprender **cómo actuar en un entorno** para obtener la mayor recompensa posible a lo largo del tiempo. Pero existen diferentes maneras de llegar a ese comportamiento óptimo. Según la estrategia que utilice el agente para mejorar sus decisiones, los algoritmos de aprendizaje por refuerzo se agrupan en tres grandes familias: los que aprenden **valores**, los que aprenden **políticas**, y los que combinan **ambos enfoques**.
 
-Los **Algoritmos basados en valor** están enfocados en aprender el valor de los estados o las acciones que el agente puede tomar. Un ejemplo clásico es el **Q-learning**, donde el agente construye una tabla conocida como **Q-table**. Esta tabla asigna a cada estado o acción un valor que representa el beneficio esperado a largo plazo de tomar esa acción en ese estado. A medida que el agente explora su entorno y recibe recompensas, actualiza la Q-table, lo que le permite tomar decisiones cada vez más acertadas. El objetivo es que el agente aprenda a identificar la mejor acción a tomar en cualquier estado dado, basándose en los valores almacenados en la tabla.
+#### Algoritmos basados en valor
 
-A diferencia de los métodos basados en valor, los **algoritmos basados en política** no intentan estimar explícitamente el valor de cada estado o acción. En su lugar, aprenden directamente una **política**, es decir, una función que mapea cada estado a una acción específica. Un ejemplo destacado es el **gradiente de políticas**, donde el agente ajusta su política a lo largo del tiempo mediante optimización, de manera que mejora gradualmente las decisiones que toma en cada situación. Este enfoque es particularmente útil en entornos con grandes espacios de estados, donde estimar valores para cada estado sería impracticable.
+Imagina que el agente explora un entorno como si fuera un viajero recorriendo un mapa. En cada cruce del camino (estado) puede tomar distintas direcciones (acciones), y cada una le llevará a una zona más o menos prometedora. Los métodos **basados en valor** se centran precisamente en **evaluar** qué tan bueno es cada cruce y cada dirección posible.
 
-Por último, los **métodos mixtos** combinan elementos de los algoritmos basados en valor y los basados en política. Un ejemplo típico es el método **actor-crítico**, donde se entrenan dos componentes en paralelo: el **actor**, que es responsable de aprender la política (qué acciones tomar en cada estado), y el **crítico**, que evalúa la calidad de las decisiones del actor al estimar los valores de los estados. Esta combinación permite que el agente aproveche tanto la flexibilidad de las políticas aprendidas como la estabilidad de los valores estimados, logrando una mejora más robusta y efectiva en su rendimiento.
+En lugar de decidir directamente qué hacer, el agente aprende a **asignar un valor numérico** a cada opción. Este valor representa la **recompensa total esperada** que puede obtener en el futuro si toma esa decisión. Una vez que el agente ha aprendido esos valores, actuar se vuelve sencillo: en cada situación elegirá la acción con el valor más alto.
 
-Estos enfoques permiten a los agentes de aprendizaje por refuerzo adaptarse a diferentes tipos de problemas, desde aquellos que requieren un análisis detallado de los valores de las acciones hasta otros que necesitan decisiones rápidas basadas en políticas dinámicas.
+Un ejemplo muy conocido es **Q-learning**, donde el agente construye una especie de tabla (la **Q-table**) que almacena los valores aprendidos para cada combinación de estado y acción. Con el tiempo, esa tabla se va perfeccionando hasta reflejar las mejores decisiones posibles. Por esto se dice que los métodos basados en valor son **indirectos**, porque primero aprenden a valorar el entorno y después actúan en consecuencia.
+
+#### Algoritmos basados en política
+
+Los métodos **basados en política** adoptan un enfoque diferente. En lugar de calcular cuánto vale cada opción, el agente aprende directamente **cómo debe comportarse**. Es decir, construye una **política**: una regla que indica qué acción tomar en cada estado, o con qué probabilidad elegir una u otra acción.
+
+Podemos pensar en este tipo de agente como alguien que desarrolla **buenos hábitos**. No necesita evaluar cada paso en detalle, sino que aprende a comportarse correctamente de forma directa, ajustando su comportamiento a medida que recibe recompensas o penalizaciones.
+
+Un ejemplo es el **método del gradiente de políticas**, donde el agente mejora su política mediante técnicas de optimización: si una determinada forma de actuar ha dado buenos resultados, ajusta sus parámetros para repetirla con más frecuencia. Este enfoque es especialmente útil cuando el entorno tiene **muchos estados o variables continuas**, porque evita tener que guardar una tabla de valores enorme o imposible de calcular.
+
+#### Métodos mixtos: actor-crítico
+
+En la práctica, muchos sistemas modernos de aprendizaje por refuerzo combinan los dos enfoques anteriores. Así surgen los métodos **actor-crítico**, donde el agente está dividido en dos partes que trabajan juntas:
+
+Por un lado, el **actor** es quien toma las decisiones. Aprende la política, es decir, el conjunto de reglas que indican qué hacer en cada momento. Por otro lado, el **crítico** actúa como un observador que **evalúa** las decisiones del actor, estimando su valor o utilidad.
+
+Si el actor toma una decisión acertada, el crítico le refuerza; si se equivoca, el crítico le señala el error. Esta dinámica de diálogo continuo entre ambos permite que el agente aprenda de manera **más rápida y estable**. Podríamos decir que el actor es el “instinto” que actúa, y el crítico es la “voz racional” que evalúa y corrige.
 
 > **Ejemplo**: En los **videojuegos**, los personajes controlados por inteligencia artificial pueden usar aprendizaje por refuerzo para aprender a tomar decisiones estratégicas en función de su entorno y sus adversarios. A medida que juegan más partidas, mejoran sus habilidades al obtener recompensas por ganar o completar objetivos dentro del juego.
 
@@ -150,27 +168,31 @@ Estos enfoques permiten a los agentes de aprendizaje por refuerzo adaptarse a di
 
 Las **redes neuronales** son modelos inspirados en las neuronas del cerebro humano, formadas por nodos que procesan señales a través de capas. Su origen se puede hallar en el **perceptrón**, desarrollado por Frank Rosenblatt en 1957, un modelo computacional simple que intentaba emular una neurona biológica. El perceptrón realizaba una combinación lineal de las entradas y aplicaba una función de activación para tomar decisiones. A su vez, este modelo tenía una relación directa con la **regresión lineal**, donde las predicciones se basan en una combinación lineal de variables de entrada, si bien es cierto que el perceptrón añade la capacidad de clasificar mediante activaciones no lineales.
 
-Así pues, las **redes neuronales artificiales** (ANN, por sus siglas en inglés) son modelos computacionales que se organizan en nodos y en capas. Cada capa está compuesta de nodos que se conectan con uno o más nodos de la siguiente capa. Una neurona artificial consta de una **capa de entrada**, una o más **capas ocultas**, y una **capa de salida**. Cada conexión entre nodos de distintas capas está caracterizada por un parámetro  denominado *peso*, que representa la fuerza de la conexión entre nodos.
-
-En general, estos modelos son fundamentales en el campo del **aprendizaje profundo (deep learning)**, una subcategoría del aprendizaje automático diseñada para trabajar con grandes volúmenes de datos, tanto estructurados como no estructurados, y para resolver problemas altamente complejos.
+<img src="./assets/image-20251101143133453.png" alt="image-20251101143133453" style="zoom:50%;" />
 
 ### Estructura de las redes neuronales
 
-Las redes neuronales suelen estar estructuradas en tres tipos de capas. En primer lugar una **capa de entrada**, que recibe los datos iniciales y los transmite a la siguiente capa. Cada nodo en esta capa **corresponde a una característica del conjunto de datos**.  En segundo lugar, las denominadas **capas ocultas**. Estas capas transforman las entradas utilizando funciones de activación y producen características más abstractas o complejas. La **profundidad** de una red (es decir, el número de capas ocultas) es lo que define un modelo como **red profunda** (deep neural network). Por último, la **capa de salida**, genera la predicción final o la clasificación, dependiendo de la naturaleza del problema. La salida puede ser un valor numérico, una categoría, o un conjunto de probabilidades.
+La neuronas artificial es un modelo computacional que se puede formando una estructura de red. Dichas red se estructura en capas superpuestas o sucesivas. Cada capa está compuesta de nodos que se conectan con uno o más nodos de la siguiente capa. Una **red neuronal** constaría así de una **capa de entrada**, una o más **capas ocultas**, y una **capa de salida**. Cada conexión entre nodos de distintas capas está caracterizada por un parámetro  denominado *peso*, que representa la fuerza de la conexión entre nodos.
+
+![image-20251101143220119](./assets/image-20251101143220119.png)
+
+En general, estos modelos son fundamentales en el campo del **aprendizaje profundo (deep learning)**, una subcategoría del aprendizaje automático diseñada para trabajar con grandes volúmenes de datos, tanto estructurados como no estructurados, y para resolver problemas altamente complejos.
+
+Se puede ver en la imagen como en primer lugar una **capa de entrada**  recibe los datos iniciales y los transmite a la siguiente capa. Cada nodo en esta capa **corresponde a una característica del conjunto de datos**.  En segundo lugar, las denominadas **capas ocultas** transforman las entradas utilizando funciones de activación y producen características más abstractas o complejas. La **profundidad** de una red (es decir, el número de capas ocultas) es lo que define un modelo como **red profunda** (deep neural network). Por último, la **capa de salida**, genera la predicción final o la clasificación, dependiendo de la naturaleza del problema. La salida puede ser un valor numérico, una categoría, o un conjunto de probabilidades.
 
 Las redes neuronales tienen la capacidad de **aprender representaciones jerárquicas** de los datos. Esto significa que, a medida que la información avanza a través de las capas ocultas, el modelo extrae características cada vez más abstractas y complejas. Este proceso es crucial en tareas como el **reconocimiento de imágenes**, donde las primeras capas pueden detectar bordes y contornos simples, mientras que las últimas capas identifican formas y objetos más complejos.
 
-### Funcionamiento básico
+#### Funcionamiento básico
 
 Cada nodo en una red neuronal realiza una operación matemática: toma una serie de entradas, las multiplica por los pesos correspondientes y les aplica una función de activación para producir una salida. Este proceso se repite en todas las capas hasta que se llega a la capa de salida.
 
 Para hacer que el modelo aprenda, es necesario **entrenar** la red y optimizar los pesos de cada conexión. Durante esta fase, el modelo recibe datos etiquetados (en el caso del aprendizaje supervisado) y realiza predicciones. A continuación, compara las predicciones con los valores reales para calcular el **error** (o pérdida), que se utiliza para ajustar los pesos de la red. Este ajuste se lleva a cabo mediante una técnica llamada **retropropagación del error**.
 
-### Retropropagación del error
+#### Retropropagación del error
 
-La **retropropagación** es uno de los mecanismos clave en el entrenamiento de redes neuronales. Funciona ajustando los pesos de las conexiones neuronales en función del error cometido en la predicción. Este proceso se lleva a cabo en varias etapas. Primero, realizando un**cálculo del error**. Se compara la salida generada por la red con el valor real mediante una **función de pérdida** que depende del tipo de problema (regresión o clasificación). En segundo lugar, el error calculado se propaga desde la capa de salida hacia las capas anteriores, ajustando los pesos de cada conexión. Cuanto mayor sea el error en una capa, mayor será el ajuste de los pesos en esa capa. Por último se **actualizan los pesos**. Para se aplican algoritmos de optimización como el **gradiente descendente** para minimizar la función de pérdida y actualizar los pesos de manera iterativa. Este proceso de ajuste continuo de los pesos durante múltiples iteraciones, o **épocas**, permite a la red neuronal mejorar su capacidad para hacer predicciones precisas a partir de los datos.
+La **retropropagación** es uno de los mecanismos clave en el entrenamiento de redes neuronales. Funciona ajustando los pesos de las conexiones neuronales en función del error cometido en la predicción. Este proceso se lleva a cabo en varias etapas. Primero, realizando un **cálculo del error**. Se compara la salida generada por la red con el valor real mediante una **función de pérdida** que depende del tipo de problema (regresión o clasificación). En segundo lugar, el error calculado se propaga desde la capa de salida hacia las capas anteriores, ajustando los pesos de cada conexión. Cuanto mayor sea el error en una capa, mayor será el ajuste de los pesos en esa capa. Para todo lo anterior se aplican algoritmos de optimización como el **gradiente descendente**, que minimizan la función de pérdida y actualizan los pesos de manera iterativa. Este proceso de ajuste continuo de los pesos durante múltiples iteraciones, o **épocas**, permite a la red neuronal mejorar su capacidad para hacer predicciones precisas a partir de los datos.
 
-### Funciones de activación
+#### Funciones de activación
 
 Las funciones de activación son otro componente esencial de las redes neuronales. Estas funciones definen la salida de una neurona, dado un conjunto de entradas ponderadas. Existen diferentes tipos de funciones de activación, cada una con sus propias características y aplicaciones. La más simple es la **función sigmoide**, la cual comprime los valores de salida entre 0 y 1 y la hace útil en problemas de clasificación binaria. Una variante de esta función es la función *tangente hiperbólica* (**Tanh**), que es similar a la sigmoide, pero comprimiendo los valores entre -1 y 1. Es habitual usarla en las capas ocultas de una red. Por último, podemos citar la función **ReLU (Rectified Linear Unit)**. Es la función de activación más utilizada en redes profundas. Introduce no linealidad al modelo y evita el problema del **desvanecimiento del gradiente**, lo que facilita el entrenamiento en este tipo de redes.
 
@@ -180,7 +202,11 @@ Las funciones de activación son otro componente esencial de las redes neuronale
 
 ### Desafíos de las redes neuronales
 
-A pesar de su capacidad para aprender representaciones complejas, las redes neuronales también presentan varios desafíos. En primer lugar su **opacidad y falta de explicabilidad**. Es uno de los mayores retos de este tipo de modelos. A medida que la red se vuelve más compleja, resulta difícil entender cómo se toman las decisiones, lo que plantea problemas en áreas donde se requiere transparencia. En segundo lugar podríamos citar el problema del **sobreajuste**. Dado que las redes neuronales suelen tener un gran número de parámetros, corren el riesgo de memorizar los datos de entrenamiento en lugar de generalizar correctamente a nuevos datos. Para mitigar este problema, se emplean técnicas de regularización como el **dropout**, que desactiva aleatoriamente un porcentaje de neuronas durante el entrenamiento, o la **regularización L2**, que penaliza modelos con pesos demasiado grandes. Por último, no puede obviarse el **coste computacional**. Entrenar redes neuronales profundas requiere una gran cantidad de recursos computacionales, especialmente cuando se trabaja con grandes conjuntos de datos. Por esta razón, muchas veces es necesario utilizar **unidades de procesamiento gráfico (GPUs)** o **unidades de procesamiento tensorial (TPUs)** para acelerar el entrenamiento.
+A pesar de su capacidad para aprender representaciones complejas, las redes neuronales también presentan varios desafíos. En primer lugar su **opacidad y falta de explicabilidad**. Es uno de los mayores retos de este tipo de modelos. A medida que la red se vuelve más compleja, resulta difícil entender cómo se toman las decisiones, lo que plantea problemas en áreas donde se requiere transparencia.
+
+En segundo lugar podríamos citar el problema del **sobreajuste**. Dado que las redes neuronales suelen tener un gran número de parámetros, corren el riesgo de memorizar los datos de entrenamiento en lugar de generalizar correctamente a nuevos datos. Para mitigar este problema, se emplean técnicas de regularización como el **dropout**, que desactiva aleatoriamente un porcentaje de neuronas durante el entrenamiento, o la **regularización L2**, que penaliza modelos con pesos demasiado grandes.
+
+Por último, no puede obviarse el **coste computacional**. Entrenar redes neuronales profundas requiere una gran cantidad de recursos computacionales, especialmente cuando se trabaja con grandes conjuntos de datos. Por esta razón, muchas veces es necesario utilizar **unidades de procesamiento gráfico (GPUs)** o **unidades de procesamiento tensorial (TPUs)** para acelerar el entrenamiento.
 
 ### Aplicaciones de las redes neuronales
 

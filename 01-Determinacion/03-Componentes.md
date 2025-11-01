@@ -1,6 +1,6 @@
 # 3. Componentes de un proyecto de aprendizaje automático
 
-Todo sistema de aprendizaje automático (ML) está compuesto de varios **elementos clave** que, en conjunto, permiten el desarrollo, ajuste y validación del modelo. Cada componente es esencial para lograr un modelo eficiente y preciso. A continuación, vamos a explorar en detalle los elementos principales.
+Todo sistema de aprendizaje automático está compuesto de varios **elementos clave** que, en conjunto, permiten el desarrollo, ajuste y validación del modelo. Cada componente es esencial para lograr un modelo eficiente y preciso. A continuación, vamos a explorar en detalle los elementos principales.
 
 Como se ha dicho, el éxito de un proyecto de aprendizaje automático va a depender de la integración adecuada de cada componente. Los datos deben estar bien representados, los algoritmos correctamente seleccionados y los modelos deben ser evaluados rigurosamente. La capacidad de generalización de un modelo es clave para su éxito en el mundo real, lo que exige un delicado equilibrio entre el ajuste a los datos de entrenamiento y la capacidad de responder bien a datos nuevos.
 
@@ -29,17 +29,17 @@ La **limpieza de datos** se refiere a la identificación y corrección o elimina
 
 > **Ejemplo**: En un conjunto de datos médicos, si faltan valores en los registros de edad o sexo de algunos pacientes, es importante decidir si eliminar esos registros o reemplazar los valores faltantes con la media de los datos existentes.
 
-#### **Normalización**
+#### **Escalado**
 
-La **normalización** o **escalado de datos** es fundamental cuando los datos contienen variables con diferentes rangos o escalas. Por ejemplo, si una variable mide ingresos anuales en miles de dólares y otra mide edad en años, sus magnitudes pueden ser tan diferentes que afecten el rendimiento de ciertos algoritmos, como la regresión logística o las redes neuronales, que son sensibles a estas diferencias.
+El **escalado de datos** es fundamental cuando los datos contienen variables con diferentes rangos o escalas. Por ejemplo, si una variable mide ingresos anuales en miles de dólares y otra mide edad en años, sus magnitudes pueden ser tan diferentes que afecten el rendimiento de ciertos algoritmos, como la regresión logística o las redes neuronales, que son sensibles a estas diferencias.
 
-Existen diferentes técnicas de normalización, dos técnicas habituales son el **min-max scaling** (ajustar los valores entre 0 y 1) o el **escalado por estandarización** (ajustar los valores para que tengan media 0 y desviación estándar 1).
+Existen diferentes técnicas de escalado, si bien dos técnicas son las más habituales. Se trata del **min-max scaling** (ajustar los valores entre 0 y 1) y el **escalado por estandarización** (ajustar los valores para que tengan media 0 y desviación estándar 1).
 
 > **Ejemplo**: En un modelo que predice precios de viviendas, las variables como el tamaño en metros cuadrados y el número de habitaciones deben estar en escalas comparables para evitar que una domine sobre la otra.
 
 #### **Codificación de Categorías**
 
-En muchos casos, los datos contienen **variables categóricas** (por ejemplo, “bajo”, “medio” y “alto” o “rojo”, “verde” y “azul”) que deben ser transformadas en valores numéricos para que los modelos de machine learning puedan procesarlos. Existen varias técnicas para realizar esta conversión, siendo las más comunes la **codificación one-hot** (crear una columna binaria para cada categoría) y la **codificación ordinal** (asignar valores numéricos basados en un orden establecido).
+En muchos casos, los datos contienen **variables categóricas** (por ejemplo, “bajo”, “medio” y “alto” o “rojo”, “verde” y “azul”) que deben ser transformadas en valores numéricos para que los modelos de machine learning puedan procesarlos. Existen varias técnicas para realizar esta conversión, siendo las más comunes la **codificación one-hot** (crear una columna binaria para cada categoría) o la **codificación ordinal** (asignar valores numéricos basados en un orden establecido).
 
 > **Ejemplo**: En un modelo que predice si un cliente comprará un producto, la variable “nivel de ingresos” puede ser categórica (“bajo”, “medio”, “alto”). Para que el modelo la entienda, se podría convertir en 1, 2 y 3 respectivamente.
 
@@ -47,19 +47,19 @@ En muchos casos, los datos contienen **variables categóricas** (por ejemplo, �
 
 > **¿Qué problemas pueden surgir si no se realiza una adecuada normalización de los datos?**
 >
-> **Clave**: Sin normalización, los modelos sensibles a las magnitudes de las variables, como las redes neuronales, podrían dar más peso a variables con mayores escalas, distorsionando los resultados.
+> Sin normalización, los modelos sensibles a las magnitudes de las variables, como las redes neuronales, podrían dar más peso a variables con mayores escalas, distorsionando los resultados.
 
 > **¿Cuándo es preferible eliminar datos faltantes en lugar de imputarlos?**
 >
-> **Clave**: Considera la proporción de valores faltantes y si eliminarlos afectaría la representatividad del conjunto de datos o introduciría sesgos.
+> Considera la proporción de valores faltantes y si eliminarlos afectaría la representatividad del conjunto de datos o introduciría sesgos.
 
 > **¿Qué diferencias existen entre las técnicas de codificación one-hot y ordinal, y cuándo es recomendable usar cada una?**
 >
-> **Clave**: Reflexiona sobre cómo las relaciones entre categorías influyen en la elección de la técnica adecuada, ya que la codificación ordinal asume un orden jerárquico, mientras que la one-hot trata cada categoría como independiente.
+> Reflexiona sobre cómo las relaciones entre categorías influyen en la elección de la técnica adecuada, ya que la codificación ordinal asume un orden jerárquico, mientras que la one-hot trata cada categoría como independiente.
 
 ### Entrenamiento, test y validación
 
-En un proyecto de *machine learning* (ML), es crucial separar los datos en **conjuntos de entrenamiento, validación y test**. Esta práctica asegura que el modelo se entrena correctamente, se evita el sobreajuste, y se evalúa de manera precisa su rendimiento. Cada conjunto cumple una función específica en el proceso de desarrollo del modelo. A continuación, detallamos estos tres conceptos clave:
+En un proyecto de machine learning es crucial separar los datos en **conjuntos de entrenamiento, validación y test**. Esta práctica asegura que el modelo se entrena correctamente, se evita el sobreajuste, y se evalúa de manera precisa su rendimiento. Cada conjunto cumple una función específica en el proceso de desarrollo del modelo. A continuación, detallamos estos tres conceptos clave:
 
 #### **Conjunto de entrenamiento**
 
@@ -112,15 +112,15 @@ Este conjunto, generalmente de entre el 10% y el 20% restante de los datos origi
 
 > **¿Qué problemas podrían surgir si no se utiliza un conjunto de validación?**
 >
-> **Clave**: Sin un conjunto de validación, el modelo podría sobreajustarse a los datos de entrenamiento y tener un mal rendimiento en datos nuevos.
+> Sin un conjunto de validación, el modelo podría sobreajustarse a los datos de entrenamiento y tener un mal rendimiento en datos nuevos.
 
 > **¿Cómo asegurar que el conjunto de test refleja adecuadamente el entorno de producción?**
 >
-> **Clave**: Se deben elegir cuidadosamente los datos de test para que representen correctamente los casos de uso que el modelo encontrará en producción.
+> Se deben elegir cuidadosamente los datos de test para que representen correctamente los casos de uso que el modelo encontrará en producción.
 
 > **¿Qué riesgos podrían surgir al seleccionar conjuntos de entrenamiento, validación y test que no sean representativos?**
 >
-> **Clave**: Pueden generarse modelos sesgados o que no generalicen bien debido a una muestra no representativa de la población.
+> Pueden generarse modelos sesgados o que no generalicen bien debido a una muestra no representativa de la población.
 
 ## Modelo
 
@@ -160,8 +160,6 @@ Los **modelos de agrupación**, (o **clustering)**, se utilizan cuando el objeti
 
 > **Ejemplo**: Un modelo de clustering puede agrupar a los clientes de una tienda en línea en diferentes segmentos según su comportamiento de compra, como la frecuencia de compras, el tipo de productos adquiridos y el monto gastado, permitiendo a la empresa personalizar campañas de marketing para cada grupo.
 
-La evaluación de estos modelos se realiza con métricas como la **precisión**, **recall**, **F1-Score**, la **matriz de confusión**, la **distancia** o la **cohesión** ya que estas métricas evalúan el desempeño en la asignación correcta de etiquetas o de similitud
-
 > [!important]
 >
 > - Los **modelos de predicción** generan resultados continuos, como un valor numérico.
@@ -179,7 +177,10 @@ En el contexto del aprendizaje automático, la distinción entre **modelos linea
 
 Un **modelo lineal** asume que la relación entre las variables de entrada (o características) y la salida es una combinación lineal de las entradas. Matemáticamente, se expresa como:
 
-$$y = w_0 + w_1 x_1 + w_2 x_2 + \dots + w_n x_n$$
+$$
+y = w_0 + w_1 x_1 + w_2 x_2 + \dots + w_n x_n
+$$
+
 
 donde:
 
@@ -190,14 +191,14 @@ donde:
 
 El modelo lineal ajusta estos parámetros ($w_0, w_1, \dots, w_n$) durante el entrenamiento, minimizando el error entre las predicciones $y$ y los valores reales. Los modelos lineales son fáciles de interpretar y entrenar, pero su capacidad para modelar relaciones complejas es limitada.
 
-###### Ventajas e inconvenientes de los modelos lineales
+##### Ventajas e inconvenientes de los modelos lineales
 
-**Ventajas**:
+###### **Ventajas**:
 
 - Simplicidad y facilidad de interpretación: se puede ver fácilmente cómo cada entrada influye en la salida.
 - Rápidos de entrenar y eficientes en problemas con relaciones sencillas entre las variables.
 
-**Desventajas**:
+###### **Desventajas**:
 
 - No pueden capturar relaciones complejas o no lineales entre las variables.
 - Suponen que los efectos combinados de las entradas son aditivos y proporcionales, lo que limita su flexibilidad.
@@ -212,14 +213,14 @@ $$
 
 Este tipo de modelos puede incluir términos polinómicos, funciones trigonométricas, exponenciales, o incluso relaciones definidas por redes neuronales. Los modelos no lineales son muy flexibles y pueden ajustar patrones complejos en los datos, pero también tienen mayor riesgo de **sobreajuste** si no se gestionan adecuadamente.
 
-###### Ventajas y Desventajas de los Modelos No Lineales
+##### Ventajas y Desventajas de los Modelos No Lineales
 
-**Ventajas**:
+###### **Ventajas**:
 
 - Mayor capacidad para capturar relaciones complejas en los datos.
 - Flexibilidad para adaptarse a una amplia variedad de patrones, independientemente de la forma que tomen.
 
-**Desventajas**:
+###### **Desventajas**:
 
 - Requieren más datos para entrenarse de manera eficaz, ya que son más propensos al **sobreajuste** (overfitting).
 - Más difíciles de interpretar, lo que puede ser un problema en contextos donde se requiere explicabilidad del modelo.
@@ -236,8 +237,10 @@ Este tipo de modelos puede incluir términos polinómicos, funciones trigonomét
 
 
 > **Ejemplo:** Supongamos que queremos predecir el **precio de una vivienda** en función de una característica simple, como el **tamaño** de la casa ($x$). Un **modelo lineal** podría asumir que el precio ($y$) depende linealmente del tamaño de la vivienda, es decir:
->
-> $$y = w_0 + w_1 x$$
+> $$
+> y = w_0 + w_1 x
+> $$
+> 
 >
 > En este caso, el modelo asume que el precio aumenta proporcionalmente con el tamaño. Esto refleja una **relación lineal** entre el tamaño de la casa ($x$) y el precio ($y$), donde $w_0$ es el término independiente y $w_1$ es la pendiente de la recta.
 >
@@ -256,15 +259,15 @@ Este tipo de modelos puede incluir términos polinómicos, funciones trigonomét
 
 > **¿Cuándo preferirías utilizar un modelo lineal sobre un modelo no lineal, y qué implicaciones tiene esa elección en términos de rendimiento y complejidad?**
 >
-> **Clave**: Reflexiona sobre cómo la simplicidad del modelo afecta la capacidad de generalización y el riesgo de sobreajuste.
+> Reflexiona sobre cómo la simplicidad del modelo afecta la capacidad de generalización y el riesgo de sobreajuste.
 
 > **¿En qué casos podría un modelo lineal ser insuficiente para capturar la relación entre las variables de entrada y salida?** 
 >
-> **Clave**: Reflexiona sobre situaciones en las que las entradas tienen efectos no aditivos o proporcionales en la salida, como en datos con interacciones complejas.
+> Reflexiona sobre situaciones en las que las entradas tienen efectos no aditivos o proporcionales en la salida, como en datos con interacciones complejas.
 
 > **¿Cómo afecta la capacidad de generalización al comparar modelos lineales y no lineales?**
 >
-> **Clave**: Considera cómo un modelo lineal tiende a generalizar bien en conjuntos de datos pequeños, mientras que un modelo no lineal podría requerir más datos y ser propenso al sobreajuste.
+> Considera cómo un modelo lineal tiende a generalizar bien en conjuntos de datos pequeños, mientras que un modelo no lineal podría requerir más datos y ser propenso al sobreajuste.
 
 ### Entrenamiento y generalización
 
@@ -276,11 +279,11 @@ Así pues, el ajuste de la complejidad del modelo en **machine learning** es ese
 
 > **¿Cómo influye la complejidad del modelo en su capacidad para generalizar a nuevos datos?**
 >
-> **Clave**: Reflexiona sobre el equilibrio entre un modelo que es lo suficientemente complejo para capturar patrones importantes, pero no tan complejo que se ajuste demasiado a los datos de entrenamiento.
+> Reflexiona sobre el equilibrio entre un modelo que es lo suficientemente complejo para capturar patrones importantes, pero no tan complejo que se ajuste demasiado a los datos de entrenamiento.
 
 > **¿Por qué un modelo lineal puede no ser adecuado para problemas con relaciones no lineales?**
 >
-> **Clave**: Considera ejemplos donde las variables tienen relaciones complejas o interacciones que no se pueden capturar con una simple línea recta.
+> Considera ejemplos donde las variables tienen relaciones complejas o interacciones que no se pueden capturar con una simple línea recta.
 
 ### Evaluación del modelo
 
@@ -318,7 +321,11 @@ Sin embargo, El **MSE** penaliza los errores grandes más que el **MAE** debido 
 
 > [!important]
 >
-> El **Mean Squared Error (MSE)** es más adecuado cuando se desean penalizar errores grandes, ya que eleva al cuadrado las diferencias entre las predicciones y los valores reales, lo que amplifica los errores más grandes. Es útil en situaciones críticas donde los grandes errores son costosos y se busca minimizar su impacto. Por otro lado, el **Mean Absolute Error (MAE)** es preferible cuando se busca una métrica más robusta ante los valores atípicos, ya que trata todos los errores por igual sin amplificar los grandes. El MAE también es más fácil de interpretar al reflejar el promedio de los errores en sus unidades originales.
+> Normalmente, el **error cuadrático medio (MSE)** es la función de pérdida preferida en la optimización de modelos predictivos frente al error absoluto medio (MAE). La razón crucial es que el MSE es una **función de pérdida suave y continuamente diferenciable**. Esta propiedad es vital para los algoritmos de **optimización basados en el gradiente**, que son el motor del aprendizaje automático. La suavidad permite un cálculo del gradiente lineal, lo que garantiza un movimiento estable y eficiente hacia el mínimo. El MAE, en contraste, presenta un **punto no diferenciable en cero**, lo que introduce inestabilidad y complicaciones computacionales para los métodos de gradiente estándar.
+>
+> También es importante tener en cuenta que minimizar el MSE es **matemáticamente equivalente** a maximizar la verosimilitud de un modelo donde se asume que el error de observación o ruido sigue una **distribución gaussiana**. Esta equivalencia proporciona un marco robusto para la modelización probabilística.
+>
+> Adicionalmente, el MSE **penaliza cuadráticamente los errores grandes**, forzando al modelo a reducir la magnitud de los *outliers* de manera más agresiva que el MAE, un comportamiento a menudo deseable cuando los errores mayores conllevan un riesgo más significativo.
 
 > **Ejemplo:** En un modelo de predicción de precios de acciones, donde los grandes errores podrían tener un impacto financiero significativo, podría preferirse usar el **MSE** para penalizar esos errores grandes. Sin embargo, en un modelo de predicción de la demanda de energía eléctrica diaria, el **MAE** se utiliza para interpretar fácilmente los errores y ser más resistente a valores atípicos ocasionales.
 
@@ -342,7 +349,10 @@ Algunas de las métricas más habituales asociadas a la matriz de confusión son
 
 Indica el porcentaje de predicciones correctas en relación con el total de predicciones realizadas. Es útil cuando el coste de las predicciones incorrectas es similar para todas las clases, pero puede ser engañosa en problemas con clases desbalanceadas.
 
-$$\text{Exactitud} = \dfrac{TP + TN}{TP + TN + FP + FN}$$
+$$
+\text{Exactitud} = \dfrac{TP + TN}{TP + TN + FP + FN}
+$$
+
 
 > **Ejemplo:** Un modelo de reconocimiento facial identifica correctamente 98 de 100 rostros, logrando una exactitud del 98%.
 
@@ -350,7 +360,10 @@ $$\text{Exactitud} = \dfrac{TP + TN}{TP + TN + FP + FN}$$
 
 La **precisión** mide el porcentaje de casos **predichos como positivos** que **realmente son positivos**. Es útil cuando nos importa conocer la proporción de verdaderos positivos entre todos los elementos que el modelo ha clasificado como positivos. Su fórmula es:
 
-$$\text{Precisión} = \dfrac{TP}{TP + FP}$$
+$$
+\text{Precisión} = \dfrac{TP}{TP + FP}
+$$
+
 
 > **Ejemplo**: En un clasificador de detección de fraudes, una alta precisión significa que la mayoría de las transacciones etiquetadas como fraudulentas son efectivamente fraudes.
 
@@ -358,7 +371,10 @@ $$\text{Precisión} = \dfrac{TP}{TP + FP}$$
 
 Mide la capacidad del modelo para detectar correctamente las verdaderas instancias positivas. Es especialmente útil cuando es crítico identificar todos los positivos, como en la detección de enfermedades.
 
-$$\text{Recall} = \dfrac{TP}{TP + FN}$$
+$$
+\text{Recall} = \dfrac{TP}{TP + FN}
+$$
+
 
 > **Ejemplo**: En la detección de cáncer, es vital que el modelo detecte todos los casos de cáncer (recall alto), aunque ocasionalmente marque falsos positivos.
 
@@ -366,7 +382,10 @@ $$\text{Recall} = \dfrac{TP}{TP + FN}$$
 
 Es la media armónica entre precisión y recall. Es útil en situaciones con datos desbalanceados, donde es importante equilibrar ambas métricas.
 
-$$\text{F1} = 2 \times \dfrac{\text{Precisión} \times \text{Recall}}{\text{Precisión} + \text{Recall}}$$
+$$
+\text{F1} = 2 \times \dfrac{\text{Precisión} \times \text{Recall}}{\text{Precisión} + \text{Recall}}
+$$
+
 
 > **Ejemplo**: En un sistema de clasificación de spam, donde es importante tanto detectar correctamente los correos no deseados como minimizar el número de correos válidos etiquetados como spam, el F1-Score sería una métrica clave.
 
@@ -381,23 +400,17 @@ $$\text{F1} = 2 \times \dfrac{\text{Precisión} \times \text{Recall}}{\text{Prec
 >
 > Cuando tenemos un dataset con clases no balanceadas, suele ocurrir que obtenemos un **alto valor de precisión en la clase mayoritaria y un bajo recall en la clase minoritaria**
 
-Visto lo anterior surge la cuestión de cómo elegir la **métrica adecuada** en un problema de **machine learning**. Ello va a depender del contexto del problema y del objetivo del modelo. A continuación se detallan algunos factores clave a considerar.
+##### Eleccion de la métrica en problemas de clasificación
 
-###### Clases no balanceadas
+Visto lo anterior surge la cuestión de cómo elegir la **métrica adecuada** en un problema de **machine learning**. Ello va a depender del contexto del problema y del objetivo del modelo. 
 
-Si las clases están desbalanceadas, es decir, una clase tiene muchos más ejemplos que la otra (por ejemplo, en la detección de fraudes, donde los casos fraudulentos son mucho menos frecuentes), métricas como la **exactitud** pueden ser engañosas. En este caso, es mejor utilizar métricas que se centren en los casos positivos, como la **sensibilidad** o la **precisión**.
+Si las clases están **desbalanceadas**, es decir, una clase tiene muchos más ejemplos que la otra (por ejemplo, en la detección de fraudes, donde los casos fraudulentos son mucho menos frecuentes), métricas como la **exactitud** pueden ser engañosas. En este caso, es mejor utilizar métricas que se centren en los casos positivos, como la **sensibilidad** o la **precisión**.
 
-###### Tipo de error crítico
+Tambien será importante considerar hasta qué punto los **falsos positivos** o los **falsos negativos** son más críticos para el problema. La **sensibilidad** es crítica cuando los **falsos negativos** tienen un costo elevado, como en el diagnóstico de enfermedades (donde es preferible detectar todos los casos). Sin embargo la **precisión** es más importante cuando los **falsos positivos** son costosos, como en la detección de fraudes (donde marcar transacciones legítimas como fraudulentas puede dañar la confianza del cliente).
 
-Depende de si los **falsos positivos** o los **falsos negativos** son más críticos para el problema. La **sensibilidad** es crítica cuando los **falsos negativos** tienen un costo elevado, como en el diagnóstico de enfermedades (es preferible detectar todos los casos). Sin embargo la **precisión** es más importante cuando los **falsos positivos** son costosos, como en la detección de fraudes (marcar transacciones legítimas como fraudulentas puede dañar la confianza del cliente).
+Si queremos considerar en el mismo plano precisión y sensibilidad, es útil utilizar una métrica que equilibre a ambas. Para ello se dispone del **F1-Score**, que como hemos comentado es la media armónica entre precisión y sensibilidad y útil cuando se busca un balance equilibrados.
 
-###### Equilibrio entre precisión y sensibilidad
-
-Si ambos tipos de errores son importantes, es útil utilizar una métrica que equilibre precisión y sensibilidad. Para ello se dispone del **F1-Score**, que como hemos comentado es la media armónica entre precisión y sensibilidad y útil cuando se busca un balance entre ambas.
-
-###### Exactitud en problemas balanceados
-
-Cuando las clases están bien representadas en los datos y los errores tienen un costo similar, la **exactitud** puede ser una métrica adecuada, ya que proporciona una visión global del rendimiento del modelo.
+Finalmente, cuando las clases están bien representadas en los datos y los errores tienen un costo similar, la **exactitud** puede ser una métrica adecuada, ya que proporciona una visión global del rendimiento del modelo.
 
 > **Ejemplos de elección de métrica:**
 >
@@ -411,17 +424,11 @@ Cuando las clases están bien representadas en los datos y los errores tienen un
 
 > **¿Cuándo es más relevante el uso del F1-Score frente a otras métricas como la precisión?**
 >
-> **Clave**: Reflexiona sobre la importancia del equilibrio entre precisión y recall, especialmente en problemas con clases desbalanceadas.
+> Reflexiona sobre la importancia del equilibrio entre precisión y recall, especialmente en problemas con clases desbalanceadas.
 
 > **¿Qué riesgos puede haber al usar solo la precisión como métrica en problemas desbalanceados?**
 >
-> **Clave**: Piensa en cómo un alto valor de precisión puede ocultar un rendimiento pobre en la identificación de la clase minoritaria.
-
-#### A debate...
-
-> **¿Debe primar la precisión de un modelo o su capacidad de generalización?**
->
-> **Clave**: Reflexiona sobre los casos donde un modelo altamente preciso en los datos de entrenamiento puede fallar con nuevos datos, indicando un problema de **sobreajuste**.
+> Piensa en cómo un alto valor de precisión puede ocultar un rendimiento pobre en la identificación de la clase minoritaria.
 
 Puedes ver estos vídeos. Explican bastante bien los conceptos vistos anteriormente:
 
@@ -432,7 +439,7 @@ Puedes ver estos vídeos. Explican bastante bien los conceptos vistos anteriorme
 
 Un **algoritmo de aprendizaje automático** es un conjunto formal de procedimientos matemáticos y reglas que permiten a un sistema aprender patrones a partir de los datos, con el fin de hacer predicciones, clasificaciones o tomar decisiones. Su base teórica hay que buscarla en la estadística, el álgebra lineal y la optimización matemática. El objetivo de cualquier algoritmo en aprendizaje automático es minimizar una **función de coste** (o también una **función de pérdida**) que representa el **error** del modelo al realizar sus objetivos marcados. La diferencia fundamental entre función de pérdida y función de coste estriba en que la primera mide el error en una sola predicción, mientras que la segunda se configura a partir de la agregación de los errores (generalmente el promedio) en todas las instancias de los datos de entrenamiento.
 
-### Un poco de matemáticas...
+### Fundamento matemático
 Los algoritmos de machine learning se fundamentan en principios matemáticos que optimizan las funciones objetivo, ajustando los parámetros del modelo para minimizar errores y maximizar el rendimiento. Como hemos comentado más arriba, la mayoría de estos algoritmos se basan en la **minimización de una función de coste** o **pérdida**.
 
 > Ejemplo: En la regresión lineal, el objetivo es encontrar los coeficientes de una función que minimice la suma de los errores cuadráticos entre las predicciones y las observaciones reales.
@@ -445,12 +452,14 @@ El concepto de gradiente puede aplicarse en el algoritmo denominado **gradiente 
 
 > **Ejemplo**: En un modelo de regresión lineal, la derivada de la función de pérdida con respecto a los coeficientes indica si se deben aumentar o disminuir los coeficientes para acercarse a la solución óptima.
 
-Por su parte, las derivadas también están presentes en el campo de las redes neuronales, ya que son fundamentales para el algoritmo de **retropropagación** (*backpropagation*). Este algoritmo calcula cómo los errores se propagan a través de las capas de la red. Usando derivadas, el algoritmo ajusta los pesos en cada capa para mejorar la precisión del modelo.
+> [!tip]
+>
+> Las derivadas también están presentes en el campo de las redes neuronales, ya que son fundamentales para el algoritmo de **retropropagación** (*backpropagation*). Este algoritmo calcula cómo los errores se propagan a través de las capas de la red. Usando derivadas, el algoritmo ajusta los pesos en cada capa para mejorar la precisión del modelo.
 
 **Para reflexionar...**
 > **¿Cómo afecta el cálculo incorrecto del gradiente a la convergencia de un algoritmo de optimización?**
 >
-> **Clave**: Un gradiente mal calculado podría dirigir el modelo en la dirección incorrecta, empeorando el rendimiento.
+> Un gradiente mal calculado podría dirigir el modelo en la dirección incorrecta, empeorando el rendimiento.
 
 ### Parámetros vs. datos disponibles
 
@@ -473,7 +482,10 @@ El más simple de todos los algoritmos de optimización es sin duda el **algorit
 
 En una **regresión lineal simple**, el modelo que se ajusta es de la forma:
 
-$$y = \theta_0 + \theta_1 x$$
+$$
+y = \theta_0 + \theta_1 x
+$$
+
 
 Donde:
 - $y$ es el valor que queremos predecir.
@@ -483,11 +495,17 @@ Donde:
 
 El objetivo de OLS es encontrar los valores óptimos de $\theta_0$ y $\theta_1$ que minimicen la **suma de los errores cuadráticos** (SSE), donde el error es la diferencia entre los valores observados $y_i$ y las predicciones $\hat{y}_i$.
 
-$$SSE = \sum_{i=1}^{m} (y_i - \hat{y}_i)^2$$
+$$
+SSE = \sum_{i=1}^{m} (y_i - \hat{y}_i)^2
+$$
+
 
 El SSE es la suma de los cuadrados de los errores y se minimiza resolviendo el sistema de ecuaciones lineales que surge de las derivadas parciales con respecto a $\theta_0$ y $\theta_1$. Para minimizar la suma de errores, calculamos las derivadas parciales de la función de coste respecto a los parámetros $\theta_0$ y $\theta_1$ y las igualamos a cero. Esto da lugar a las **ecuaciones normales**:
 
-$$\theta = (X^T X)^{-1} X^T y$$
+$$
+\theta = (X^T X)^{-1} X^T y
+$$
+
 
 Donde:
 - $\theta$ es el vector de parámetros que incluye $\theta_0$ y $\theta_1$.
@@ -496,55 +514,40 @@ Donde:
 - $X^T$ es la traspuesta de la matriz $X$.
 - $(X^T X)^{-1}$ es la inversa de $X^T X$, siempre que exista.
 
+Las ecuaciones de normalización son una forma algebraica de calcular los parámetros óptimos $\theta$ que minimizan el error cuadrático medio entre las predicciones del modelo y los valores reales. En lugar de usar un algoritmo **iterativo**, estas ecuaciones permiten calcular $\theta$ directamente en un solo paso. Es importante tener en cuenta que esta ecuación funciona únicamente cuando $X^T X$ es invertible.
+
 En términos geométricos, OLS **ajusta la línea que pasa más cerca de todos los puntos en el espacio de características**, reduciendo al mínimo las distancias verticales al cuadrado desde cada punto a la línea.
 
----
-
-**Ejemplo**: Supongamos que estamos estudiando la relación entre el **tamaño de una casa (en metros cuadrados)** y su **precio (en miles de euros)**. Los datos de entrenamiento podrían ser los siguientes:
-
-$$\begin{array}{|c|c|}
-\hline
-\text{Tamaño (m²)} & \text{Precio (€)} \\
-\hline
-50 & 200 \\
-60 & 250 \\
-70 & 300 \\
-\hline
-\end{array}$$
-
-Aplicando el algoritmo de OLS, primero formamos la matriz $X$ (incluyendo un término de 1 para el término independiente) y el vector $y$:
-
-$$X = \begin{bmatrix}
-1 & 50 \\
-1 & 60 \\
-1 & 70
-\end{bmatrix}
-, \quad y = \begin{bmatrix}
-200 \\
-250 \\
-300
-\end{bmatrix}$$
-
-A continuación, resolvemos las ecuaciones normales para obtener los valores óptimos de $\theta_0$ (término independiente) y $\theta_1$ (pendiente). Al hacerlo, podemos generar la ecuación de la recta que mejor se ajusta a los datos, permitiendo hacer predicciones sobre los precios de las casas basados en su tamaño.
-
-> [!tip]
->
-> En el contexto de los **mínimos cuadrados ordinarios (OLS)**, las ecuaciones de normalización son una forma algebraica de calcular los parámetros óptimos $\theta$ que minimizan el error cuadrático medio entre las predicciones del modelo y los valores reales. En lugar de usar un algoritmo iterativo como el **gradiente descendente**, estas ecuaciones permiten calcular $\theta$ directamente en un solo paso.
->
-> Dada una matriz de características $X$ y un vector de valores objetivo $y$, la ecuación de normalización para resolver $\theta$ es:
+> **Ejemplo**: Supongamos que estamos estudiando la relación entre el **tamaño de una casa (en metros cuadrados)** y su **precio (en miles de euros)**. Los datos de entrenamiento podrían ser los siguientes:
+> $$
+> \begin{array}{|c|c|}
+> \hline
+> \text{Tamaño (m²)} & \text{Precio (€)} \\
+> \hline
+> 50 & 200 \\
+> 60 & 250 \\
+> 70 & 300 \\
+> \hline
+> \end{array}
+> $$
+> Aplicando el algoritmo de OLS, primero formamos la matriz $X$ (incluyendo un término de 1 para el término independiente) y el vector $y$:
 >
 > $$
-> \theta = (X^T X)^{-1} X^T y
+> X = \begin{bmatrix}
+> 1 & 50 \\
+> 1 & 60 \\
+> 1 & 70
+> \end{bmatrix}
+> , \quad y = \begin{bmatrix}
+> 200 \\
+> 250 \\
+> 300
+> \end{bmatrix}
 > $$
+> 
 >
-> Aquí:
-> - $X$ es la matriz de características que incluye un término de sesgo (intercepto).
-> - $y$ es el vector de valores objetivo.
-> - $\theta$ son los parámetros del modelo que queremos ajustar.
+> A continuación, resolvemos las ecuaciones normales para obtener los valores óptimos de $\theta_0$ (término independiente) y $\theta_1$ (pendiente). Al hacerlo, podemos generar la ecuación de la recta que mejor se ajusta a los datos, permitiendo hacer predicciones sobre los precios de las casas basados en su tamaño.
 >
-> Esta ecuación funciona cuando $X^T X$ es invertible.
-
----
 
 #### El gradiente descendente
 

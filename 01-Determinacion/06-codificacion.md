@@ -26,7 +26,7 @@ Diferentes tipos de datos requieren diferentes enfoques y técnicas en cuanto a 
 
 ### Desafíos en la codificación
 
-La codificación de datos no es un proceso trivial y presenta varios desafíos. Uno de ellos es **el sesgo en la codificación**, especialmente cuando se trata de datos categóricos con muchos niveles o categorías. Elegir la técnica de codificación incorrecta puede llevar a un modelo ineficaz o a introducir sesgos en las predicciones. Otro desafío importante es la **dimensionalidad**. En técnicas como **one-hot encoding**, donde cada categoría se convierte en una columna separada, la dimensionalidad del conjunto de datos puede aumentar drásticamente, lo que puede causar problemas de **sobreajuste** o dificultar la interpretación del modelo.
+La codificación de datos no es un proceso trivial y presenta varios desafíos. Uno de ellos es **el sesgo**, especialmente cuando se trata de datos categóricos con muchos niveles o categorías. Elegir la técnica de codificación incorrecta puede llevar a un modelo ineficaz o a introducir sesgos en las predicciones. Otro desafío importante es la **dimensionalidad**. En técnicas como **one-hot encoding**, donde cada categoría se convierte en una columna separada, la dimensionalidad del conjunto de datos puede aumentar drásticamente, lo que puede causar problemas de **sobreajuste** o dificultar la interpretación del modelo.
 
 Además, la **información implícita** que contienen los datos puede perderse durante la codificación. Un ejemplo clásico es cuando se utiliza label encoding para convertir categorías en números. Si las categorías no tienen una relación inherente entre ellas, el modelo puede asumir incorrectamente que una categoría es mayor que otra debido a su valor numérico asignado.
 
@@ -120,27 +120,7 @@ La codificación basada en frecuencias tiene por supuesto sus limitaciones. Uno 
 >
 > **Clave:** Reflexiona sobre cómo las frecuencias pueden preservar la estructura del conjunto de datos y reducir la dimensionalidad, pero también considera los riesgos de sesgos y pérdida de información al no capturar todas las relaciones con la variable objetivo.
 
-### Consideraciones finales a tener en cuenta en la codificación de variables categóricas
-
-Una de las decisiones clave al trabajar con variables categóricas es seleccionar el método de codificación más apropiado para el problema y el modelo. Técnicas como one-hot encoding son ideales para **modelos lineales** o cuando no existe una relación natural entre las categorías, mientras que ordinal encoding es más adecuado cuando hay una jerarquía evidente.
-
-También es fundamental **prestar atención al sesgo** introducido por la codificación. El label encoding puede ser útil para variables con un orden claro, pero en los casos en que no lo hay, podría llevar a que el modelo asuma relaciones inexistentes entre las categorías. 
-
-Finalmente, es importante tener en cuenta la **dimensionalidad**. Cuando se trabaja con un número muy alto de categorías, técnicas como one-hot encoding pueden inflar la dimensionalidad del conjunto de datos y provocar problemas de rendimiento en los modelos. En estos casos, otras técnicas como la codificación basada en frecuencias pueden ser más adecuadas para reducir la complejidad sin perder información.
-
-> **Ejemplo:** En un proyecto de análisis de encuestas, las respuestas de los participantes a preguntas de opción múltiple pueden ser transformadas utilizando **ordinal encoding** para que el modelo pueda aprender a partir de ellas, preservando el orden de preferencia en las respuestas.
-
-> **Ejemplo:** En una tienda en línea, se utiliza **one-hot encoding** para la variable ‘categoría del producto’, asegurando que el modelo no introduzca sesgos innecesarios al asumir un orden entre las categorías, como ‘ropa’, ‘electrónica’ o ‘libros’.
-
-> **Ejemplo:** En un análisis de riesgo de crédito, las variables categóricas como el tipo de empleo pueden ser codificadas utilizando **frecuencia**, asignando valores numéricos basados en cuántas veces cada categoría aparece en el conjunto de datos.
-
-**Para reflexionar...**
-
-> **¿Cómo influye la elección de la técnica de codificación en el rendimiento de los modelos de machine learning, y qué sesgos pueden introducirse?**
->
-> **Clave:** Piensa en cómo la elección del método de codificación afecta a la representación de las categorías, el aumento de la dimensionalidad, y la posibilidad de introducir ordenaciones no deseadas en los datos.
-
-## Codificación binaria
+### Codificación binaria
 
 La **codificación binaria** es una técnica utilizada para convertir variables categóricas en una representación numérica que pueda ser procesada por algoritmos de machine learning. En lugar de crear una columna por cada categoría, como ocurre en el *one-hot encoding*, la codificación binaria transforma las categorías en secuencias de bits, lo que permite una representación más compacta y eficiente en términos de espacio.
 
@@ -194,6 +174,26 @@ Además, la codificación binaria depende completamente del conjunto de datos co
 > **¿Qué tipos de problemas crees que se beneficiarían más de la codificación binaria, en comparación con otras técnicas de codificación?**
 >
 > **Pistas**: Considera cómo la codificación binaria puede reducir la dimensionalidad en conjuntos de datos con muchas categorías y cómo puede afectar a la precisión del modelo en ciertos contextos.
+
+### Consideraciones finales a tener en cuenta en la codificación de variables categóricas
+
+Una de las decisiones clave al trabajar con variables categóricas es seleccionar el método de codificación más apropiado para el problema y el modelo. Técnicas como one-hot encoding son ideales para **modelos lineales** o cuando no existe una relación natural entre las categorías, mientras que ordinal encoding es más adecuado cuando hay una jerarquía evidente.
+
+También es fundamental **prestar atención al sesgo** introducido por la codificación. El label encoding puede ser útil para variables con un orden claro, pero en los casos en que no lo hay, podría llevar a que el modelo asuma relaciones inexistentes entre las categorías. 
+
+Finalmente, es importante tener en cuenta la **dimensionalidad**. Cuando se trabaja con un número muy alto de categorías, técnicas como one-hot encoding pueden inflar la dimensionalidad del conjunto de datos y provocar problemas de rendimiento en los modelos. En estos casos, otras técnicas como la codificación basada en frecuencias pueden ser más adecuadas para reducir la complejidad sin perder información.
+
+> **Ejemplo:** En un proyecto de análisis de encuestas, las respuestas de los participantes a preguntas de opción múltiple pueden ser transformadas utilizando **ordinal encoding** para que el modelo pueda aprender a partir de ellas, preservando el orden de preferencia en las respuestas.
+
+> **Ejemplo:** En una tienda en línea, se utiliza **one-hot encoding** para la variable ‘categoría del producto’, asegurando que el modelo no introduzca sesgos innecesarios al asumir un orden entre las categorías, como ‘ropa’, ‘electrónica’ o ‘libros’.
+
+> **Ejemplo:** En un análisis de riesgo de crédito, las variables categóricas como el tipo de empleo pueden ser codificadas utilizando **frecuencia**, asignando valores numéricos basados en cuántas veces cada categoría aparece en el conjunto de datos.
+
+**Para reflexionar...**
+
+> **¿Cómo influye la elección de la técnica de codificación en el rendimiento de los modelos de machine learning, y qué sesgos pueden introducirse?**
+>
+> **Clave:** Piensa en cómo la elección del método de codificación afecta a la representación de las categorías, el aumento de la dimensionalidad, y la posibilidad de introducir ordenaciones no deseadas en los datos.
 
 ## Codificación de imágenes
 
@@ -442,21 +442,17 @@ La clave del transformer es el **mecanismo de atención**, que permite al modelo
 
 El transformer utiliza dos componentes principales: un **codificador**, que procesa la entrada, y un **decodificador**, que genera la salida. Gracias a su capacidad para capturar dependencias a largo plazo y gestionar secuencias de datos de forma más eficiente, el transformer se ha convertido en la base de modelos avanzados como **BERT**, **GPT** y **T5**, que dominan el procesamiento del lenguaje natural en tareas como traducción automática, generación de texto y comprensión de lenguaje.
 
-#### BERT. Entendiendo el contexto, palabra por palabra
-
-**BERT** (*Bidirectional Encoder Representations from Transformers*) es un modelo de procesamiento de lenguaje natural (NLP) desarrollado por **Google** en 2018. BERT se basa en la arquitectura de transformers, pero introduce una innovación clave: el entrenamiento bidireccional. A diferencia de modelos anteriores que procesaban texto de manera secuencial (de izquierda a derecha o de derecha a izquierda), BERT analiza el contexto completo de una palabra considerando tanto el texto anterior como el posterior en una oración. Esto permite una comprensión más rica y precisa del significado de las palabras.
-
-BERT utiliza un enfoque de **pre-entrenamiento** y **ajuste fino**. Primero, se pre-entrena en una gran cantidad de texto sin etiquetar utilizando dos tareas principales: el **enmascarado de palabras** (predice palabras ocultas en una oración) y la **predicción de la siguiente oración** (determina si una oración sigue a otra en un párrafo). Luego, el modelo se ajusta para tareas específicas como clasificación de texto, respuestas a preguntas o análisis de sentimiento.
-
-Este enfoque ha permitido que BERT logre resultados de vanguardia en muchas tareas de NLP. Es especialmente útil para tareas que requieren una comprensión profunda del contexto, como la interpretación semántica y la desambiguación de palabras.
-
-#### GPT. Generar texto con inteligencia predictiva
-
-**GPT** (Generative Pretrained Transformer) es una familia de modelos de lenguaje desarrollados por **OpenAI**, diseñados para generar texto coherente y contextualizado. La primera versión, **GPT-1**, fue lanzada en 2018, seguida por versiones más avanzadas como **GPT-2**, **GPT-3**, y finalmente **GPT-4**. GPT también se basa en la arquitectura de **transformers**, por lo que representa una alta capacidad para manejar relaciones complejas en secuencias de texto.
-
-Al igual que BERT, el enfoque de GPT se centra en el **pre-entrenamiento** no supervisado y el **ajuste fino** supervisado. El modelo es primero pre-entrenado con grandes cantidades de texto para predecir la siguiente palabra en una secuencia (entrenamiento autoregresivo), lo que le permite aprender patrones gramaticales y semánticos. Luego, se ajusta para tareas específicas como generación de texto, traducción o resumen.
-
-A diferencia de **BERT**, que es bidireccional, **GPT** es un modelo unidireccional (solo predice desde izquierda a derecha), lo que lo hace especialmente adecuado para generar texto continuo y fluido. **GPT-3** y **GPT-4** son conocidos por su capacidad de generar textos largos y complejos con coherencia y naturalidad, y su capacidad para resolver una amplia variedad de tareas sin entrenamiento adicional en datos específicos.
+> [!note]
+>
+> **BERT y GPT, dos formas de entender el lenguaje**
+>
+> Dentro de los modelos basados en **transformers**, dos nombres destacan por su impacto: **BERT** y **GPT**. Ambos aprenden del lenguaje a gran escala, pero lo hacen con enfoques distintos.
+>
+> **BERT** (de Google) está diseñado para **entender el texto**, analizando cada palabra en relación con las que la rodean, tanto antes como después. Por eso se dice que su entrenamiento es **bidireccional**. Este enfoque lo hace ideal para tareas de comprensión, como responder preguntas o analizar sentimientos.
+>
+> **GPT** (de OpenAI), en cambio, se especializa en **generar texto**. Aprende a predecir la palabra siguiente en una secuencia, avanzando **de izquierda a derecha**. Gracias a esto puede producir textos largos, coherentes y creativos.
+>
+> En resumen, **BERT interpreta** y **GPT crea**: ambos usan la misma base técnica —los transformers—, pero con objetivos complementarios dentro del procesamiento del lenguaje natural.
 
 ### Conclusiones: Fortalezas y desafíos de los embeddings
 
@@ -525,7 +521,9 @@ Las series temporales que exhiben estacionalidad requieren un tratamiento especi
 
 ### Modelos y algoritmos para series temporales
 
-La codificación efectiva de las series temporales permite el uso de una amplia gama de algoritmos de aprendizaje automático. Entre los modelos más utilizados para series temporales podemos encontrar los de **regresión lineal**. Estos pueden ser usada en series temporales cuando las características relevantes, como los *lags* y las variables derivadas, han sido correctamente codificadas. Aún así, su capacidad para manejar dependencias temporales es limitada. Otro de los algoritmos comúnmente utilizados es **ARIMA** (AutoRegressive Integrated Moving Average). Este modelo combina componentes de regresión, manejo de tendencias y promedios móviles para capturar la dependencia de errores pasados. También las **Redes neuronales recurrentes (RNN)** y sus variantes, como las **LSTM** (Long Short-Term Memory), están diseñadas específicamente para manejar la naturaleza secuencial de las series temporales. Estas redes permiten que el modelo capture dependencias de largo plazo, algo que no es fácilmente manejado por modelos tradicionales.
+La codificación efectiva de las series temporales permite el uso de una amplia gama de algoritmos de aprendizaje automático. Entre los modelos más utilizados para series temporales podemos encontrar los de **regresión lineal**. Estos pueden ser usada en series temporales cuando las características relevantes, como los *lags* y las variables derivadas, han sido correctamente codificadas. Aún así, su capacidad para manejar dependencias temporales es limitada. Otro de los algoritmos comúnmente utilizados es **ARIMA** (AutoRegressive Integrated Moving Average). Este modelo combina componentes de regresión, manejo de tendencias y promedios móviles para capturar la dependencia de errores pasados.
+
+Sin embargo, son las **Redes neuronales recurrentes (RNN)** y sus variantes, como las **LSTM** (Long Short-Term Memory), las que están diseñadas específicamente para manejar la naturaleza secuencial de las series temporales. Estas redes permiten que el modelo capture dependencias de largo plazo, algo que no es fácilmente manejado por modelos tradicionales.
 
 > **Ejemplo**: En la predicción de la temperatura diaria, una RNN puede procesar la secuencia completa de temperaturas pasadas y aprender a predecir la temperatura futura basándose en patrones que ocurren en lapsos temporales largos.
 

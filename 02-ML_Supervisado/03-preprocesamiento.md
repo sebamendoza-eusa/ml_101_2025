@@ -46,6 +46,7 @@ El proceso de imputación de valores faltantes abarca varias técnicas, y entre 
 #### **Imputación con medidas estadísticas de centralización (media, mediana o moda)**: 
 
 Este método es una solución sencilla y rápida para conjuntos de datos en los que los valores faltantes son escasos. Para datos numéricos, se reemplaza el valor faltante con la media o mediana de la columna. En el caso de datos categóricos, se suele usar la moda (valor más frecuente) de la variable.
+
 $$
 X' = \frac{\sum_{i=1}^N X_i}{N} \quad \text{(para la imputación con la media)}
 $$
@@ -110,6 +111,7 @@ Existen diferentes métodos para identificar y tratar los valores atípicos, y l
 ##### **Método basado en desviación estándar**
 
 Este método asume que los datos siguen una distribución aproximadamente normal y considera que cualquier observación que se encuentre a una distancia superior a un número específico de desviaciones estándar respecto a la media es un valor atípico. Un umbral común es **tres desviaciones estándar**, aunque puede ajustarse según el contexto.
+
 $$
 \text{Lim superior} = \mu + 3\sigma \quad \text{y} \quad \text{Lim inferior} = \mu - 3\sigma
 $$
@@ -120,6 +122,7 @@ $$
 ##### **Método del rango intercuartílico (IQR)**
 
 Este método es **no paramétrico** y, por tanto, es útil cuando los datos no siguen una distribución normal. Calcula los cuartiles primero ($Q1$ y $Q3$) y define los valores atípicos como aquellos que están fuera de un rango específico alrededor del IQR (es decir, el rango entre el primer y tercer cuartil).
+
 $$
 \text{Lim superior} = Q3 + 1.5 \times \text{IQR} \quad \text{y} \quad \text{Lim inferior} = Q1 - 1.5 \times \text{IQR}
 $$
@@ -330,6 +333,7 @@ El Análisis de Componentes Principales (PCA) es una técnica de extracción de 
 > En técnicas como el **Análisis de Componentes Principales (PCA)**, los componentes ortogonales son calculados de manera que cada uno maximiza la varianza de los datos en una dirección específica, asegurando que la información capturada por cada componente es única respecto a los demás. Esta independencia facilita el análisis al evitar redundancia y permite representar el espacio de datos en una dimensión más baja sin pérdida de información redundante.
 
 La transformación realizada con la técnica **PCA** (Análisis de Componentes Principales) reorganiza las características originales para que los nuevos componentes (variables derivadas) capturen la máxima cantidad de variación posible en los datos. Esto significa que estos componentes calculados **explican la mayor parte de la variabilidad en el dataset**. Si seleccionamos únicamente los componentes principales calculados (aquellos que contienen la mayor variabilidad), se logra reducir la dimensionalidad del conjunto de datos mientras se mantiene la mayor parte de la información relevante, evitando así redundancia y simplificando el análisis.
+
 $$
 \text{PCA}: \quad \text{Maximiza la varianza a lo largo de componentes ortogonales}
 $$
@@ -358,6 +362,7 @@ $$
 > | C       | 180 - 170 = 10  | 75 - 65 = 10  |
 >
 > Ahora se trataría de calcular la covarianza entre Altura y Peso, para mostrar cómo varían juntas las dos variables:
+
 > $$
 > \text{Covarianza} = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})
 > $$
@@ -376,11 +381,13 @@ $$
 > 100 & 100 \\
 > \end{bmatrix}
 > $$
+>
 > Ahora habría que encontrar los **valores propios** y **vectores propios** de la matriz de covarianza. Estos valores y vectores nos permitirán identificar los componentes principales, que representan las direcciones de máxima varianza en los datos. Para encontrar los valores propios tenemos que resolver la **ecuación característica**:
 >
 > $$
 > \det(\text{Matriz de Covarianza} - \lambda I) = 0
 > $$
+>
 > donde $\lambda$ representa los valores propios y $I$ es la matriz identidad.
 >
 > Para nuestra matriz:
@@ -393,6 +400,7 @@ $$
 > \end{bmatrix}
 > = 0
 > $$
+>
 > Resolviendo esta ecuación, obtenemos dos valores propios:
 >
 > 1. $\lambda_1 = 200$
@@ -406,16 +414,19 @@ $$
 > A continuación, **calculamos los vectores propios asociados a cada valor propio**:
 >
 > 1. **Para $\lambda_1 = 200$**: Resolvemos el sistema lineal $(\text{Matriz de Covarianza} - 200I)v = 0$ y obtenemos el vector propio asociado:
+>
 > $$
 >    v_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}
 > $$
+>
 >    Este vector propio indica la dirección del primer componente principal, que representa una combinación lineal de **Altura** y **Peso**.
 >
 > 2. **Para $\lambda_2 = 0$**: Resolvemos el sistema para el segundo valor propio, obteniendo:
 >
->    $$
->    v_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}
->    $$
+> $$
+> v_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}
+> $$
+>
 > Este vector propio representa una dirección perpendicular al primero, pero como su valor propio es cero, no aporta variabilidad útil a los datos.
 >
 > El siguiente paso conllevará proyectar los datos en el primer componente principal
@@ -443,9 +454,11 @@ $$
 > Un **autovector** (o vector propio) de una matriz $A$ es un vector $\mathbf{v}$ que, cuando se multiplica por $A$, resulta en un vector que es un múltiplo escalar de $\mathbf{v}$ mismo, es decir, solo cambia de magnitud y no de dirección.
 >
 > Supongamos que la matriz $A$ es diagonalizable. Esto quiere decir que existen unas matrices $P$ y $D$ tal que 
+>
 > $$
 > A = PDP^{-1}
 > $$
+>
 > Donde $D$ es una matriz diagonal y $P$ es una  matriz formada por los autovectores de $A$ en columnas.
 >
 > En otras palabras, si $A$ es una transformación lineal representada por una matriz, **los autovectores son las "direcciones" que permanecen inalteradas bajo la acción de** $A$, **mientras que los autovalores indican cuánto se escalan (o comprimen) esos vectores en esas direcciones**.
@@ -455,6 +468,7 @@ $$
 > ##### **Cálculo de los autovalores**: 
 >
 > Los autovalores $\lambda$ de una matriz $A$ se encuentran resolviendo la **ecuación característica**:
+>
 > $$
 > \det(A - \lambda I) = 0
 > $$
@@ -518,9 +532,11 @@ Los métodos **incorporados** integran la selección de características dentro 
 > El **método Lasso** es un ejemplo de técnica de selección de características **incorporada** (embedded). Realiza la selección de características dentro del proceso de entrenamiento del modelo. Este método es particularmente útil en problemas de **regresión** y es ampliamente utilizado en la selección de características cuando tenemos un gran número de variables. Veámoslo en mayor detalle:
 >
 > **Lasso** (Least Absolute Shrinkage and Selection Operator) es una variante de la **regresión lineal** que incluye una penalización basada en la norma L1 de los coeficientes. La fórmula de la regresión Lasso es:
+>
 > $$
 > \underset{\beta}{\text{minimizar}} \quad \frac{1}{2n} \sum_{i=1}^n \left( y_i - \hat y_i  \right)^2 + \alpha \sum_{j=1}^p |\beta_j|
 > $$
+>
 > donde:
 >
 > - $y_i$ son los valores observados,
@@ -588,28 +604,33 @@ En este caso:
 Ahora, calculamos las tres métricas comunes para este modelo:
 
 1. **Exactitud (Accuracy)**: la proporción de predicciones correctas en el total de predicciones.
-   $$
-   \text{Exactitud} = \frac{\text{Verdaderos Positivos} + \text{Verdaderos Negativos}}{\text{Total de Predicciones}} = \frac{930 + 5}{1000} = 0.935 \text{ (93.5%)}
-   $$
+
+$$
+\text{Exactitud} = \frac{\text{Verdaderos Positivos} + \text{Verdaderos Negativos}}{\text{Total de Predicciones}} = \frac{930 + 5}{1000} = 0.935 \text{ (93.5%)}
+$$
 
 2. **Precisión (Precision)** para la clase "Fraude": la proporción de predicciones correctas de "Fraude" entre todas las predicciones de "Fraude".
-   $$
-   \text{Precisión} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos} + \text{Falsos Positivos}} = \frac{5}{5 + 20} = 0.20 \text{ (20%)}
-   $$
+
+$$
+\text{Precisión} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos} + \text{Falsos Positivos}} = \frac{5}{5 + 20} = 0.20 \text{ (20%)}
+$$
 
 3. **Sensibilidad (Recall)** para la clase "Fraude": la proporción de fraudes correctamente identificados.
-   $$
-   \text{Sensibilidad} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos} + \text{Falsos Negativos}} = \frac{5}{5 + 45} = 0.10 \text{ (10%)}
-   $$
+
+$$
+\text{Sensibilidad} = \frac{\text{Verdaderos Positivos}}{\text{Verdaderos Positivos} + \text{Falsos Negativos}} = \frac{5}{5 + 45} = 0.10 \text{ (10%)}
+$$
 
 A la luz de estos resultados podemos concluir que:
 
 - Aunque el modelo tiene una **alta exactitud (93.5%)**, esto es engañoso porque se debe principalmente a la gran cantidad de transacciones normales (950). La mayoría de las predicciones correctas corresponden a la clase mayoritaria.
 
 - La **precisión (20%)** y la **sensibilidad (10%)** en la clase "Fraude" son muy bajas, indicando que el modelo no está reconociendo correctamente los fraudes. De hecho podría haberse calculado el $F1-Score$ para incluir los efectos combinados de la precisión y la sensibilildad:
-  $$
-  F1 = 2 \times \frac{\text{Precisión} \times \text{Sensibilidad}}{\text{Precisión} + \text{Sensibilidad}} = 2 \times \frac{0.20 \times 0.10}{0.20 + 0.10} = 2 \times \frac{0.02}{0.30} = 2 \times 0.0667 = 0.1333 \text{ (13.3%)}
-  $$
+
+$$
+F1 = 2 \times \frac{\text{Precisión} \times \text{Sensibilidad}}{\text{Precisión} + \text{Sensibilidad}} = 2 \times \frac{0.20 \times 0.10}{0.20 + 0.10} = 2 \times \frac{0.02}{0.30} = 2 \times 0.0667 = 0.1333 \text{ (13.3%)}
+$$
+  
   Este valor confirma el problema en la detección de la clase "Fraude"
 
 - La matriz de confusión muestra que el modelo detecta solo 5 fraudes de los 50 existentes, mientras que clasifica erróneamente 45 fraudes como transacciones normales. Esto sugiere un problema de **sesgo hacia la clase mayoritaria** debido al desbalance.

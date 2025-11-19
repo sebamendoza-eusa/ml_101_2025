@@ -506,6 +506,7 @@ Sin embargo, **el método también presenta algunas limitaciones**. Al ser un pr
 > 
 >
 >  - Gradiente para $\beta_1$ (promedio de los productos de error por $x$):
+>  
 > $$
 >     \frac{\partial L}{\partial \beta_1} = -\frac{2}{n} \sum_{i=1}^n x_i e_i = -\frac{2}{3} (1 \cdot 3 + 2 \cdot 5 + 3 \cdot 7) = -\frac{2}{3} (3 + 10 + 21) = -\frac{2}{3} \cdot 34 = -22.67
 > $$
@@ -525,6 +526,7 @@ Sin embargo, **el método también presenta algunas limitaciones**. Al ser un pr
 > 
 >
 >  Después de la primera iteración:
+>  
 > $$
 >   \beta_0 = 1, \quad \beta_1 = 2.267
 > $$
@@ -559,6 +561,7 @@ Sin embargo, **el método también presenta algunas limitaciones**. Al ser un pr
 > 
 >
 >   - Gradiente para $\beta_1$:
+>   
 > $$
 >    \frac{\partial L}{\partial \beta_1} = -\frac{2}{n} \sum_{i=1}^n x_i e_i = -\frac{2}{3} (1 \cdot -0.267 + 2 \cdot -0.534 + 3 \cdot -0.801) = \frac{2}{3} \cdot 3.738 = 2.492
 > $$
@@ -578,6 +581,7 @@ Sin embargo, **el método también presenta algunas limitaciones**. Al ser un pr
 > 
 >
 >  Después de la segunda iteración:
+>  
 > $$
 >   \beta_0 = 0.8932, \quad \beta_1 = 2.0178
 > $$
@@ -801,10 +805,6 @@ La **regularización** es una técnica que ayuda a reducir el riesgo de sobreaju
 Las dos técnicas de regularización más comunes en regresión lineal son la ***Ridge Regression*** (o regresión de cresta) y la ***Lasso Regression*** (o regresión de mínimos absolutos). La idea en ambos métodos es añadir un término dependiente de los coeficientes de las variables independientes a la función de pérdida.
 
 En primera aproximación, los procesos de regularización podrían entenderse como sigue:
-
-Perfecto. Aquí tienes **tu texto mejorado** con la **expresión matemática integrada de forma natural**, manteniendo el estilo narrativo original y preservando el nivel técnico adecuado para alumnos que aún no han visto regularización en detalle:
-
-------
 
 Al agregar un término dependiente de los coeficientes a la función de pérdida, el proceso de minimización pasa a integrar dos objetivos simultáneos: por un lado, el ajuste a los datos (medido habitualmente en regresión mediante el MSE) y, por otro, la penalización asociada al tamaño de los coeficientes. Esta idea se refleja directamente en la función que se desea minimizar:
 

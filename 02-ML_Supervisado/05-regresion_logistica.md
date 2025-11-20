@@ -27,9 +27,11 @@ A lo largo de este tema, exploraremos sus fundamentos matemáticos, métodos de 
 Los fundamentos de la técnica de la **regresión logística** hay que buscarlos en la estadística o la probabilidad, y su desarrollo está estrechamente vinculado a la evolución del análisis matemático en estos campos. Este modelo, que hoy se considera fundamental en machine learning para tareas de clasificación, comenzó como **una herramienta estadística para estudiar y modelar relaciones no lineales en datos categóricos.**
 
 El término "logística" proviene de la **función logística**, que fue introducida por el matemático Pierre François Verhulst en 1838 para modelar el crecimiento poblacional. Verhulst propuso que el crecimiento poblacional sigue un patrón sigmoide debido a la interacción entre el incremento exponencial inicial y la limitación eventual impuesta por recursos finitos. Esta función logística se define como:
+
 $$
 \sigma(z) = \frac{1}{1 + e^{-z}}
 $$
+
 Donde $z$ es una combinación lineal de las variables explicativas,
 
 ![image-20251117190535543](./assets/image-20251117190535543.png)
@@ -49,19 +51,23 @@ Si bien su trabajo original se centró en casos binarios, el enfoque de Cox alla
 Matemáticamente, la regresión logística es un modelo estadístico basado en la **función logística** (o sigmoide), que es capaz de transformar una serie de datos de entrada correspondientes a la variable independiente en una probabilidad acotada entre 0 y 1.
 
 Dado un conjunto de datos con $n$ observaciones, cada una definida por un vector de características  $\mathbf{x} = (x_1, x_2, \dots, x_p)$, el modelo de regresión logística predice la probabilidad condicional de que la variable dependiente $y$ tome el valor 1, es decir:
+
 $$
 P(y=1|\mathbf{x}) = \frac{1}{1 + e^{-z}}
 $$
+
 donde:
 - $z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p$ es la combinación lineal de las variables independientes.
 - $\beta_0, \beta_1, \dots, \beta_p$ son los parámetros del modelo que deben ser estimados a partir de las observaciones.
 
 Esta función sigmoide transforma el valor de $z$ en una probabilidad que se interpreta como $P(y=1|\mathbf{x})$. Para la otra clase ($y=0$), la probabilidad se calcularía como:
+
 $$
 P(y=0|\mathbf{x}) = 1 - P(y=1|\mathbf{x})
 $$
 
 Para asignar una clase a una observación, se utiliza un umbral $t$ (generalmente $t=0.5$). Si la probabilidad predicha $P(y=1|\mathbf{x})$ supera $t$, la observación se clasifica como $y=1$; de lo contrario, como $y=0$. Esto podría expresarse como:
+
 $$
 \hat{y} = 
 \begin{cases} 
@@ -73,9 +79,11 @@ $$
 La **regresión logística** asume que cada observación en los datos es **independiente** de las demás. Además, establece que la relación entre las características explicativas (o variables independientes) y la probabilidad de que ocurra el evento de interés puede expresarse mediante una fórmula conocida como ***logit***.
 
 El *logit* conecta las probabilidades con las variables explicativas a través de la siguiente ecuación:
+
 $$
 \log \left( \frac{p}{1 - p} \right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p
 $$
+
 En la expresión anterior:
 
 - $p$ representa la probabilidad de que ocurra el evento que estamos tratando de predecir (por ejemplo, que una persona sea diagnosticada con una enfermedad).
@@ -102,6 +110,7 @@ P(y_i = 1|\mathbf{x}_i) = \frac{1}{1 + e^{-z_i}}, \quad \text{donde } z_i = \bet
 $$
 
 La función verosimilitud (es decir, la probabilidad conjunta de todas las observaciones) se define como:
+
 $$
 L(\beta_0, \beta_1, \dots, \beta_p) = \prod_{i=1}^n P(y_i|\mathbf{x}_i) = \prod_{i=1}^n \left[ P(y_i=1|\mathbf{x}_i)^{y_i} \cdot (1 - P(y_i=1|\mathbf{x}_i))^{1-y_i} \right].
 $$
@@ -109,6 +118,7 @@ $$
 #### Log-verosimilitud: Función de pérdida en regresión logística
 
 Para simplificar el cálculo y optimización, se utiliza el logaritmo de la función de verosimilitud, obteniendo la **log-verosimilitud**:
+
 $$
 \ell(\beta_0, \beta_1, \dots, \beta_p) = \sum_{i=1}^n \left[ y_i \log(P(y_i|\mathbf{x}_i)) + (1 - y_i) \log(1 - P(y_i|\mathbf{x}_i)) \right].
 $$
@@ -116,9 +126,11 @@ $$
 El objetivo es **maximizar esta función**, lo que equivale a encontrar los coeficientes $\beta_0, \beta_1, \dots, \beta_p$ que hacen que los datos observados sean más probables bajo el modelo.
 
 En términos de optimización, esto se traduce en minimizar la función de pérdida derivada de la log-verosimilitud negativa:
+
 $$
 J(\beta_0, \beta_1, \dots, \beta_p) = -\ell(\beta_0, \beta_1, \dots, \beta_p),
 $$
+
 que es convexa, y por tanto asegura la existencia de un único mínimo global.
 
 ##### Interpretación de la función de pérdida
@@ -132,12 +144,15 @@ Al final, esta estructura garantiza que el modelo ajuste sus parámetros de mane
 La minimización de la función de pérdida en la regresión logística implica ajustar los coeficientes del modelo de **forma iterativa** utilizando técnicas numéricas. El método más habitual es el del **descenso de gradiente**
 
 Como se vio en el caso de la regresión lineal, la función de pérdida se minimiza actualizando los coeficientes $\beta_j$ en la dirección opuesta al gradiente de la función $J(\beta)$:
+
 $$
 \beta_j^{(t+1)} = \beta_j^{(t)} - \eta \frac{\partial J}{\partial \beta_j},
 $$
+
 donde $\eta$ es la tasa de aprendizaje.
 
 El gradiente de la función de pérdida para $\beta_j$ se calculará como:
+
 $$
 \frac{\partial J}{\partial \beta_j} = -\sum_{i=1}^n (y_i - P(y_i|\mathbf{x}_i)) x_{ij}.
 $$
@@ -173,15 +188,19 @@ Por otro lado, la regresión logística está diseñada para abordar problemas d
 La ecuación de salida, así como su interpretación difieren significativamente ya sea cuando nos referimos a la regresión lineal o a la regresión logística. Ello es debido fundamentalmente a la naturaleza de los problemas que resuelve cada técnica.
 
 En el caso de la regresión lineal, la ecuación de predicción toma la forma:
+
 $$
 y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p
 $$
+
 Aquí, $y$ representa un valor continuo que corresponde a la salida estimada. Los coeficientes ($\beta_0, \beta_1, \dots, \beta_p$) describen cómo cambia el valor esperado de $y$ ante un cambio unitario en cada variable independiente ($x_1, x_2, \dots, x_p$), asumiendo que las demás variables se mantienen constantes. Esta interpretación directa y lineal facilita su aplicación en problemas donde se requiere predecir valores numéricos precisos.
 
 Por otro lado, la regresión logística aplica una transformación que ajusta la salida al rango de 0 a 1, muy adecuada para representar probabilidades. Su ecuación se expresa como:
+
 $$
 p(y=1|x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p)}}
 $$
+
 En este caso, $p(y=1|x)$ describe la probabilidad de que la observación pertenezca a la clase objetivo (por ejemplo, $y=1$). Dicha probabilidad se calcula a partir de la combinación lineal de las variables independientes, transformada mediante la función sigmoide. Si se establece un umbral, por ejemplo, $0,5$ el modelo asignará la clase correspondiente según si la probabilidad es mayor o menor que el umbral. Por esto es por lo que la regresión logística es especialmente útil en tareas de clasificación. Porque proporciona salidas que son directamente interpretables como probabilidades. 
 
 > [!important]
@@ -217,10 +236,13 @@ Por último, la interpretación de los coeficientes en la regresión lineal es m
 > **Aplicación de la regresión lineal**
 >
 > En este caso, la regresión lineal ajusta una ecuación que modela la relación entre la puntuación del examen ($x$) y la nota media esperada ($y$):
+>
 > $$
 > y = -1 + 0,1x
 > $$
+>
 > Esta ecuación indica que por cada incremento de 10 puntos en la puntuación del examen, se espera un aumento promedio de 1 punto en la nota media. Por ejemplo, para un estudiante con $x = 60$, el modelo predice que la nota media será:
+>
 > $$
 > y = -1 + 0,1(60) = 5
 > $$
@@ -228,13 +250,17 @@ Por último, la interpretación de los coeficientes en la regresión lineal es m
 > **Aplicación de la regresión logística**
 >
 > Para abordar el problema de clasificación, la regresión logística ajusta una curva sigmoide que predice la probabilidad de aprobar en función de $x$:
+
 > $$
 > p(y=1|x) = \frac{1}{1 + e^{-(-12 + 0,2x)}}
 > $$
+>
 > La interpretación de este modelo se basa en la probabilidad de que un estudiante con una puntuación específica apruebe el examen. Para una puntuación de $x = 60$, la probabilidad estimada de aprobación es:
+> 
 > $$
 > p(y=1|x=60) = \frac{1}{1 + e^{-(-12 + 0,2(60))}} = 0,73
 > $$
+>
 > Esto indica que, según el modelo, existe un 73% de probabilidad de que un estudiante con una puntuación de 60 apruebe. Este tipo de salida probabilística es particularmente útil para tareas de clasificación, ya que no solo predice una clase, sino que también proporciona una medida de confianza en la predicción.
 >
 > **Conclusión**
@@ -268,6 +294,7 @@ Los valores en cada celda permiten definir un conjunto de métricas asociadas al
 La **exactitud** es una métrica global que mide la proporción de predicciones correctas realizadas por un modelo en relación con el total de instancias evaluadas. Es ampliamente utilizada como una medida general del desempeño de modelos de clasificación.
 
 La exactitud se define como:
+
 $$
 \text{Exactitud} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
 $$
@@ -290,11 +317,11 @@ La exactitud representa el porcentaje de predicciones correctas del modelo consi
 > | **Real: Negativa** | FP = 5                 | TN = 45                |
 >
 > La exactitud del modelo se calcula como:
+>
 > $$
 > \text{Exactitud} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{40 + 45}{40 + 45 + 5 + 10} = 0,85 \; (85\%).
 > $$
 >
-
 
 
 La exactitud es una métrica fácil de interpretar, lo que la convierte en una herramienta práctica para evaluar modelos en escenarios donde las clases están balanceadas. Su simplicidad la hace ampliamente utilizada en tareas generales de clasificación, proporcionando una medida rápida del desempeño global del modelo. Sin embargo, presenta limitaciones importantes en conjuntos de datos desbalanceados. En estos casos, un modelo que favorezca siempre la clase mayoritaria puede obtener una alta exactitud sin ser verdaderamente útil para capturar las instancias de la clase minoritaria. Por ejemplo, en un conjunto donde el 95% de las instancias pertenecen a la clase negativa, un modelo que siempre prediga "negativo" alcanzaría una exactitud del 95%, pero sería ineficaz para identificar instancias positivas. Por ello, aunque es una métrica valiosa, la exactitud debe interpretarse con cautela en problemas con distribuciones de clases desiguales.
@@ -306,6 +333,7 @@ En cualquier caso, **para problemas desbalanceados**, la exactitud debe compleme
 Estas métricas evalúan el desempeño del modelo para identificar correctamente las instancias de la clase positiva ($y=1$):
 
 La **precisión** mide la proporción de predicciones positivas correctas respecto al total de predicciones positivas realizadas:
+
 $$
 \text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}}
 $$
@@ -315,6 +343,7 @@ Es útil en escenarios donde los falsos positivos tienen un costo elevado, como 
 ##### Recall (Sensibilidad o Tasa de verdaderos positivos)
 
 El **recall** (**sensibilidad** o tasa de verdaderos positivos) mide la proporción de instancias positivas correctamente identificadas por el modelo:
+
 $$
 \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
 $$
@@ -322,6 +351,7 @@ $$
 Es crucial en problemas donde los falsos negativos son especialmente costosos, como en diagnósticos médicos.
 
 Es posible combinar las dos métricas anteriores en una sola. El **F1-score** refleja el equilibrio entre ambas. Se calcula como la media armónica de estas dos métricas:
+
 $$
 F1 = 2 \cdot \frac{\text{Precisión} \cdot \text{Recall}}{\text{Precisión} + \text{Recall}}
 $$
@@ -333,6 +363,7 @@ Es especialmente útil en escenarios con datos desbalanceados, donde una alta pr
 Estas métricas se centran en evaluar la capacidad del modelo para clasificar correctamente las instancias de la clase negativa ($y=0$):
 
 En primer lugar, la **especificidad** mide la proporción de instancias negativas correctamente clasificadas:
+
 $$
 \text{Especificidad} = \frac{\text{TN}}{\text{TN} + \text{FP}}
 $$
@@ -340,11 +371,13 @@ $$
 Evalúa la capacidad del modelo para evitar falsos positivos, siendo relevante en problemas donde clasificar erróneamente como positivo tiene un alto costo (por ejemplo, etiquetar a individuos sanos como enfermos).
 
 Por su parte, la **tasa de falsos positivos** mide la proporción de instancias negativas que son clasificadas erróneamente como positivas:
+
 $$
 \text{FPR} = \frac{\text{FP}}{\text{TN} + \text{FP}}
 $$
 
 La especificidad y la FPR están **inversamente relacionadas** ya que se puede comprobar como:
+
 $$
 \text{Especificidad} = 1 - \text{FPR}.
 $$
@@ -361,26 +394,31 @@ $$
 > Calculamos las métricas asociadas:
 >
 > - **Precisión**:
+>
 >   $$
 >   \text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{40}{40 + 5} = 0,89 \; (89\%).
 >   $$
 >
 > - **Recall**:
+>
 >   $$
 >   \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{40}{40 + 10} = 0,8 \; (80\%).
 >   $$
 >
 > - **F1-score**:
+>
 >   $$
 >   F1 = 2 \cdot \frac{\text{Precisión} \cdot \text{Recall}}{\text{Precisión} + \text{Recall}} = 2 \cdot \frac{0,89 \cdot 0,8}{0,89 + 0,8} = 0,84 \; (84\%).
 >   $$
 >
 > - **Especificidad**:
+>
 >   $$
 >   \text{Especificidad} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{45}{45 + 5} = 0,9 \; (90\%).
 >   $$
 >
 > - **Tasa de falsos positivos (FPR)**:
+>
 >   $$
 >   \text{FPR} = \frac{\text{FP}}{\text{TN} + \text{FP}} = \frac{5}{45 + 5} = 0,1 \; (10\%).
 >   $$
@@ -397,13 +435,17 @@ $$
 La **curva ROC** (***Receiver Operating Characteristic***) es una herramienta gráfica ampliamente utilizada para evaluar la capacidad de un modelo de clasificación para discriminar entre clases. Este análisis se basa en la variación del umbral de clasificación y cómo afecta a la relación entre la tasa de verdaderos positivos (TPR) y la tasa de falsos positivos (FPR).
 
 Vimos en el apartado anterior como la **TPR**, también conocida como sensibilidad, se calcula como:
+
 $$
 \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}},
 $$
+
 mientras que la **FPR** se definía como:
+
 $$
 \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}.
 $$
+
 La **curva ROC** representa la **tasa de verdaderos positivos (TPR)** en el eje $y$ frente a la **tasa de falsos positivos (FPR)** en el eje $x$, evaluando estas métricas para diferentes umbrales de clasificación. Este enfoque permite analizar cómo cambia el balance entre sensibilidad y especificidad del modelo según se ajusta el umbral.
 
 En un modelo ideal esta curva tendería a pasar muy cerca de un punto cercano a la esquina superior izquierda del gráfico, lo que indicaría una alta sensibilidad acompañada de una baja tasa de falsos positivos y por tanto un desempeño excelente en la discriminación entre clases.
@@ -413,6 +455,7 @@ La curva se traza a partir de los pares ($FPR, TPR$) a medida que el umbral de d
 #### Construcción de la curva ROC
 
 La curva ROC se genera evaluando el desempeño del modelo a través de diferentes valores del umbral $t$, generalmente variando de 0 a 1. Para cada umbral, se comparan las probabilidades predichas $P(y=1|\mathbf{x})$ con $t$ para decidir si una instancia se clasifica como positiva ($y=1$) o negativa ($y=0$). Es decir, si $P(y=1|\mathbf{x}) \geq t$, se asigna la clase positiva, y de lo contrario, la clase negativa. A partir de estas clasificaciones, se calculan la tasa de verdaderos positivos (TPR) y la tasa de falsos positivos (FPR) usando las fórmulas ya conocidas:
+
 $$
 \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}, \quad \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}.
 $$
@@ -453,10 +496,12 @@ La regresión logística no impone los mismos requisitos de linealidad que la re
 ### Linealidad en el *logit*
 
 A diferencia de la regresión lineal, en la regresión logística no se requiere una relación lineal directa entre las variables independientes ($x_1, x_2, \dots, x_p$) y la variable dependiente binaria ($y \in \{0, 1\}$). Sin embargo, existe un requisito de **linealidad en el logit**, lo que significa que el logaritmo de los odds (probabilidades relativas de pertenencia a la clase positiva frente a la clase negativa) debe ser una combinación lineal de las variables independientes. Matemáticamente, el modelo de regresión logística asume que:
+
 $$
 \log\left(\frac{P(y=1|\mathbf{x})}{1 - P(y=1|\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p,
 $$
-donde $ \beta_0, \beta_1, \dots, \beta_p $ son los coeficientes del modelo.
+
+donde $\beta_0, \beta_1, \dots, \beta_p$ son los coeficientes del modelo.
 
 Este supuesto de linealidad en el logit implica que cada variable independiente $x_j$ tiene un efecto aditivo y constante en la escala del logit. Si esta relación no se cumple, las predicciones del modelo pueden ser imprecisas, y los coeficientes estimados podrían no reflejar correctamente las relaciones subyacentes en los datos.
 
@@ -464,12 +509,12 @@ La linealidad en el logit nos muestra que, para cada unidad de cambio en una var
 1. **Se produce una transformación del espacio probabilístico**: Aunque las probabilidades predichas ($P(y=1|\mathbf{x})$) no tienen una relación lineal con las variables independientes, el logit (es decir, el logaritmo de los odds) sí debe hacerlo.
 2. **Aparece un efecto aditivo**: Los efectos de las variables independientes se suman en la escala del logit, lo que permite modelar la relación de manera más flexible que en el espacio probabilístico directo.
 
-> Por ejemplo, si $ \beta_j = 0.5 $, un incremento unitario en $ x_j $ multiplicará los odds por $ e^{0.5} $ (alrededor de 1.65), manteniendo constantes las demás variables.
+> Por ejemplo, si $\beta_j = 0.5$, un incremento unitario en $x_j$ multiplicará los odds por $e^{0.5}$ (alrededor de 1.65), manteniendo constantes las demás variables.
 >
 
 #### Detección y manejo del requisito de linealidad
 
-Para evaluar si se cumple este requisito, se pueden realizar distintas comprobaciones y efectuar diversos ajustes. Una estrategia común es efectuar **pruebas de significancia para términos no lineales**. Esto consiste en agregar términos no lineales al modelo, como $ x_j^2 $ o transformaciones logarítmicas de $ x_j $, y evaluar si estos términos son significativos. La presencia de efectos significativos indica que la relación lineal en el logit no se cumple completamente. En el caso de que estemos trabajando con variables continuas, es posible realizar una **prueba gráfica del logit**. Esta prueba consistiría en dividir dichas variables en intervalos y calcular los odds observados en cada intervalo. Al graficar el logit de los odds frente a la variable, debería observarse una relación aproximadamente lineal. Si no se cumple, se pueden requerir transformaciones. Por último, es posible hacer **una evaluación con splines o términos polinómicos** en los casos donde la relación no es completamente lineal. Los splines (particiones adaptativas de la variable) permiten capturar relaciones no lineales de manera flexible, sin necesidad de especificar una fórmula exacta
+Para evaluar si se cumple este requisito, se pueden realizar distintas comprobaciones y efectuar diversos ajustes. Una estrategia común es efectuar **pruebas de significancia para términos no lineales**. Esto consiste en agregar términos no lineales al modelo, como $x_j^2$ o transformaciones logarítmicas de $x_j$, y evaluar si estos términos son significativos. La presencia de efectos significativos indica que la relación lineal en el logit no se cumple completamente. En el caso de que estemos trabajando con variables continuas, es posible realizar una **prueba gráfica del logit**. Esta prueba consistiría en dividir dichas variables en intervalos y calcular los odds observados en cada intervalo. Al graficar el logit de los odds frente a la variable, debería observarse una relación aproximadamente lineal. Si no se cumple, se pueden requerir transformaciones. Por último, es posible hacer **una evaluación con splines o términos polinómicos** en los casos donde la relación no es completamente lineal. Los splines (particiones adaptativas de la variable) permiten capturar relaciones no lineales de manera flexible, sin necesidad de especificar una fórmula exacta
 
 ##### Para reflexionar...
 
@@ -579,12 +624,15 @@ La regresión logística estándar es una herramienta poderosa para resolver pro
 #### Regresión logística multinomial: clasificación multiclase
 
 La regresión logística multinomial es una generalización de la regresión logística binaria para manejar situaciones donde la variable dependiente tiene más de dos categorías **sin un orden inherente entre ellas**. Este modelo predice la probabilidad de que una instancia pertenezca a cada una de las $k$ clases posibles. En lugar de modelar un solo logit, como en la regresión logística binaria, la versión multinomial calcula $k-1$ logits, uno para cada clase en comparación con una clase base o de referencia. La relación matemática se expresa como:
+
 $$
 \log\left(\frac{P(y=j|\mathbf{x})}{P(y=K|\mathbf{x})}\right) = \beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p, \quad \text{para } j = 1, \dots, K-1,
 $$
-donde $ P(y=K|\mathbf{x}) $ es la probabilidad de la clase de referencia.
+
+donde $P(y=K|\mathbf{x})$ es la probabilidad de la clase de referencia.
 
 El modelo multinomial asume que **los logits son lineales respecto a las variables independientes** y estima los coeficientes correspondientes a cada clase en comparación con la referencia. La elección de la clase de referencia no afecta las predicciones finales, ya que **las probabilidades se calculan mediante la transformación softmax**:
+
 $$
 P(y=j|\mathbf{x}) = \frac{\exp{\beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p}}{\sum_{k=1}^K \exp{\beta_{k0} + \beta_{k1} x_1 + \dots + \beta_{kp} x_p}}.
 $$
@@ -594,10 +642,11 @@ La regresión logística multinomial es adecuada para problemas como la clasific
 #### Regresión logística ordinal: clasificación con categorías ordenadas
 
 La regresión logística ordinal aborda problemas donde la variable dependiente tiene múltiples categorías con un orden inherente. A diferencia del modelo multinomial, este modelo respeta la estructura de orden al suponer que las probabilidades acumulativas de las categorías siguen una relación logística. La regresión logística ordinal más común es el **modelo de probabilidad proporcional (o modelo logit acumulado)**, que modela los logits de las probabilidades acumulativas:
+
 $$
 \log\left(\frac{P(y \leq j|\mathbf{x})}{P(y > j|\mathbf{x})}\right) = \beta_0^{(j)} + \beta_1 x_1 + \dots + \beta_p x_p, \quad \text{para } j = 1, \dots, K-1.
 $$
-Aquí, $ P(y \leq j|\mathbf{x}) $ es la probabilidad acumulativa de que la observación pertenezca a la categoría $j$ o a una inferior.
+Aquí, $P(y \leq j|\mathbf{x})$ es la probabilidad acumulativa de que la observación pertenezca a la categoría $j$ o a una inferior.
 
 El modelo asume que los efectos de las variables independientes ($\beta_1, \dots, \beta_p$) son constantes en todas las categorías, una propiedad conocida como **proporcionalidad de odds**. Este supuesto simplifica la interpretación de los coeficientes, ya que cada $\beta_j$ representa el cambio en el logit acumulativo por unidad de cambio en $x_j$, independientemente de la categoría específica.
 

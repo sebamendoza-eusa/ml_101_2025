@@ -101,10 +101,13 @@ La **regresión logística** habitualmente utiliza el método de **máxima veros
 la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) dados ciertos valores de los parámetros ($\theta$) del modelo**. Es el mismo concepto que ya aparece en el contexto del teorema de Bayes, solo que en el caso de la regresión logística se convierte en la función objetivo que hay que maximizar para ajustar el modelo.
 
 Dado un conjunto de datos de entrenamiento $\{(\mathbf{x}_i, y_i)\}_{i=1}^n$, donde:
+
 - $\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$ representa el vector de características de la $i$-ésima observación.
+
 - $y_i \in \{0, 1\}$ es la clase asociada a esa observación.
 
 El modelo de regresión logística predice la probabilidad de que $y_i = 1$ como:
+
 $$
 P(y_i = 1|\mathbf{x}_i) = \frac{1}{1 + e^{-z_i}}, \quad \text{donde } z_i = \beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}.
 $$
@@ -395,33 +398,33 @@ $$
 >
 > - **Precisión**:
 >
->   $$
->   \text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{40}{40 + 5} = 0,89 \; (89\%).
->   $$
+> $$
+> \text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{40}{40 + 5} = 0,89 \; (89\%).
+> $$
 >
 > - **Recall**:
 >
->   $$
->   \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{40}{40 + 10} = 0,8 \; (80\%).
->   $$
+> $$
+> \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{40}{40 + 10} = 0,8 \; (80\%).
+> $$
 >
 > - **F1-score**:
 >
->   $$
->   F1 = 2 \cdot \frac{\text{Precisión} \cdot \text{Recall}}{\text{Precisión} + \text{Recall}} = 2 \cdot \frac{0,89 \cdot 0,8}{0,89 + 0,8} = 0,84 \; (84\%).
->   $$
+> $$
+> F1 = 2 \cdot \frac{\text{Precisión} \cdot \text{Recall}}{\text{Precisión} + \text{Recall}} = 2 \cdot \frac{0,89 \cdot 0,8}{0,89 + 0,8} = 0,84 \; (84\%).
+> $$
 >
 > - **Especificidad**:
 >
->   $$
->   \text{Especificidad} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{45}{45 + 5} = 0,9 \; (90\%).
->   $$
+> $$
+> \text{Especificidad} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{45}{45 + 5} = 0,9 \; (90\%).
+> $$
 >
 > - **Tasa de falsos positivos (FPR)**:
 >
->   $$
->   \text{FPR} = \frac{\text{FP}}{\text{TN} + \text{FP}} = \frac{5}{45 + 5} = 0,1 \; (10\%).
->   $$
+> $$
+> \text{FPR} = \frac{\text{FP}}{\text{TN} + \text{FP}} = \frac{5}{45 + 5} = 0,1 \; (10\%).
+> $$
 >
 
 

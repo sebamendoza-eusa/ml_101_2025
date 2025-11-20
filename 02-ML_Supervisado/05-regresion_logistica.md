@@ -102,7 +102,7 @@ la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) d
 
 Dado un conjunto de datos de entrenamiento $\\{\mathbf{x}_i, y_i\\} _{i=1}^n$, donde:
 
-- $\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$ representa el vector de características de la $i$-ésima observación.
+- $\mathbf{x}_i = \\{x_{i1}, x_{i2}, \dots, x_{ip}\\}$ representa el vector de características de la $i$-ésima observación.
 
 - $y_i \in \{0, 1\}$ es la clase asociada a esa observación.
 
@@ -138,7 +138,7 @@ que es convexa, y por tanto asegura la existencia de un único mínimo global.
 
 ##### Interpretación de la función de pérdida
 
-La **función de pérdida** en la regresión logística, basada en la log-verosimilitud negativa, evalúa qué tan bien los parámetros del modelo ajustan las probabilidades predichas ($P(y_i|\mathbf{x}_i)$) a las etiquetas reales ($y_i$). Su interpretación se puede descomponer en **dos términos clave**. En primer lugar el que corresponde a la **penalización de las predicciones incorrectas para $y=1$**. En efecto, el término $y_i \log(P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 1$, ya que $y_i$ actúa como un multiplicador. Este término **premia predicciones correctas** con probabilidades altas cercanas a 1, pero **penaliza fuertemente** cuando $P(y_i|\mathbf{x}_i)$ es bajo. Es decir, si el modelo asigna una probabilidad baja a la clase positiva, este término generará una pérdida significativa. En segundo lugar, el que corresponde a la **penalización de las predicciones incorrectas para $y=0$**. De forma similar, el término $(1-y_i) \log(1-P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 0$, y de forma parecida al caso anterior, **premia predicciones correctas** con probabilidades $1 - P(y_i|\mathbf{x}_i)$ cercanas a 1, pero **penaliza con fuerza** cuando el modelo asigna una probabilidad alta a la clase positiva ($P(y_i|\mathbf{x}_i)$) para datos cuya etiqueta real es $y=0$.
+La **función de pérdida** en la regresión logística, basada en la log-verosimilitud negativa, evalúa qué tan bien los parámetros del modelo ajustan las probabilidades predichas, $P(y_i|\mathbf{x}_i)$, a las etiquetas reales ($y_i$). Su interpretación se puede descomponer en **dos términos clave**. En primer lugar el que corresponde a la **penalización de las predicciones incorrectas para $y=1$**. En efecto, el término $y_i \log(P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 1$, ya que $y_i$ actúa como un multiplicador. Este término **premia predicciones correctas** con probabilidades altas cercanas a 1, pero **penaliza fuertemente** cuando $P(y_i|\mathbf{x}_i)$ es bajo. Es decir, si el modelo asigna una probabilidad baja a la clase positiva, este término generará una pérdida significativa. En segundo lugar, el que corresponde a la **penalización de las predicciones incorrectas para $y=0$**. De forma similar, el término $(1-y_i) \log(1-P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 0$, y de forma parecida al caso anterior, **premia predicciones correctas** con probabilidades $1 - P(y_i|\mathbf{x}_i)$ cercanas a 1, pero **penaliza con fuerza** cuando el modelo asigna una probabilidad alta a la clase positiva, $P(y_i|\mathbf{x}_i)$, para datos cuya etiqueta real es $y=0$.
 
 Al final, esta estructura garantiza que el modelo ajuste sus parámetros de manera que maximice las probabilidades asignadas a las etiquetas correctas ($y=1$ o $y=0$), y minimice las probabilidades asignadas a las etiquetas incorrectas. Como el modelo se entrena para predecir probabilidades que sean lo más cercanas posible a las etiquetas reales (ajustando los parámetros $\beta_0, \beta_1, \dots, \beta_p$ en función de estas penalizaciones), se asegurará que las predicciones sean consistentes con los datos observados.
 
@@ -509,7 +509,7 @@ donde $\beta_0, \beta_1, \dots, \beta_p$ son los coeficientes del modelo.
 Este supuesto de linealidad en el logit implica que cada variable independiente $x_j$ tiene un efecto aditivo y constante en la escala del logit. Si esta relación no se cumple, las predicciones del modelo pueden ser imprecisas, y los coeficientes estimados podrían no reflejar correctamente las relaciones subyacentes en los datos.
 
 La linealidad en el logit nos muestra que, para cada unidad de cambio en una variable independiente $x_j$, el logit cambia en una cantidad constante determinada por el coeficiente $\beta_j$. Esto a su vez implica que:
-1. **Se produce una transformación del espacio probabilístico**: Aunque las probabilidades predichas ($P(y=1|\mathbf{x})$) no tienen una relación lineal con las variables independientes, el logit (es decir, el logaritmo de los odds) sí debe hacerlo.
+1. **Se produce una transformación del espacio probabilístico**: Aunque las probabilidades predichas, $P(y=1|\mathbf{x})$, no tienen una relación lineal con las variables independientes, el logit (es decir, el logaritmo de los odds) sí debe hacerlo.
 2. **Aparece un efecto aditivo**: Los efectos de las variables independientes se suman en la escala del logit, lo que permite modelar la relación de manera más flexible que en el espacio probabilístico directo.
 
 > Por ejemplo, si $\beta_j = 0.5$, un incremento unitario en $x_j$ multiplicará los odds por $e^{0.5}$ (alrededor de 1.65), manteniendo constantes las demás variables.

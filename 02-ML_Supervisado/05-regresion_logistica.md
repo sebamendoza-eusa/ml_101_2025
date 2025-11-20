@@ -50,29 +50,29 @@ Si bien su trabajo original se centró en casos binarios, el enfoque de Cox alla
 
 Matemáticamente, la regresión logística es un modelo estadístico basado en la **función logística** (o sigmoide), que es capaz de transformar una serie de datos de entrada correspondientes a la variable independiente en una probabilidad acotada entre 0 y 1.
 
-Dado un conjunto de datos con $n$ observaciones, cada una definida por un vector de características  $\boldsymbol{x} = (x_1, x_2, \dots, x_p)$, el modelo de regresión logística predice la probabilidad condicional de que la variable dependiente $y$ tome el valor 1, es decir:
+Dado un conjunto de datos con $n$ observaciones, cada una definida por un vector de características  $\mathbf{x} = (x_1, x_2, \dots, x_p)$, el modelo de regresión logística predice la probabilidad condicional de que la variable dependiente $y$ tome el valor 1, es decir:
 
 $$
-P(y=1|\boldsymbol{x}) = \frac{1}{1 + e^{-z}}
+P(y=1|\mathbf{x}) = \frac{1}{1 + e^{-z}}
 $$
 
 donde:
 - $z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p$ es la combinación lineal de las variables independientes.
 - $\beta_0, \beta_1, \dots, \beta_p$ son los parámetros del modelo que deben ser estimados a partir de las observaciones.
 
-Esta función sigmoide transforma el valor de $z$ en una probabilidad que se interpreta como $P(y=1|\boldsymbol{x})$. Para la otra clase ($y=0$), la probabilidad se calcularía como:
+Esta función sigmoide transforma el valor de $z$ en una probabilidad que se interpreta como $P(y=1|\mathbf{x})$. Para la otra clase ($y=0$), la probabilidad se calcularía como:
 
 $$
-P(y=0|\boldsymbol{x}) = 1 - P(y=1|\boldsymbol{x})
+P(y=0|\mathbf{x}) = 1 - P(y=1|\mathbf{x})
 $$
 
-Para asignar una clase a una observación, se utiliza un umbral $t$ (generalmente $t=0.5$). Si la probabilidad predicha $P(y=1|\boldsymbol{x})$ supera $t$, la observación se clasifica como $y=1$; de lo contrario, como $y=0$. Esto podría expresarse como:
+Para asignar una clase a una observación, se utiliza un umbral $t$ (generalmente $t=0.5$). Si la probabilidad predicha $P(y=1|\mathbf{x})$ supera $t$, la observación se clasifica como $y=1$; de lo contrario, como $y=0$. Esto podría expresarse como:
 
 $$
 \hat{y} = 
 \begin{cases} 
-1 & \text{si } P(y=1|\boldsymbol{x}) \geq t, \\
-0 & \text{si } P(y=1|\boldsymbol{x}) < t.
+1 & \text{si } P(y=1|\mathbf{x}) \geq t, \\
+0 & \text{si } P(y=1|\mathbf{x}) < t.
 \end{cases}
 $$
 
@@ -100,22 +100,22 @@ La **regresión logística** habitualmente utiliza el método de **máxima veros
 
 la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) dados ciertos valores de los parámetros ($\theta$) del modelo**. Es el mismo concepto que ya aparece en el contexto del teorema de Bayes, solo que en el caso de la regresión logística se convierte en la función objetivo que hay que maximizar para ajustar el modelo.
 
-Dado un conjunto de datos de entrenamiento $\{(\boldsymbol{x}_i, y_i)\}_{i=1}^n$, donde:
+Dado un conjunto de datos de entrenamiento $\{\(\mathbf{x}_i, y_i\)\}_{i=1}^n$, donde:
 
-- $\boldsymbol{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$ representa el vector de características de la $i$-ésima observación.
+- $\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$ representa el vector de características de la $i$-ésima observación.
 
 - $y_i \in \{0, 1\}$ es la clase asociada a esa observación.
 
 El modelo de regresión logística predice la probabilidad de que $y_i = 1$ como:
 
 $$
-P(y_i = 1|\boldsymbol{x}_i) = \frac{1}{1 + e^{-z_i}}, \quad \text{donde } z_i = \beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}.
+P(y_i = 1|\mathbf{x}_i) = \frac{1}{1 + e^{-z_i}}, \quad \text{donde } z_i = \beta_0 + \beta_1 x_{i1} + \dots + \beta_p x_{ip}.
 $$
 
 La función verosimilitud (es decir, la probabilidad conjunta de todas las observaciones) se define como:
 
 $$
-L(\beta_0, \beta_1, \dots, \beta_p) = \prod_{i=1}^n P(y_i|\boldsymbol{x}_i) = \prod_{i=1}^n \left[ P(y_i=1|\boldsymbol{x}_i)^{y_i} \cdot (1 - P(y_i=1|\boldsymbol{x}_i))^{1-y_i} \right].
+L(\beta_0, \beta_1, \dots, \beta_p) = \prod_{i=1}^n P(y_i|\mathbf{x}_i) = \prod_{i=1}^n \left[ P(y_i=1|\mathbf{x}_i)^{y_i} \cdot (1 - P(y_i=1|\mathbf{x}_i))^{1-y_i} \right].
 $$
 
 #### Log-verosimilitud: Función de pérdida en regresión logística
@@ -123,7 +123,7 @@ $$
 Para simplificar el cálculo y optimización, se utiliza el logaritmo de la función de verosimilitud, obteniendo la **log-verosimilitud**:
 
 $$
-\ell(\beta_0, \beta_1, \dots, \beta_p) = \sum_{i=1}^n \left[ y_i \log(P(y_i|\boldsymbol{x}_i)) + (1 - y_i) \log(1 - P(y_i|\boldsymbol{x}_i)) \right].
+\ell(\beta_0, \beta_1, \dots, \beta_p) = \sum_{i=1}^n \left[ y_i \log(P(y_i|\mathbf{x}_i)) + (1 - y_i) \log(1 - P(y_i|\mathbf{x}_i)) \right].
 $$
 
 El objetivo es **maximizar esta función**, lo que equivale a encontrar los coeficientes $\beta_0, \beta_1, \dots, \beta_p$ que hacen que los datos observados sean más probables bajo el modelo.
@@ -138,7 +138,7 @@ que es convexa, y por tanto asegura la existencia de un único mínimo global.
 
 ##### Interpretación de la función de pérdida
 
-La **función de pérdida** en la regresión logística, basada en la log-verosimilitud negativa, evalúa qué tan bien los parámetros del modelo ajustan las probabilidades predichas ($P(y_i|\boldsymbol{x}_i)$) a las etiquetas reales ($y_i$). Su interpretación se puede descomponer en **dos términos clave**. En primer lugar el que corresponde a la **penalización de las predicciones incorrectas para $y=1$**. En efecto, el término $y_i \log(P(y_i|\boldsymbol{x}_i))$ se activa cuando $y_i = 1$, ya que $y_i$ actúa como un multiplicador. Este término **premia predicciones correctas** con probabilidades altas cercanas a 1, pero **penaliza fuertemente** cuando $P(y_i|\boldsymbol{x}_i)$ es bajo. Es decir, si el modelo asigna una probabilidad baja a la clase positiva, este término generará una pérdida significativa. En segundo lugar, el que corresponde a la **penalización de las predicciones incorrectas para $y=0$**. De forma similar, el término $(1-y_i) \log(1-P(y_i|\boldsymbol{x}_i))$ se activa cuando $y_i = 0$, y de forma parecida al caso anterior, **premia predicciones correctas** con probabilidades $1 - P(y_i|\boldsymbol{x}_i)$ cercanas a 1, pero **penaliza con fuerza** cuando el modelo asigna una probabilidad alta a la clase positiva ($P(y_i|\boldsymbol{x}_i)$) para datos cuya etiqueta real es $y=0$.
+La **función de pérdida** en la regresión logística, basada en la log-verosimilitud negativa, evalúa qué tan bien los parámetros del modelo ajustan las probabilidades predichas ($P(y_i|\mathbf{x}_i)$) a las etiquetas reales ($y_i$). Su interpretación se puede descomponer en **dos términos clave**. En primer lugar el que corresponde a la **penalización de las predicciones incorrectas para $y=1$**. En efecto, el término $y_i \log(P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 1$, ya que $y_i$ actúa como un multiplicador. Este término **premia predicciones correctas** con probabilidades altas cercanas a 1, pero **penaliza fuertemente** cuando $P(y_i|\mathbf{x}_i)$ es bajo. Es decir, si el modelo asigna una probabilidad baja a la clase positiva, este término generará una pérdida significativa. En segundo lugar, el que corresponde a la **penalización de las predicciones incorrectas para $y=0$**. De forma similar, el término $(1-y_i) \log(1-P(y_i|\mathbf{x}_i))$ se activa cuando $y_i = 0$, y de forma parecida al caso anterior, **premia predicciones correctas** con probabilidades $1 - P(y_i|\mathbf{x}_i)$ cercanas a 1, pero **penaliza con fuerza** cuando el modelo asigna una probabilidad alta a la clase positiva ($P(y_i|\mathbf{x}_i)$) para datos cuya etiqueta real es $y=0$.
 
 Al final, esta estructura garantiza que el modelo ajuste sus parámetros de manera que maximice las probabilidades asignadas a las etiquetas correctas ($y=1$ o $y=0$), y minimice las probabilidades asignadas a las etiquetas incorrectas. Como el modelo se entrena para predecir probabilidades que sean lo más cercanas posible a las etiquetas reales (ajustando los parámetros $\beta_0, \beta_1, \dots, \beta_p$ en función de estas penalizaciones), se asegurará que las predicciones sean consistentes con los datos observados.
 
@@ -157,7 +157,7 @@ donde $\eta$ es la tasa de aprendizaje.
 El gradiente de la función de pérdida para $\beta_j$ se calculará como:
 
 $$
-\frac{\partial J}{\partial \beta_j} = -\sum_{i=1}^n (y_i - P(y_i|\boldsymbol{x}_i)) x_{ij}.
+\frac{\partial J}{\partial \beta_j} = -\sum_{i=1}^n (y_i - P(y_i|\mathbf{x}_i)) x_{ij}.
 $$
 
 ##### **Métodos avanzados de optimización**
@@ -457,7 +457,7 @@ La curva se traza a partir de los pares ($FPR, TPR$) a medida que el umbral de d
 
 #### Construcción de la curva ROC
 
-La curva ROC se genera evaluando el desempeño del modelo a través de diferentes valores del umbral $t$, generalmente variando de 0 a 1. Para cada umbral, se comparan las probabilidades predichas $P(y=1|\boldsymbol{x})$ con $t$ para decidir si una instancia se clasifica como positiva ($y=1$) o negativa ($y=0$). Es decir, si $P(y=1|\boldsymbol{x}) \geq t$, se asigna la clase positiva, y de lo contrario, la clase negativa. A partir de estas clasificaciones, se calculan la tasa de verdaderos positivos (TPR) y la tasa de falsos positivos (FPR) usando las fórmulas ya conocidas:
+La curva ROC se genera evaluando el desempeño del modelo a través de diferentes valores del umbral $t$, generalmente variando de 0 a 1. Para cada umbral, se comparan las probabilidades predichas $P(y=1|\mathbf{x})$ con $t$ para decidir si una instancia se clasifica como positiva ($y=1$) o negativa ($y=0$). Es decir, si $P(y=1|\mathbf{x}) \geq t$, se asigna la clase positiva, y de lo contrario, la clase negativa. A partir de estas clasificaciones, se calculan la tasa de verdaderos positivos (TPR) y la tasa de falsos positivos (FPR) usando las fórmulas ya conocidas:
 
 $$
 \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}}, \quad \text{FPR} = \frac{\text{FP}}{\text{FP} + \text{TN}}.
@@ -501,7 +501,7 @@ La regresión logística no impone los mismos requisitos de linealidad que la re
 A diferencia de la regresión lineal, en la regresión logística no se requiere una relación lineal directa entre las variables independientes ($x_1, x_2, \dots, x_p$) y la variable dependiente binaria ($y \in \{0, 1\}$). Sin embargo, existe un requisito de **linealidad en el logit**, lo que significa que el logaritmo de los odds (probabilidades relativas de pertenencia a la clase positiva frente a la clase negativa) debe ser una combinación lineal de las variables independientes. Matemáticamente, el modelo de regresión logística asume que:
 
 $$
-\log\left(\frac{P(y=1|\boldsymbol{x})}{1 - P(y=1|\boldsymbol{x})}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p,
+\log\left(\frac{P(y=1|\mathbf{x})}{1 - P(y=1|\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p,
 $$
 
 donde $\beta_0, \beta_1, \dots, \beta_p$ son los coeficientes del modelo.
@@ -509,7 +509,7 @@ donde $\beta_0, \beta_1, \dots, \beta_p$ son los coeficientes del modelo.
 Este supuesto de linealidad en el logit implica que cada variable independiente $x_j$ tiene un efecto aditivo y constante en la escala del logit. Si esta relación no se cumple, las predicciones del modelo pueden ser imprecisas, y los coeficientes estimados podrían no reflejar correctamente las relaciones subyacentes en los datos.
 
 La linealidad en el logit nos muestra que, para cada unidad de cambio en una variable independiente $x_j$, el logit cambia en una cantidad constante determinada por el coeficiente $\beta_j$. Esto a su vez implica que:
-1. **Se produce una transformación del espacio probabilístico**: Aunque las probabilidades predichas ($P(y=1|\boldsymbol{x})$) no tienen una relación lineal con las variables independientes, el logit (es decir, el logaritmo de los odds) sí debe hacerlo.
+1. **Se produce una transformación del espacio probabilístico**: Aunque las probabilidades predichas ($P(y=1|\mathbf{x})$) no tienen una relación lineal con las variables independientes, el logit (es decir, el logaritmo de los odds) sí debe hacerlo.
 2. **Aparece un efecto aditivo**: Los efectos de las variables independientes se suman en la escala del logit, lo que permite modelar la relación de manera más flexible que en el espacio probabilístico directo.
 
 > Por ejemplo, si $\beta_j = 0.5$, un incremento unitario en $x_j$ multiplicará los odds por $e^{0.5}$ (alrededor de 1.65), manteniendo constantes las demás variables.
@@ -629,15 +629,15 @@ La regresión logística estándar es una herramienta poderosa para resolver pro
 La regresión logística multinomial es una generalización de la regresión logística binaria para manejar situaciones donde la variable dependiente tiene más de dos categorías **sin un orden inherente entre ellas**. Este modelo predice la probabilidad de que una instancia pertenezca a cada una de las $k$ clases posibles. En lugar de modelar un solo logit, como en la regresión logística binaria, la versión multinomial calcula $k-1$ logits, uno para cada clase en comparación con una clase base o de referencia. La relación matemática se expresa como:
 
 $$
-\log\left(\frac{P(y=j|\boldsymbol{x})}{P(y=K|\boldsymbol{x})}\right) = \beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p, \quad \text{para } j = 1, \dots, K-1,
+\log\left(\frac{P(y=j|\mathbf{x})}{P(y=K|\mathbf{x})}\right) = \beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p, \quad \text{para } j = 1, \dots, K-1,
 $$
 
-donde $P(y=K|\boldsymbol{x})$ es la probabilidad de la clase de referencia.
+donde $P(y=K|\mathbf{x})$ es la probabilidad de la clase de referencia.
 
 El modelo multinomial asume que **los logits son lineales respecto a las variables independientes** y estima los coeficientes correspondientes a cada clase en comparación con la referencia. La elección de la clase de referencia no afecta las predicciones finales, ya que **las probabilidades se calculan mediante la transformación softmax**:
 
 $$
-P(y=j|\boldsymbol{x}) = \frac{\exp{\beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p}}{\sum_{k=1}^K \exp{\beta_{k0} + \beta_{k1} x_1 + \dots + \beta_{kp} x_p}}.
+P(y=j|\mathbf{x}) = \frac{\exp{\beta_{j0} + \beta_{j1} x_1 + \dots + \beta_{jp} x_p}}{\sum_{k=1}^K \exp{\beta_{k0} + \beta_{k1} x_1 + \dots + \beta_{kp} x_p}}.
 $$
 
 La regresión logística multinomial es adecuada para problemas como la clasificación de imágenes, donde las categorías pueden ser "gato", "perro" o "pájaro", y no existe una relación de orden entre ellas. Sin embargo, **este modelo puede ser computacionalmente costoso cuando $k$ es grande**, ya que requiere estimar un conjunto completo de coeficientes para cada clase. Además, como en la regresión logística binaria, la independencia de las observaciones y la ausencia de multicolinealidad entre las variables independientes son requisitos esenciales.
@@ -647,10 +647,10 @@ La regresión logística multinomial es adecuada para problemas como la clasific
 La regresión logística ordinal aborda problemas donde la variable dependiente tiene múltiples categorías con un orden inherente. A diferencia del modelo multinomial, este modelo respeta la estructura de orden al suponer que las probabilidades acumulativas de las categorías siguen una relación logística. La regresión logística ordinal más común es el **modelo de probabilidad proporcional (o modelo logit acumulado)**, que modela los logits de las probabilidades acumulativas:
 
 $$
-\log\left(\frac{P(y \leq j|\boldsymbol{x})}{P(y > j|\boldsymbol{x})}\right) = \beta_0^{(j)} + \beta_1 x_1 + \dots + \beta_p x_p, \quad \text{para } j = 1, \dots, K-1.
+\log\left(\frac{P(y \leq j|\mathbf{x})}{P(y > j|\mathbf{x})}\right) = \beta_0^{(j)} + \beta_1 x_1 + \dots + \beta_p x_p, \quad \text{para } j = 1, \dots, K-1.
 $$
 
-Aquí, $P(y \leq j|\boldsymbol{x})$ es la probabilidad acumulativa de que la observación pertenezca a la categoría $j$ o a una inferior.
+Aquí, $P(y \leq j|\mathbf{x})$ es la probabilidad acumulativa de que la observación pertenezca a la categoría $j$ o a una inferior.
 
 El modelo asume que los efectos de las variables independientes ($\beta_1, \dots, \beta_p$) son constantes en todas las categorías, una propiedad conocida como **proporcionalidad de odds**. Este supuesto simplifica la interpretación de los coeficientes, ya que cada $\beta_j$ representa el cambio en el logit acumulativo por unidad de cambio en $x_j$, independientemente de la categoría específica.
 

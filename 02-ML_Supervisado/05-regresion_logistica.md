@@ -649,6 +649,7 @@ La regresión logística ordinal aborda problemas donde la variable dependiente 
 $$
 \log\left(\frac{P(y \leq j|\mathbf{x})}{P(y > j|\mathbf{x})}\right) = \beta_0^{(j)} + \beta_1 x_1 + \dots + \beta_p x_p, \quad \text{para } j = 1, \dots, K-1.
 $$
+
 Aquí, $P(y \leq j|\mathbf{x})$ es la probabilidad acumulativa de que la observación pertenezca a la categoría $j$ o a una inferior.
 
 El modelo asume que los efectos de las variables independientes ($\beta_1, \dots, \beta_p$) son constantes en todas las categorías, una propiedad conocida como **proporcionalidad de odds**. Este supuesto simplifica la interpretación de los coeficientes, ya que cada $\beta_j$ representa el cambio en el logit acumulativo por unidad de cambio en $x_j$, independientemente de la categoría específica.

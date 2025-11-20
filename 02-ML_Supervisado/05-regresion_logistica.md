@@ -100,7 +100,7 @@ La **regresión logística** habitualmente utiliza el método de **máxima veros
 
 la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) dados ciertos valores de los parámetros ($\theta$) del modelo**. Es el mismo concepto que ya aparece en el contexto del teorema de Bayes, solo que en el caso de la regresión logística se convierte en la función objetivo que hay que maximizar para ajustar el modelo.
 
-Dado un conjunto de datos de entrenamiento $\\{(\vec{x}_i, y_i)\\}_{i=1}^n$, donde:
+Dado un conjunto de datos de entrenamiento $\\{{x}_i, y_i\\}_{i=1}^n$, donde:
 
 - $\mathbf{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$ representa el vector de características de la $i$-ésima observación.
 

@@ -8,7 +8,7 @@ La **regresión logística** es un modelo estadístico ampliamente utilizado en 
 
 A diferencia de la regresión lineal, que se utiliza para predecir valores continuos, la regresión logística transforma su salida en una **probabilidad** que permite asignar clases discretas, como "aprobado/suspenso", "fraudulento/no fraudulento" o "positivo/negativo".
 
-Este enfoque se fundamenta en la aplicación de la **función sigmoide**, que asegura que las predicciones se mantengan dentro del rango [0, 1], interpretándolas como la probabilidad de que una observación pertenezca a una categoría específica.
+Este enfoque se fundamuenta en la aplicación de la **función sigmoide**, que asegura que las predicciones se mantengan dentro del rango [0, 1], interpretándolas como la probabilidad de que una observación pertenezca a una categoría específica.
 
 La simplicidad y efectividad de este modelo lo han convertido en una herramienta básica en proyectos de clasificación, especialmente cuando se prioriza la interpretabilidad. La regresión logística permite comprender la relación entre las características de entrada y la salida gracias a sus coeficientes, que pueden interpretarse como el impacto relativo de cada variable en la probabilidad de un evento. Por ejemplo, en el análisis de datos médicos, este modelo puede indicar cómo factores como la edad, el peso o el nivel de actividad física influyen en la probabilidad de padecer una enfermedad.
 
@@ -100,7 +100,7 @@ La **regresión logística** habitualmente utiliza el método de **máxima veros
 
 la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) dados ciertos valores de los parámetros ($\theta$) del modelo**. Es el mismo concepto que ya aparece en el contexto del teorema de Bayes, solo que en el caso de la regresión logística se convierte en la función objetivo que hay que maximizar para ajustar el modelo.
 
-Dado un conjunto de datos de entrenamiento $\\{\mathbf{x}_i, y_i\\} _{i=1}^n$, donde:
+Dado un conjunto de datos de entrenamiento $\(\mathbf{x}_i, y_i\)$ con $i=1\dots n$ observaciones, donde:
 
 - $\mathbf{x}_i = \\{x_ {i1}, x_ {i2}, \dots, x_ {ip}\\}$ representa el vector de características de la $i$-ésima observación.
 
@@ -322,7 +322,7 @@ La exactitud representa el porcentaje de predicciones correctas del modelo consi
 > La exactitud del modelo se calcula como:
 >
 > $$
-> \text{Exactitud} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{40 + 45}{40 + 45 + 5 + 10} = 0,85 \; (85\%).
+> \text{Exactitud} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{40 + 45}{40 + 45 + 5 + 10} = 0,85 \;(85\%)
 > $$
 >
 

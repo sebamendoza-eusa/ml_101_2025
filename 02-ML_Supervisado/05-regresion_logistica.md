@@ -102,7 +102,7 @@ la **verosimilitud** se refiere a la **probabilidad de observar unos datos (D) d
 
 Dado un conjunto de datos de entrenamiento $\(\mathbf{x}_i, y_i\)$ con $i=1\dots n$ observaciones, donde:
 
-- $\mathbf{x}_i = \(x_ {i1}, x_ {i2}, \dots, x_ {ip}\)$ representa el vector de características de la $i$-ésima observación.
+- $\mathbf{x}_i = \(x_{i1}, x_{i2}, \dots, x_{ip}\)$ representa el vector de características de la $i$-ésima observación.
 
 - $y_i \in \{0, 1\}$ es la clase asociada a esa observación.
 

@@ -1,4 +1,6 @@
-### El paradigma de la secuencia en los entornos de producción
+# Modelos secuenciales. Redes recurrentes
+
+## El paradigma de la secuencia en los entornos de producción
 
 En el aprendizaje automático tradicional, los modelos suelen asumir la independencia de las muestras, lo que técnicamente se conoce como la asunción de variables independientes e idénticamente distribuidas (i.i.d.). Sin embargo, en entornos de producción reales como la monitorización de señales biomédicas, el análisis de series financieras o el procesamiento de texto, el orden cronológico de los datos es un factor crítico. Ignorar esta estructura temporal implicaría descartar la causalidad intrínseca de los fenómenos físicos y sociales.
 
@@ -14,7 +16,7 @@ Las Redes Neuronales Recurrentes (RNN) son la arquitectura específicamente dise
 
 > **Ejemplo**: En un sistema de traducción automática, si la red recibe la palabra "banco", ésta necesita saber si el contexto previo trataba sobre finanzas o sobre mobiliario urbano para generar la salida correcta en el idioma destino.
 
-### Limitaciones de la arquitectura MLP ante el flujo secuencial
+## Limitaciones de la arquitectura MLP ante el flujo secuencial
 
 La arquitectura de Perceptrón Multicapa (MLP) presenta carencias estructurales insalvables al enfrentarse a datos secuenciales. El primer problema, aunque salvable, es la rigidez de su capa de entrada, que exige una dimensión fija $N$. Para procesar una serie temporal con una MLP, el ingeniero debe fijar una ventana máxima de observación arbitraria. Esta decisión técnica conlleva dos consecuencias ineficientes: si la secuencia real es más corta que dicha ventana, se debe recurrir al *padding* (relleno con ceros o valores neutros), lo que obliga a la red a aprender a ignorar grandes porciones de datos "vacíos" que consumen capacidad de cómputo innecesariamente. Por el contrario, si la secuencia es más larga que el tamaño predefinido, se produce una pérdida de información crítica por truncamiento; el modelo queda "ciego" ante cualquier evento que haya sucedido fuera de su ventana de visión, imposibilitando la detección de patrones de dependencia a muy largo plazo.
 
@@ -22,7 +24,7 @@ En segundo lugar, una arquitectura MLP adolece de una falta absoluta de **invari
 
 Pero sin duda el mayor inconveniente reside en lo que se denomina **explosión de parámetros** y la consecente falta de escalabilidad. En una arquitectura MLP, cada elemento de la secuencia de entrada requiere su propio conjunto de conexiones dedicadas y pesos únicos hacia la capa oculta. Intentar modelar dependencias a largo plazo con una red densa conlleva un crecimiento masivo en el número de parámetros; por ejemplo, si quisiéramos procesar una secuencia de 1000 elementos, el número de conexiones en la primera capa se multiplicaría por mil respecto a una sola muestra, exigiendo una cantidad de memoria y potencia de cálculo inasumible. Esta redundancia estructural no solo ralentiza el entrenamiento, sino que dispara el riesgo de **overfitting**, ya que el modelo tiende a memorizar el ruido de posiciones específicas en lugar de aprender patrones globales. Las RNN resuelven este dilema mediante la **compartición de parámetros** (*parameter sharing*): se aplica exactamente el mismo conjunto de pesos en cada instante, permitiendo que la red aprenda la lógica de la transición independientemente de cuándo ocurra el evento dentro de la secuencia.
 
-### Arquitectura técnica y compartición de parámetros
+## Arquitectura técnica y compartición de parámetros
 
 Una red recurrente funciona mediante un proceso de iteración similar a un bucle. En cada paso, la unidad recibe el dato actual y una "memoria de trabajo" del instante anterior. Técnicamente, el estado oculto $h_t$ funciona como una representación comprimida de la información relevante procesada hasta el momento $t$. Debe ser capaz de recordar características críticas de una entrada de longitud potencialmente infinita en un vector de dimensión fija. La dinámica se describe mediante la ecuación:
 
@@ -48,7 +50,7 @@ La transformación de estos datos ocurre a través de un proceso iterativo de "r
 >
 > El proceso se repite 10 veces. En cada paso, la red combina el sensor actual con la memoria previa, manteniendo siempre la forma $(50, 128)$. Al segundo 10, obtenemos el **Estado Final** $h_{10}$. Esta "fotografía mental" se proyecta mediante la matriz de salida $(128 \times 3)$ hacia las categorías de diagnóstico, generando *logits* de forma $(50, 3)$. Tras el **Softmax**, obtenríamos probabilidades reales (ej: 0.95 Normal, 0.04 Aviso, 0.01 Crítico) que suman 1 por cada motor.
 
-### Dinámica del entrenamiento y estabilidad del aprendizaje
+## Dinámica del entrenamiento y estabilidad del aprendizaje
 
 El entrenamiento de una RNN, al igual que cualquier modelo de aprendizaje profundo, se fundamenta en la interacción de tres componentes críticos que definen el proceso de aprendizaje: los parámetros, la función de pérdida y el optimizador. En el contexto secuencial, estos elementos adquieren matices específicos debido a la naturaleza temporal de los datos.
 
@@ -95,7 +97,7 @@ Este apoyo externo se materializa en forma de técnicas de regularización del e
 
 En cualquier caso, la solución a este dilema no reside únicamente en ajustar cuidadosamente los valores de $\Theta$, sino en la implementación de arquitecturas alternativas que permiten que el gradiente fluya de forma eficiente, protegiendo así la integridad de la señal de error a través de horizontes temporales profundos.
 
-### Arquitecturas de mapeo secuencial y flujo de información
+## Arquitecturas de mapeo secuencial y flujo de información
 
 La versatilidad de las redes recurrentes reside en su capacidad para modelar diferentes relaciones entre la longitud de la secuencia de entrada ($T_x$) y la secuencia de salida ($T_y$). Esta flexibilidad estructural permite abordar problemas que las redes densas no pueden gestionar debido a su rigidez dimensional.
 
@@ -111,11 +113,11 @@ Para reflexionar…
 
 > **¿Por qué en una tarea de traducción automática del alemán al español es técnicamente inviable utilizar una arquitectura Many-to-Many sincrónica?** **Clave**: Considera la gramática y el orden de las palabras (verbos al final en alemán frente a posiciones centrales en español).
 
-### Limitaciones de la arquitectura de estado oculto simple
+## Limitaciones de la arquitectura de estado oculto simple
 
 A pesar de su elegancia teórica, las RNN estándar (también llamadas "Vanilla RNN") presentan un cuello de botella estructural: toda la memoria histórica se ve forzada a residir en un único vector de estado oculto $h_t$ que se sobrescribe en cada iteración. Matemáticamente, esto obliga a la red a realizar un compromiso imposible: debe usar $h_t$ simultáneamente para capturar la dinámica de corto plazo (la palabra actual) y para preservar la información de largo plazo (el sujeto de la frase hace diez palabras). Debido a los problemas de desvanecimiento del gradiente ya analizados, la información antigua acaba siendo "borrada" por la nueva de forma puramente multiplicativa. Esta limitación dio origen a arquitecturas alternativas diseñadas para gestionar la persistencia de datos de forma explícitamente.
 
-#### Long Short-Term Memory (LSTM)
+### Long Short-Term Memory (LSTM)
 
 La arquitectura LSTM (*Long Short-Term Memory*) marca un hito en el aprendizaje secuencial al proponer una solución estructural a la degradación de la memoria. Su innovación fundamental es la introducción del **Estado de Celda** ($C_t$), que podemos visualizar didácticamente como una "cinta transportadora" o "autopista de información" que recorre toda la cadena temporal de forma paralela al estado oculto. A diferencia de las RNN estándar, donde la información se transforma agresivamente en cada paso mediante multiplicaciones matriciales, el estado de celda permite que los datos fluyan con cambios mínimos, preservando la información a largo plazo de forma casi intacta.
 
@@ -125,7 +127,7 @@ Para gestionar qué información debe subir a esta cinta transportadora, cuánto
 
 Estas puertas operan mediante la función de activación sigmoide (valores entre 0 y 1), que actúa como un control analógico capaz de abrirse por completo, cerrarse o dejar pasar solo una fracción del flujo de datos.
 
-##### La Puerta de Olvido (Forget Gate)
+#### La Puerta de Olvido (Forget Gate)
 
 Constituye el primer filtro de la unidad recurrente y es la encargada de la **higiene de la memoria**. Técnicamente, es una mini-red que toma como entrada el estado oculto previo ($h_{t-1}$) y el dato actual ($x_t$), proyectándolos mediante una matriz de pesos aprendida ($W_f$) hacia una función de activación sigmoide. El resultado es un vector de valores entre 0 y 1 que se aplica directamente  sobre el estado de celda acumulado.
 
@@ -135,7 +137,7 @@ $$F_t = \sigma(W_{xF}x_t + W_{hF}h_{t-1} + b_f)$$
 
 Si un componente del vector de la puerta de olvido ($F_t$) es cercano a 0, la red "borra" ese elemento específico de la memoria profunda; si es cercano a 1, permite que la información atraviese la iteración intacta. Este mecanismo es vital para la coherencia contextual: por ejemplo, en una tarea de procesamiento de lenguaje natural, si el modelo detecta un punto y aparte o un cambio de sujeto, la puerta de olvido puede "limpiar" el género y número del sujeto anterior de la memoria, liberando capacidad representacional para los nuevos datos y evitando interferencias gramaticales en la predicción futura.
 
-##### La Puerta de Entrada (Input Gate)
+#### La Puerta de Entrada (Input Gate)
 
 Una vez que la memoria ha sido "limpiada" por la puerta de olvido, la red debe decidir qué nueva información merece ser incorporada a la cinta transportadora del estado de celda. Este proceso es pormenorizado y consta de dos estructuras neuronales que trabajan en paralelo:
 
@@ -153,7 +155,7 @@ $$C_t = F_t \ast C_{t-1} + I_t \ast \tilde{C}_t$$
 
 Donde $\ast$ representa el producto de Hadamard (elemento a elemento). Solo lo que supera ambos filtros acaba escrito en nuestro cuaderno (el estado de celda).
 
-##### La Puerta de Salida (Output Gate)
+#### La Puerta de Salida (Output Gate)
 
 El último mecanismo de control de la unidad recurrente tiene como objetivo generar la respuesta inmediata de la red, es decir, el nuevo **estado oculto** ($h_t$). La puerta de salida actúa como un **editor jefe** que decide qué partes de la memoria profunda deben "publicarse" en el presente.
 
@@ -171,7 +173,7 @@ $$h_t = O_t \ast \tanh(C_t)$$
 
 Podemos comparar la puerta de salida con el proceso de redactar un **informe técnico**: el estado de celda es el archivo completo con años de datos históricos (memoria profunda), mientras que la puerta de salida selecciona y resume únicamente los tres datos críticos que el gerente necesita hoy para tomar una decisión inmediata (estado oculto). De esta forma, la LSTM mantiene una separación clara entre la información que debe recordarse para siempre y la información que es relevante comunicar ahora.
 
-##### Sincronía y flujo: La integración del Estado de Celda
+#### Sincronía y flujo: La integración del Estado de Celda
 
 Para comprender la LSTM como un sistema unificado, debemos observar cómo interactúan las operaciones algebraicas para gobernar el tránsito de información a través de $C_t$. La arquitectura se basa en dos tipos fundamentales de interacción entre tensores: la **suma** (que permite la persistencia) y el **producto de Hadamard** o producto elemento a elemento ($\ast$), que actúa como un mecanismo de modulación o "vaciado".
 
@@ -179,7 +181,7 @@ La actualización del estado de celda $C_t$ depende directamente de los valores 
 
 Es este paso final de **suma aditiva** ($C_t = \text{filtrado} + \text{nuevoContexto}$) el que resuelve la inestabilidad numérica. Al ser una operación lineal y aditiva, la información puede transitar a través de cientos de celdas ($C_t, C_{t+1}, \dots, C_{t+n}$) sin que la señal de error se degrade. Mientras que las puertas cambian drásticamente el estado oculto $h_t$ en cada paso para responder a la entrada $x_t$, el estado de celda $C_t$ fluye de manera mucho más estable, actuando como un hilo conductor que garantiza que el modelo no pierda el sentido global de la secuencia.
 
-#### Redes GRU (Gated Recurrent Unit)
+### Redes GRU (Gated Recurrent Unit)
 
 Propuestas por Kyunghyun Cho et al. en 2014, las unidades recurrentes de puerta (GRU) representan una evolución simplificada de la arquitectura LSTM. Su aparición respondió a la necesidad industrial de contar con modelos que ofrecieran una capacidad similar para capturar dependencias a largo plazo pero con una **menor complejidad computacional** y un número reducido de parámetros entrenables.
 
@@ -190,7 +192,7 @@ La innovación fundamental de la GRU reside en dos cambios estructurales drásti
 
 Esta simplificación no es meramente estética; al tener menos matrices de pesos en $\Theta$, la GRU es significativamente más rápida de entrenar y requiere menos memoria VRAM, lo que la convierte en la arquitectura reina para el despliegue de IA en dispositivos finales (**Edge AI**) o sistemas embebidos con recursos limitados.
 
-##### La Puerta de Actualización (Update Gate)
+#### La Puerta de Actualización (Update Gate)
 
 La puerta de actualización ($z_t$) es el componente más potente de la GRU, ya que realiza de forma combinada las funciones que en la LSTM desempeñaban por separado la puerta de olvido y la de entrada. Su misión es determinar cuánta de la información del pasado debe persistir y cuánta de la nueva información debe ser incorporada.
 
@@ -200,7 +202,7 @@ $$z_t = \sigma(W_{xz}x_t + W_{hz}h_{t-1} + b_z)$$
 
 Didácticamente, podemos ver a $z_t$ como un **control de mezcla** (similar al *crossfader* de un DJ). Si $z_t$ es cercano a 0, la red decide ignorar el presente y mantener casi intacta la memoria del pasado. Si $z_t$ es cercano a 1, la red decide "sobrescribir" el estado con los nuevos datos. Esta capacidad de "saltar" pasos de tiempo sin modificar el estado es lo que permite a la GRU combatir el desvanecimiento del gradiente de manera tan eficiente como la LSTM.
 
-##### La Puerta de Reinicio (Reset Gate)
+#### La Puerta de Reinicio (Reset Gate)
 
 La puerta de reinicio ($r_t$) controla cuánta de la información histórica es relevante para calcular el **candidato a nuevo estado**. A diferencia de la puerta de actualización, que decide qué se mantiene a largo plazo, la puerta de reinicio decide qué se olvida "por un momento" para entender mejor el dato actual.
 
@@ -210,7 +212,7 @@ $$r_t = \sigma(W_{xr}x_t + W_{hr}h_{t-1} + b_r)$$
 
 Si el valor de $r_t$ es cercano a 0, la red actúa como si fuera el primer elemento de la secuencia, ignorando por completo el estado oculto previo. Esto es extremadamente útil para modelar secuencias donde existen rupturas bruscas o cambios de tema, permitiendo a la red "resetear" su pensamiento a corto plazo para procesar la nueva entrada sin ruido del pasado inmediato.
 
-##### Cálculo del Estado Final
+#### Cálculo del Estado Final
 
 Una vez obtenidas las puertas, la GRU calcula primero un estado candidato ($\tilde{h}_t$) usando la puerta de reinicio para filtrar la memoria previa:
 

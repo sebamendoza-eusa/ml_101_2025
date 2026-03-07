@@ -957,9 +957,11 @@ def train_step(self, data):
 **Comprensión Teórica de la Penalización de Gradientes**
 
 Para entender por qué multiplicamos la pérdida por un factor (como $1.5$) cuando se supera un umbral crítico, debemos entender cómo funciona la matemática de la optimización. Desde un punto de vista formal, la derivada de una función multiplicada por una constante $C$ es igual a esa misma constante multiplicada por la derivada original:
+
 $$
 \frac{d}{dx}[C \cdot f(x)] = C \cdot f'(x)
 $$
+
 Esta regla, en apariencia sencilla, tiene implicaciones profundas en el comportamiento del modelo.
 
 Cuando nuestro MLP comete un error grave, la "señal de corrección" (el gradiente) que enviamos a través de la red no es la estándar, sino un $50\%$ más intensa. Esto se traduce en un **escalado del ajuste**: obligamos al modelo a realizar actualizaciones de pesos mucho más agresivas de lo normal. Es, en un sentido figurado, como si el modelo recibiera un "tirón de orejas" matemático cada vez que comete un fallo costoso, forzándolo a abandonar esas zonas de alto error con una velocidad que la pérdida estándar nunca permitiría.

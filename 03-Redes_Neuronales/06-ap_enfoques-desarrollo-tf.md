@@ -21,7 +21,7 @@ TensorFlow no ejecuta operaciones de forma aislada. Cuando definimos un modelo, 
 
 Este mapa permite a TensorFlow optimizar qué operaciones pueden ejecutarse en paralelo y cómo calcular las derivadas necesarias para el aprendizaje (backpropagation) de forma automática. Por ejemplo, en un típico caso de estudio podríamos tener algo así:
 
-![image-20260207194103846](./assets/image-20260207194103846.png)
+![image-20260207194103846](./assets/image-20260207194103846-2889183.png)
 
 ### La abstracción de Keras: Simplificando el motor
 
@@ -442,7 +442,7 @@ Este diseño asegura que la señal de entrada esté escalada antes de dividirse,
 
 Veámoslo en el siguiente esquema:
 
-![image-20260207194103846](./assets/image-20260207194103846.png)
+![image-20260207194103846](./assets/image-20260207194103846-2889183.png)
 
 En la API Funcional, definimos primero los "tensores de entrada" y luego los hacemos fluir a través de las capas. Como puede observarse, se crea un **tronco común** que extrae características generales y luego *ramas específicas* para cada tarea.
 

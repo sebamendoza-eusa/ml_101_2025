@@ -501,6 +501,7 @@ La idea central del aprendizaje off-policy es **desacoplar la política de compo
 El reto es que los episodios observados provienen de las decisiones tomadas por $\mu$, no por $\pi$. Esto introduce un sesgo potencial, ya que las secuencias de estados y acciones no siguen la distribución de probabilidad inducida por la política $\pi$ que se quiere evaluar. Para **corregir este sesgo**, se emplea una técnica estadística conocida como **importance sampling**.
 
 El *importance sampling* permite reponderar cada episodio observado con un **factor de corrección** que mide cuánto se desvían las decisiones tomadas por $\mu$ respecto a lo que habría hecho $\pi$. Para cada trayectoria $\tau = (s_0, a_0, s_1, a_1, \dots, s_T)$ se calcula el **peso de importancia**:
+
 $$
 \rho(\tau) = \prod_{t=0}^{T-1} \frac{\pi(a_t \mid s_t)}{\mu(a_t \mid s_t)}
 $$
@@ -513,7 +514,7 @@ $$
 V^\pi(s) = \frac{\sum_{\tau \in \mathcal{E}} \rho(\tau) \cdot G_t(\tau)}{\sum_{\tau \in \mathcal{E}} \rho(\tau)}
 $$
 
-donde $\mathcal{E}_s$ es el conjunto de episodios en los que se visitó el estado $s$ por primera vez. De forma análoga, puede calcularse $q_\pi(s, a)$ ponderando solo aquellos episodios donde se observó el par $(s, a)$.
+donde $E_s$ es el conjunto de episodios en los que se visitó el estado $s$ por primera vez. De forma análoga, puede calcularse $q_\pi(s, a)$ ponderando solo aquellos episodios donde se observó el par $(s, a)$.
 
 Este enfoque es estadísticamente consistente: si se observa un número suficiente de episodios generados por $\mu$ y se aplican correctamente los pesos, las estimaciones convergen a los valores reales de la política $\pi$. Sin embargo, la principal dificultad es la **alta varianza** que puede producirse. Si $\pi$ y $\mu$ son muy distintas, los pesos de importancia pueden volverse inestables y generar estimaciones poco fiables. Este problema es especialmente agudo en secuencias largas, donde el producto de muchos cocientes puede crecer o decrecer exponencialmente.
 

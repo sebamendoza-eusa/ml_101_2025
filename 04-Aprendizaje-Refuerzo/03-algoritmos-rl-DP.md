@@ -491,7 +491,7 @@ $$
 v^{(4)}(0) = 13.2208,\quad v^{(4)}(2) = 18.6801
 $$
 
-La convergencia se alcanza rápidamente. Los valores finales son aproximadamente $v^*(0) \approx 13.3$, $v^*(2) \approx 18.68$.
+La convergencia se alcanza rápidamente. Los valores finales son aproximadamente $v^{*}(0) \approx 13.3$, $v^{*}(2) \approx 18.68$.
 
 La política óptima resultante es: en estado 0, **saltar** (13.3 frente a -5.8); en estado 2, **avanzar** (18.68 frente a -0.84). La estocasticidad suele reducir ligeramente, con respecto a una situacion puramente determinista,  el valor esperado de saltar desde 0 debido al 10% de caer en el agujero, si bien la estrategia óptima no cambia.
 

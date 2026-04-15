@@ -55,14 +55,17 @@ G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = \sum_{k=0}^{\infty} 
 $$
 
 En problemas episódicos, donde la interacción termina en un paso $T$, la suma es finita y los términos más allá de $T$ se consideran nulos. Una propiedad fundamental del retorno es que satisface una relación recursiva inmediata: 
+
 $$
 G_t = r_{t+1} + \gamma G_{t+1}
 $$
+
 con $G_T = 0$ si $T$ es el estado terminal. Esta recursión permite calcular todos los retornos de un episodio recorriéndolo desde el final hacia el principio, una vez que se conocen todas las recompensas.
 
 En los métodos Monte Carlo esta predicción se realiza **únicamente a partir de la experiencia**, sin necesidad de conocer el modelo del entorno ni resolver sistemas de ecuaciones. La idea clave consiste en ejecutar múltiples **episodios completos**, registrar las recompensas obtenidas a lo largo de cada trayectoria, y calcular el retorno total desde cada estado visitado aplicando la recursión anterior. 
 
 Cada vez que el agente visita un estado $s$ siguiendo la política $\pi$, se observa un valor concreto de $G_t$ que constituye una **realización muestral** de la variable aleatoria cuyo valor esperado es $v_\pi(s)$. Por la **ley de los grandes números**, el promedio de un número suficientemente grande de estas realizaciones converge a la esperanza matemática. De este modo, si se dispone de $N(s)$ retornos observados desde el estado $s$, la estimación de $v_\pi(s)$ se obtiene como:
+
 $$
 \hat{v}^\pi(s) = \frac{1}{N(s)} \sum_{i=1}^{N(s)} G^{(i)}(s)
 $$
@@ -163,6 +166,7 @@ Generamos **un único episodio** con la siguiente trayectoria (los números son 
 $$
 A \xrightarrow{r=0} A \xrightarrow{r=0} A \xrightarrow{r=5} B
 $$
+
 Es decir, el agente comienza en $A$, permanece dos veces en $A$ (obteniendo recompensa 0 en cada transición) y finalmente transita a $B$ con recompensa $+5$. El episodio termina al llegar a $B$.
 
 Observamos que el estado $A$ ha sido visitado **tres veces** dentro del mismo episodio: en los instantes $t=0$, $t=1$ y $t=2$ (asumiendo que el tiempo comienza en 0). Calculemos los retornos $G_t$ desde cada visita, teniendo en cuenta que después de la última visita ya no hay más recompensas.
@@ -178,12 +182,14 @@ Observamos que el estado $A$ ha sido visitado **tres veces** dentro del mismo ep
 
   **Every-visit Monte Carlo**: considera **todas** las visitas a $A$: $t=0$, $t=1$ y $t=2$. Las muestras son $\{5, 5, 5\}$. El promedio también es $5$.
 
-  En este caso, ambos métodos dan el mismo resultado porque los retornos desde todas las visitas coinciden. Para que la diferencia sea apreciable, necesitamos un episodio donde los retornos desde distintas visitas al mismo estado sean **diferentes**. Esto ocurre cuando el estado aparece en momentos tales que la cantidad de recompensa futura varía.
+En este caso, ambos métodos dan el mismo resultado porque los retornos desde todas las visitas coinciden. Para que la diferencia sea apreciable, necesitamos un episodio donde los retornos desde distintas visitas al mismo estado sean **diferentes**. Esto ocurre cuando el estado aparece en momentos tales que la cantidad de recompensa futura varía.
 
-  Vamos a considerar ahora una situación algo diferente a la anterior. Supongamos un episodio más largo:
+Vamos a considerar ahora una situación algo diferente a la anterior. Supongamos un episodio más largo:
+
 $$
 A \xrightarrow{r=1} A \xrightarrow{r=2} A \xrightarrow{r=3} B
 $$
+
 (es decir, tres transiciones desde $A$ con recompensas 1, 2 y 3, y luego termina en $B$). Las visitas a $A$ ocurren en $t=0$, $t=1$ y $t=2$ (antes de cada transición). Calculemos los retornos ($\gamma=1$):
 
 - Desde $t=0$: $G_0 = 1 + 2 + 3 = 6$

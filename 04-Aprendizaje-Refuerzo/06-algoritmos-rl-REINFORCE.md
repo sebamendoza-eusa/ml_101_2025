@@ -186,9 +186,9 @@ El denominador asegura que las probabilidades sumen $1$. Esta parametrización t
 
 - Es **diferenciable** respecto a $\theta$ (si $h$ lo es). El gradiente del logaritmo resulta:
 
-  $$
+$$
   \nabla_\theta \log \pi(a|s,\theta) = \nabla_\theta h(s,a,\theta) - \sum_{b} \pi(b|s,\theta) \nabla_\theta h(s,b,\theta),
-  $$
+$$
 
   que puede interpretarse como la diferencia entre el gradiente de la preferencia de la acción tomada y el gradiente medio ponderado de todas las preferencias.
 

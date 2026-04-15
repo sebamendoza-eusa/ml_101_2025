@@ -2,16 +2,6 @@
 
 ## Fundamentos del Aprendizaje por Refuerzo
 
-### Objetivos del módulo
-
-> - Comprender qué es el aprendizaje por refuerzo y cómo se diferencia del aprendizaje supervisado y no supervisado.
-> - Identificar los elementos clave de un problema de RL: agente, entorno, estados, acciones y recompensas.
-> - Analizar el ciclo de interacción agente-entorno y el problema exploración-explotación.
-> - Formalizar problemas de RL mediante **Procesos de Decisión de Markov (MDP)** y sus propiedades.
-> - Estudiar la ecuación de Bellman y su papel en la estimación de funciones de valor.
-
----
-
 ### **Introducción**
 
 Un niño que aprende a andar en bicicleta no sigue una lista de instrucciones detalladas, sino que prueba diferentes movimientos y estrategias. Cae, se levanta y ajusta su equilibrio con cada intento. Si gira demasiado rápido, puede caer; si pedalea con estabilidad, avanza sin problemas. Con el tiempo, su cerebro asocia ciertas acciones con mejores resultados y ajusta su comportamiento en consecuencia. Este proceso intuitivo de prueba, error y ajuste puede equiparse al funcionamiento del **aprendizaje por refuerzo (Reinforcement Learning, RL)**.
@@ -106,7 +96,7 @@ El aprendizaje por refuerzo se estructura como un ciclo continuo de interacción
    - Una recompensa $r_{t+1}$ que evalúa la acción.
    - El nuevo estado $s_{t+1}$ resultante de la transición.
 
-Este ciclo se repite a lo largo de múltiples pasos o episodios, permitiendo al agente **ajustar su política** en función de la experiencia acumulada. El objetivo final es aprender a elegir las acciones que **maximicen la suma total de recompensas** recibidas en el tiempo.
+   Este ciclo se repite a lo largo de múltiples pasos o episodios, permitiendo al agente **ajustar su política** en función de la experiencia acumulada. El objetivo final es aprender a elegir las acciones que **maximicen la suma total de recompensas** recibidas en el tiempo.
 
 > **Ejemplo**:
 > En un videojuego, el estado puede representar la situación del jugador en la pantalla, la acción es el movimiento realizado, y la recompensa puede depender de si se ha evitado un obstáculo o se ha alcanzado un objetivo. Tras cada acción, el entorno cambia (aparecen enemigos, se modifican obstáculos) y el agente, que en este caso es la pieza de software en sí, debe adaptarse a estos cambios para seguir avanzando.
@@ -261,7 +251,7 @@ Este modelo asume que el proceso satisface la **propiedad de Markov**, lo que ga
 > La clave de esta afirmación radica en la **propiedad de Markov**, que establece que **la probabilidad de transición hacia el siguiente estado depende únicamente del estado actual y de la acción ejecutada**, y no del historial completo del proceso. Formalmente, esta propiedad se expresa como:
 > 
 > $$
->\mathbb{P}(s{t+1} \mid s_t, a_t, s{t-1}, a{t-1}, \dots, s_0, a_0) = \mathbb{P}(s{t+1} \mid s_t, a_t)
+>\mathbb{P}(s_{t+1} \mid s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0) = \mathbb{P}(s_{t+1} \mid s_t, a_t)
 > $$
 > 
 > Esto significa que el entorno puede ser descrito completamente por una función de transición $\mathcal{P}(s' \mid s, a)$ sin necesidad de considerar el pasado. En este sentido estricto, **los MDP son modelos sin memoria explícita**: no acumulan ni utilizan el historial de transiciones en su dinámica probabilística.
@@ -321,8 +311,6 @@ Vamos ahora con la representamos de la función $\mathcal{P}(s' \mid s, a)$ como
 
 > **Nota**: en este ejemplo se asume que los estados $s_0$ y $s_2$ son **absorbentes**: cualquier acción tomada desde ellos lleva al mismo estado sin cambio y sin recompensa.
 
----
-
 Retomemos el entorno del ejemplo anterior, pero esta vez introduciendo un **componente de incertidumbre** en las transiciones. Esto nos permitirá ilustrar cómo el formalismo de los MDP permite modelar dinámicas probabilísticas, reflejando entornos donde el resultado de una acción no está completamente determinado.
 
 Como antes, el entorno consiste en un **tablero unidimensional de tres casillas**:
@@ -354,8 +342,6 @@ El entorno podrá formalizarse a través de los siguientes elementos:
 - $\mathcal{P}(s' \mid s, a) \in [0, 1]$
 - $\mathcal{R}(s, a) = \mathbb{E}[r_{t+1} \mid s_t = s, a_t = a]$
 
-------
-
 A continuación presentamos la función de transición $\mathcal{P}(s' \mid s, a)$ y la recompensa $\mathcal{R}(s, a)$ en formato tabular.
 
 | Estado actual $s$ | Acción $a$ | Estado siguiente $s'$ | $\mathcal{P}(s' \mid s, a)$ | Recompensa $\mathcal{R}(s, a)$ |
@@ -374,8 +360,6 @@ A continuación presentamos la función de transición $\mathcal{P}(s' \mid s, a
 > [!note]
 >
 > En las situaciones reales siempre tendremos un componente de aleatoriedad que corresponde a aquellos elementos que no se pueden controlar en cada transición entre estados
-
-------
 
 ### Formalización de un proceso de Markov (II): El tablero bidimensional
 
@@ -486,7 +470,7 @@ Por esto es por lo que la **dimensionalidad** y la **naturaleza (discreta o cont
 
 ##### Función de transición y recompensas
 
-La **función de transición** $\mathcal{P}(s' \mid s, a)$ define la dinámica del entorno. Especifica la **probabilidad de alcanzar un estado $s'$ cuando el agente ejecuta la acción $a$ desde el estado $s$**. Junto con la función de recompensa, esta es la componente estocástica más importante de un proceso de decisión de Markov.
+La **función de transición** $p(s' \mid s, a)$ define la dinámica del entorno. Especifica la **probabilidad de alcanzar un estado $s'$ cuando el agente ejecuta la acción $a$ desde el estado $s$**. Junto con la función de recompensa, esta es la componente estocástica más importante de un proceso de decisión de Markov.
 
 En nuestro entorno, la función de transición captura tres aspectos fundamentales:
 
@@ -622,446 +606,3 @@ Esta expresión cuantifica la **utilidad total** de un episodio desde el paso $t
 Este retorno es el objeto central de maximización en los problemas de aprendizaje por refuerzo. A lo largo del episodio, el agente busca tomar decisiones que conduzcan a trayectorias con el mayor retorno acumulado posible. La elección de acciones y el diseño de estrategias se orientarán, por tanto, a influir en el valor de $G_t$.
 
 En la siguiente sección abordaremos cómo este concepto de retorno se conecta con la definición formal de estrategias de decisión y funciones de valor asociadas, que permiten modelar y optimizar el comportamiento del agente en entornos inciertos y dinámicos.
-
-### El agente en el entorno: objetivo y formalización del problema
-
-En los procesos de decisión de Markov, el agente es la entidad que **interactúa activamente con el entorno** a lo largo del tiempo, eligiendo acciones en función del estado en que se encuentra. A cada paso temporal $t$, el agente observa el estado actual $s_t$, selecciona una acción $a_t$ del conjunto de acciones disponibles $\mathcal{A}$, y como resultado recibe una recompensa $r_{t+1}$ y transita al nuevo estado $s_{t+1}$.
-
-Esta interacción da lugar a una secuencia temporal de la forma:
-
-$$
-s_0, a_0, r_1, s_1, a_1, r_2, s_2, \dots
-$$
-
-El entorno está formalizado como un **Proceso de Decisión de Markov (MDP)**, que recordamos se define como una 5-tupla:
-
-$$
-\mathcal{M} = (\mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma)
-$$
-
-donde:
-- $\mathcal{S}$ es el conjunto de estados.
-- $\mathcal{A}$ es el conjunto de acciones.
-- $\mathcal{P}(s' \mid s, a)$ es la función de transición: determina la probabilidad de llegar al estado $s'$ al ejecutar la acción $a$ en el estado $s$.
-- $\mathcal{R}(s, a)$ es la función de recompensa esperada.
-- $\gamma$ es el factor de descuento.
-
-En este contexto, el comportamiento del entorno puede ser **determinista o estocástico**, pero en la mayoría de aplicaciones reales se asume la existencia de **incertidumbre** en la transición de estados. Es decir, al ejecutar una misma acción en un mismo estado, el resultado no siempre es el mismo: puede variar según una distribución de probabilidad. Este componente estocástico, representado por $\mathcal{P}$, es esencial para modelar fenómenos como ruido, aleatoriedad ambiental o imprecisión en la ejecución.
-
-El papel del agente es **elegir acciones** que le permitan alcanzar un objetivo. Pero este objetivo no se expresa como un estado concreto a alcanzar, sino como la **maximización del retorno acumulado de recompensas a lo largo del tiempo**. En este sentido, el agente actúa en un entorno incierto con el propósito de obtener, en promedio, la mayor utilidad posible.
-
-Formalmente, el **objetivo del agente** es maximizar el **retorno total esperado**, que como ya se ha definido, es:
-
-$$
-G_t = \sum_{k=0}^{\infty} \gamma^k \, r_{t+k+1}
-$$
-
-Esta expresión incorpora la recompensa inmediata y todas las futuras, ponderadas por el factor de descuento $\gamma$. El agente debe entonces tomar decisiones que influyan en la secuencia de estados y recompensas, de forma que la suma total $G_t$ sea máxima **en expectativa**.
-
-Por esto es por lo que el problema de decisión se convierte en una cuestión de planificación bajo incertidumbre: dado que el entorno es estocástico, el agente no puede garantizar un resultado único, pero sí puede influir en la distribución de trayectorias para que, en promedio, se obtenga el mayor retorno posible. 
-
-Así, una vez que se entiende que el agente busca maximizar el retorno acumulado esperado en un entorno incierto, surge la necesidad de describir formalmente cómo toma decisiones. Esta interacción entre el agente y el entorno se estructura en torno a tres elementos fundamentales, que permiten modelar, evaluar y optimizar su comportamiento:
-
-- **La política**: es la estrategia de decisión del agente. Describe qué acción tomar en cada estado, pudiendo ser determinista o estocástica. Es el objeto que define el comportamiento del agente y será el núcleo de los algoritmos de aprendizaje.
-
-- **La función estado-valor**: asigna a cada estado $s$ el valor esperado del retorno si el agente comienza en $s$ y sigue su política desde ese punto. Esta función permite evaluar **cuán deseable es estar en un determinado estado**, considerando lo que puede esperarse a futuro.
-
-- **La función acción-valor**: extiende la anterior al par estado-acción $(s, a)$, cuantificando la utilidad esperada de realizar la acción $a$ en el estado $s$, y seguir luego la política del agente. Esta función permite **comparar directamente distintas decisiones** posibles en un mismo estado.
-
-Estos tres componentes —la política, la función de valor y la función de acción-valor— constituyen la base operativa del aprendizaje por refuerzo. Son las herramientas que el agente utiliza para razonar sobre el entorno, predecir consecuencias y mejorar su comportamiento a través de la experiencia o del cálculo.
-
-En las siguientes secciones abordaremos cada uno de ellos con detalle, comenzando por la **definición formal de la política** y su papel en la toma de decisiones.
-
-#### La política ($\pi$): Cómo actua el agente
-
-Una vez que hemos entendido que el agente busca maximizar el retorno acumulado en un entorno incierto, necesitamos responder a la siguiente pregunta fundamental: **¿cómo decide el agente qué acción tomar en cada momento?**. La respuesta a esta pregunta se formaliza mediante el concepto de **política**.
-
-Podemos pensar en la política como el **comportamiento planificado del agente**: una regla que le indica qué hacer en cada estado en que se encuentre. Dado que el agente no controla directamente las transiciones del entorno (son estocásticas), su única herramienta de decisión es elegir las acciones con criterio. La política es, en este sentido, **la estrategia de actuación que define la interacción del agente con el entorno**.
-
-La política se denota como $\pi$, y puede representarse de dos formas, según el tipo de decisión que describa:
-
-- En su forma más general, $\pi(a \mid s)$ es una **función de probabilidad** que indica la **probabilidad de ejecutar la acción $a$ estando en el estado $s$**. Este tipo de política se denomina **estocástica**.
-
-- En el caso más sencillo, $\pi(s)$ es una **función determinista** que asigna a cada estado una única acción. Es decir, el agente tiene una regla fija del tipo “si estoy en el estado $s$, siempre hago la acción $a$”.
-
-Ambas formas son válidas. De hecho, incluso cuando el entorno es determinista, puede ser útil definir políticas estocásticas, por ejemplo para introducir aleatoriedad controlada en la exploración o para facilitar el análisis teórico.
-
-Podemos imaginar que el agente lleva consigo un pequeño “manual de instrucciones” —su política— donde, al llegar a un estado $s$, consulta qué acción le conviene ejecutar. Este manual puede contener reglas precisas (deterministas) o recomendaciones con distintos niveles de confianza (estocásticas). A lo largo del aprendizaje, el agente ajusta este manual con el objetivo de obtener mejores resultados en el futuro.
-
-En muchos entornos simples y completamente observables, una política determinista puede ser suficiente e incluso óptima. Sin embargo, en situaciones donde hay **incertidumbre en las transiciones**, **recompensas variables** o **información parcial**, las políticas estocásticas permiten una toma de decisiones más flexible. También son necesarias en métodos que utilizan muestreo (como Monte Carlo o métodos de gradiente de política), donde se necesita explorar distintas trayectorias.
-
-Una vez definida la política $\pi$, podemos calcular el **retorno esperado** de seguir dicha política desde un estado dado. Esto nos permitirá evaluar si la política actual es buena o necesita ser mejorada. En las próximas secciones introduciremos precisamente estas herramientas: las **funciones de valor**, que cuantifican el rendimiento esperado de una política y permiten compararlas entre sí.
-
-Por esto es por lo que la política no solo es el medio por el cual el agente actúa, sino también el objeto central del aprendizaje: todo el objetivo del aprendizaje por refuerzo consiste, en última instancia, en **encontrar una política que maximice el retorno esperado**.
-
-#### **La función estado-valor: evaluar la calidad de un estado**
-
-Una vez que el agente ha definido una política $\pi$, es natural preguntarse **cuán buena es esa política** y si conviene mantenerla o modificarla. Para responder a esta cuestión necesitamos herramientas que permitan evaluar su rendimiento. Una de ellas, y posiblemente la más importante, es la **función estado-valor**, también conocida como **función de valor**.
-
-Esta función, denotada como $V^\pi(s)$, asigna a cada estado $s$ el **valor esperado del retorno total** que obtendría el agente **si comenzara en ese estado y siguiera la política $\pi$ en adelante**. Es decir, mide **cuán valioso es estar en un determinado estado**, suponiendo que a partir de ahí el agente se comporta conforme a su política.
-
-Recordemos el anterior ejemplo del tablero bidimensional 4x4 y supongamos que el agente se encuentra en la casilla $s_8$, en la tercera fila de nuestro tablero, y sigue una política $\pi$ que intenta llegar a la casilla meta $s_{15}$. Podemos tratar de representar el **valor esperado de las recompensas acumuladas** que el agente obtendrá si empieza desde $s_8$ y aplica esa política hasta llegar a un estado terminal.
-
-Si la política está bien diseñada, y consigue alcanzar el estado $s_{15}$ en unos 5 pasos con cierta probabilidad, entonces este valor será cercano al valor de la recompensa de la meta, ponderado por el descuento temporal. Si, por el contrario, la política es ineficaz y el agente termina muchas veces en estados absorbentes sin recompensa, entonces el valor esperado será bajo o incluso nulo.
-
-Realmente vemos como este valor no refleja una certeza, sino una **esperanza matemática**, calculada como promedio sobre todas las trayectorias posibles inducidas por la política $\pi$ y por la dinámica estocástica del entorno.
-
-Formalmente, la función estado-valor bajo una política $\pi$ se define como:
-
-$$
-V^\pi(s) = \mathbb{E}(\pi) \left[ G_t | s_t = s \right] = \mathbb{E}(\pi) \left[ \sum_{k} \gamma^k \, r_{t+k+1} | s_t = s \right]
-$$
-
-Es decir, es el **valor esperado** del **retorno descontado**, condicionado a que el agente comienza en el estado $s$ y sigue la política $\pi$ a partir de ese instante.
-
-Veamos con más detalle cada uno de los elementos presentes en la fórmula de $V^\pi(s)$:
-
-- **$\mathbb{E}_\pi[\cdot]$**: denota una **esperanza matemática** (valor esperado) tomada sobre todas las posibles trayectorias que el agente puede seguir, suponiendo que actúa según la política $\pi$. La esperanza se calcula considerando la estocasticidad del entorno y de la propia política, si esta es probabilística.
-- **$s_t = s$**: indica que el agente comienza en el estado $s$ en el instante $t$.
-- **$\sum_{k=0}^\infty \gamma^k , r_{t+k+1}$**: es la **definición del retorno total** desde el paso $t$ en adelante. Suma todas las recompensas futuras, cada una multiplicada por un factor $\gamma^k$ que penaliza las recompensas lejanas. Este descuento refleja la preferencia por obtener recompensas lo antes posible.
-- **$\gamma \in [0,1)$**: es el **factor de descuento**. Si $\gamma$ es cercano a 1, el agente se comporta de forma más “paciente”, valorando también recompensas futuras. Si $\gamma$ es bajo, se comporta de forma más miope, dando preferencia a resultados inmediatos.
-- **$r_{t+k+1}$**: representa la **recompensa recibida** al pasar del estado $s_{t+k}$ al estado $s_{t+k+1}$ tras ejecutar la acción correspondiente.
-
-La función $V^\pi(s)$ cumple un papel crucial: **permite comparar estados entre sí** en términos de su valor futuro. Un estado con un valor alto bajo una política dada es preferible, ya que iniciar desde él conduce a un mayor retorno esperado. Esta función puede ser usada tanto para evaluar la calidad de una política como para guiar la mejora del comportamiento del agente.
-
-En las próximas secciones veremos cómo esta función se relaciona con otra componente clave como es la **función acción-valor**.
-
-#### **La función acción-valor: evaluar decisiones concretas**
-
-Mientras que la función estado-valor $V^\pi(s)$ nos permite valorar **cuán bueno es estar en un estado** si se sigue una política determinada, a menudo nos interesa ir un paso más allá: **¿qué pasa si el agente se plantea ejecutar una acción concreta en ese estado?**. La respuesta a esta pregunta es lo que proporciona la **función acción-valor**, también conocida como función $Q$.
-
-Esta función permite al agente **comparar distintas decisiones posibles** en un mismo estado antes de ejecutarlas. No se limita a decir “este estado es bueno”, sino que responde a “si en este estado tomo esta acción, ¿qué resultado puedo esperar?”.
-
-Podemos pensar en ella como una especie de “evaluador interno” que estima el impacto futuro de cada acción en cada situación. Este conocimiento es clave cuando el agente necesita elegir entre varias alternativas disponibles, especialmente si la política aún no es definitiva.
-
-Supongamos que el agente se encuentra en la casilla $s_{13}$ del tablero 4×4, justo al lado de la casilla $s_{14}$, que a su vez está adyacente al estado objetivo $s_{15}$. El agente podría tener dos acciones disponibles: moverse a la derecha ($a_2$, que lo lleva a $s_{14}$) o hacia arriba ($a_3$, que lo lleva a $s_9$). La función $Q^\pi(s_{13}, a_2)$ estima el valor esperado de tomar la acción $a_2$ en el estado $s_{13}$, y luego continuar actuando según la política $\pi$ desde $s_{14}$ en adelante. Si este valor es alto, podría indicar que ese camino conduce con buena probabilidad hacia el objetivo. Por el contrario, si $Q^\pi(s_{13}, a_3)$ es bajo, entonces moverse hacia arriba puede alejar al agente de la meta, o incluso acercarlo a estados absorbentes que cancelen el episodio.
-
-Así, mientras $V^\pi(s_{13})$ resume el valor esperado de estar en $s_{13}$ en general, $Q^\pi(s_{13}, a)$ descompone ese valor en función de las distintas **acciones iniciales** disponibles. Esto da al agente un instrumento más fino para **decidir con criterio cuál es la mejor acción en cada situación**.
-
-Cuando el agente dispone de la función $Q^\pi(s, a)$, no necesita conocer $V^\pi(s)$ para actuar: puede elegir directamente la acción con mayor valor esperado entre todas las disponibles en $s$. De hecho, esta función será fundamental cuando tratemos de aprender no solo la política, sino la propia función de valor a partir de la experiencia.
-
-La definición formal de la función acción-valor bajo una política $\pi$ es la siguiente:
-
-$$
-Q^\pi(s, a) = \mathbb{E}(\pi) \left[ \sum_{k=0}^\infty \gamma^k , r_{t+k+1} | s_t = s, a_t = a \right]
-$$
-
-Esta expresión cuantifica el **retorno esperado descontado** que el agente obtendrá si se encuentra en el estado $s$, ejecuta la acción $a$ en ese instante y luego sigue la política $\pi$ a partir de $t+1$.
-
-Analicemos sus componentes con atención. El estado inicial es $s_t = s$, pero a diferencia de la función $V$, aquí se fija también la acción inicial $a_t = a$. Es decir, se asume que el agente **elige explícitamente** la acción $a$ en ese estado. A partir de ahí, el resto del comportamiento se determina por la política $\pi$, y la esperanza se calcula como el promedio sobre todas las trayectorias posibles inducidas por esta.
-
-El término $\sum_{k=0}^{\infty} \gamma^k \, r_{t+k+1}$ sigue siendo el retorno acumulado, afectado por el factor de descuento $\gamma$, que penaliza las recompensas lejanas. La esperanza $\mathbb{E}_\pi[\cdot]$ tiene en cuenta tanto la estocasticidad de las transiciones del entorno como la posible aleatoriedad de la política a partir del segundo paso.
-
-Esta función será crucial no solo para evaluar políticas, sino también para **mejorarlas**, ya que permite al agente identificar qué acciones tienen mayor potencial en cada estado. En las próximas secciones exploraremos cómo estas funciones se relacionan entre sí y cómo se utilizan para construir algoritmos de planificación y aprendizaje.
-
-#### **De la interacción al razonamiento: hacia las ecuaciones de Bellman**
-
-A estas alturas, hemos formalizado todos los componentes clave que permiten representar cómo un agente interactúa con un entorno incierto en el marco de los MDP. El agente observa un estado $s_t$, elige una acción $a_t$, recibe una recompensa $r_{t+1}$ y transita a un nuevo estado $s_{t+1}$. Este ciclo se repite a lo largo del tiempo, generando una trayectoria.
-
-Para orientar su comportamiento, el agente sigue una política $\pi$, y evalúa su rendimiento en términos del retorno total esperado. Hemos introducido dos funciones fundamentales que permiten cuantificar este retorno:
-
-- La **función estado-valor** $V^\pi(s)$, que mide cuán buena es una posición inicial $s$ al seguir la política $\pi$.
-- La **función acción-valor** $Q^\pi(s, a)$, que estima el retorno esperado si se toma una acción concreta $a$ en el estado $s$ y luego se sigue la política.
-
-Estas funciones describen el rendimiento esperado de la política, pero **no son conocidas de antemano**. Para poder utilizarlas en algoritmos de planificación o mejora de políticas, necesitamos una manera de **calcularlas o aproximarlas**.
-
-Este es precisamente el objetivo de las **ecuaciones de Bellman**: establecer **relaciones recursivas** entre los valores de los estados y acciones, de forma que podamos descomponer el problema global de evaluación de una política en **subproblemas locales** que conectan los estados actuales con sus sucesores.
-
-##### **Punto de partida: la definición del valor esperado**
-
-Recordemos las expresiones que definen formalmente las funciones de valor:
-
-$$
-V^\pi(s) = \mathbb{E}(\pi) \left[ \sum_{k=0}^\infty \gamma^k , r_{t+k+1} | s_t = s \right]
-$$
-
-$$
-Q^\pi(s, a) = \mathbb{E}(\pi) \left[ \sum_{k=0}^\infty \gamma^k , r_{t+k+1} | s_t = s, a_t = a \right]
-$$
-
-Ambas funciones miden el **retorno futuro esperado**, pero lo hacen agregando todas las recompensas futuras en una suma infinita. Este tipo de definición no es práctica para el cálculo directo, ya que **depende de toda la trayectoria completa**.
-
-La idea de Bellman fue proponer un enfoque recursivo: dado que el retorno $G_t$ es una suma, podemos expresar la recompensa acumulada **como una recompensa inmediata más el retorno futuro**. Es decir, descomponer:
-
-$$
-G_t = r_{t+1} + \gamma \, G_{t+1}
-$$
-
-Esta simple identidad es la clave para construir una **relación de consistencia interna** para las funciones de valor. A partir de aquí, se derivan las **ecuaciones de Bellman**, que permiten calcular el valor de un estado en función de sus estados sucesores.
-
-##### **Primera ecuación de Bellman: función estado-valor**
-
-La **ecuación de Bellman para $V^\pi(s)$** nos dice que el valor de un estado bajo una política $\pi$ es igual al **valor esperado de la recompensa inmediata más el valor descontado del siguiente estado**, considerando que el agente sigue la política $\pi$. Se expresa así:
-
-$$
-V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a \mid s) \sum_{s' \in \mathcal{S}} \mathcal{P}(s' \mid s, a) \left[ \mathcal{R}(s, a) + \gamma V^\pi(s') \right]
-$$
-
-Comentemos cada componente con atención:
-
-- $\pi(a \mid s)$: es la probabilidad de ejecutar la acción $a$ en el estado $s$ según la política.
-- $\mathcal{P}(s' \mid s, a)$: es la probabilidad de transicionar al estado $s'$ al ejecutar la acción $a$ en $s$.
-- $\mathcal{R}(s, a)$: es la recompensa esperada al realizar la acción $a$ en $s$.
-- $\gamma V^\pi(s')$: es el valor del siguiente estado, descontado por el factor temporal $\gamma$.
-
-Esta ecuación es un promedio ponderado: primero por la política del agente (qué acciones ejecuta) y luego por la estocasticidad del entorno (qué estados se alcanzan). La ecuación de Bellman **expresa el valor de un estado como una combinación de valores de sus estados sucesores**, lo que permite construir algoritmos iterativos para resolverla.
-
-##### **Segunda ecuación de Bellman: función acción-valor**
-
-Análogamente, la **ecuación de Bellman para $Q^\pi(s, a)$** descompone el valor esperado de tomar la acción $a$ en el estado $s$ como:
-
-$$
-Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} \mathcal{P}(s' \mid s, a) \left[ \mathcal{R}(s, a) + \gamma \sum_{a' \in \mathcal{A}} \pi(a' \mid s') Q^\pi(s', a') \right]
-$$
-
-Aquí también encontramos los tres elementos clave:
-
-- La **recompensa inmediata** $\mathcal{R}(s, a)$.
-- La **transición estocástica** al siguiente estado $s'$.
-- El **valor esperado de las acciones futuras**, ponderado por la política en el nuevo estado.
-
-En este caso, el agente ya ha ejecutado la acción $a$ en el estado $s$, y a partir de $s'$ continúa siguiendo su política $\pi$. El valor de $Q^\pi(s, a)$ se construye como una combinación de las decisiones futuras posibles desde $s'$, teniendo en cuenta el comportamiento inducido por la política.
-
-Estas ecuaciones constituyen el **núcleo computacional del aprendizaje por refuerzo**. Son las herramientas que permiten:
-
-- Evaluar una política **sin necesidad de simular episodios completos.**
-- Propagar información desde los estados sucesores hacia los anteriores.
-- Construir algoritmos como **iteración de valores**, **mejora de políticas** o **aprendizaje Q**, que resolveremos en próximos módulos.
-
-Pero, sobre todo, las ecuaciones de Bellman revelan una idea central: **el valor de un estado o acción no se define de forma aislada, sino en función de los estados futuros que se pueden alcanzar desde él**. Esta conexión entre presente y futuro es lo que hace del aprendizaje por refuerzo una disciplina secuencial y predictiva.
-
-#### **Aplicación de las ecuaciones de Bellman al tablero bidimensional 4×4**
-
-Recordemos de nuevo que en el ejemplo del tablero bidimensional nuestro agente se desplazaba sobre un tablero de 16 casillas numeradas de $s_0$ a $s_{15}$. Las acciones posibles eran:
-
-- $a_0$: izquierda  
-- $a_1$: abajo  
-- $a_2$: derecha  
-- $a_3$: arriba
-
-Se supuso un entorno es estocástico: cada acción tenía un 33% de probabilidad de ejecutars de modo natural, y el resto de la probabilidad (67%) se repartía entre las direcciones ortogonales (izquierda/derecha y arriba/abajo según corresponda). Las recompensas se establecieron en 1 al alcanzar la meta ($s_{15}$), 0 en el resto de los casos, y los estados $s_5$, $s_7$, $s_{11}$, $s_{12}$ y $s_{15}$ se etiquetaron como absorbentes.
-
-Supongamos ahora que queremos calcular el valor del estado $s_{14}$ bajo una política $\pi$ que elige **uniformemente entre todas las acciones disponibles**, es decir:
-
-$$
-\pi(a \mid s) = \frac{1}{4}, \quad \text{para todo } a \in \{a_0, a_1, a_2, a_3\}
-$$
-
-Y tomamos $\gamma = 1$ para simplificar la interpretación del resultado.
-
-La idea entonces es aplicar las ecuaciones de Bellman. La primera nos dice que:
-
-$$
-V^\pi(s_{14}) = \sum_{a \in \mathcal{A}} \pi(a \mid s_{14}) \sum_{s'} \mathcal{P}(s' \mid s_{14}, a) \left[ \mathcal{R}(s_{14}, a) + \gamma V^\pi(s') \right]
-$$
-
-Como $\pi(a \mid s_{14}) = \frac{1}{4}$ para cada acción, y $\gamma = 1$, la expresión se convierte en:
-
-$$
-V^\pi(s_{14}) = \frac{1}{4} \sum_{a \in \mathcal{A}} \sum_{s'} \mathcal{P}(s' \mid s_{14}, a) \left[ \mathcal{R}(s_{14}, a) + V^\pi(s') \right]
-$$
-
-Vamos a descomponer esta expresión para cada acción. Elegimos, por ejemplo, la **acción $a_2$ (derecha)**: 
-Desde $s_{14}$, moverse a la derecha puede llevar a $s_{15}$ (meta), $s_{10}$ (arriba, ortogonal) o $s_{14}$ (abajo, ortogonal). Suponiendo transiciones equiprobables:
-
-- $\mathcal{P}(s_{15} \mid s_{14}, a_2) = 0{,}33$, $\mathcal{R}(s_{14}, a_2) = 1$  
-- $\mathcal{P}(s_{10} \mid s_{14}, a_2) = 0{,}33$, $\mathcal{R} = 0$  
-- $\mathcal{P}(s_{14} \mid s_{14}, a_2) = 0{,}33$, $\mathcal{R} = 0$
-
-Entonces:
-
-$$
-\sum_{s'} \mathcal{P}(s' \mid s_{14}, a_2) \left[ \mathcal{R}(s_{14}, a_2) + V^\pi(s') \right] = 0{,}33(1 + V^\pi(s_{15})) + 0{,}33(V^\pi(s_{10})) + 0{,}33(V^\pi(s_{14}))
-$$
-
-Este procedimiento se repite para las otras tres acciones ($a_0$, $a_1$, $a_3$). En cada caso se sustituye $\mathcal{R}(s_{14}, a)$ y $V^\pi(s')$ según las transiciones posibles desde $s_{14}$ y el modelo estocástico.
-
-Finalmente, sumando los resultados para todas las acciones, se obtiene una expresión completa para $V^\pi(s_{14})$ que puede resolverse iterativamente o por métodos matriciales si se conocen los valores de $V^\pi(s')$ para los estados sucesores.
-
-Hasta aquí el cálculo de $V^\pi(s_{14})$. Veamos ahora cómo calcular directamente $Q^\pi(s_{14}, a_2)$ usando su propia ecuación de Bellman:
-
-$$
-Q^\pi(s_{14}, a_2) = \sum_{s'} \mathcal{P}(s' \mid s_{14}, a_2) \left[ \mathcal{R}(s_{14}, a_2) + \sum_{a'} \pi(a' \mid s') Q^\pi(s', a') \right]
-$$
-
-Esto significa que para cada posible estado siguiente $s'$ tras ejecutar $a_2$ en $s_{14}$, evaluamos:
-
-1. La recompensa inmediata obtenida: $\mathcal{R}(s_{14}, a_2)$  
-2. El valor futuro desde $s'$ según la política, expresado como el promedio de $Q^\pi(s', a')$ para todas las acciones $a'$ disponibles en $s'$
-
-Por ejemplo, si $s' = s_{15}$ es un estado terminal, entonces $Q^\pi(s_{15}, a') = 0$ para toda $a'$, y la contribución a $Q^\pi(s_{14}, a_2)$ sería solo la recompensa inmediata.
-
-A continuación se presenta una **tabla de ejemplo numérica** para ilustrar el cálculo de la **ecuación de Bellman para $V^\pi(s_{14})$**, utilizando valores ficticios pero consistentes con el entorno que hemos definido (tablero 4×4, transiciones estocásticas, política uniforme, $\gamma = 1$). El objeto de esta tabla es fundamentalmente **ver cómo se estructura el cálculo paso a paso**, desglosando cada acción y cada transición posible.
-
-**Hipótesis**:
-
-- Política uniforme: $\pi(a \mid s) = 0{,}25$ para todo $a \in \mathcal{A}$
-- Factor de descuento: $\gamma = 1$
-- Estados alcanzables desde $s_{14}$ (según las transiciones estocásticas por acción)
-- Recompensas definidas por $\mathcal{R}(s,a)$ (sólo positiva al transitar a $s_{15}$)
-- Valores aproximados (ficticios) conocidos: 
-  $V^\pi(s_{10}) = 0{,}2$, 
-  $V^\pi(s_{13}) = 0{,}3$, 
-  $V^\pi(s_{14})$ (se calcula), 
-  $V^\pi(s_{15}) = 0$ (absorbente), 
-  $\mathcal{R}(s_{14}, a_2) = 1$ (al transitar a $s_{15}$), 
-  $\mathcal{R} = 0$ en los demás casos.
-
-| Acción $a$     | Estados siguientes $s'$ | $\mathcal{P}(s' \mid s_{14}, a)$ | $\mathcal{R}(s_{14}, a)$ | $V^\pi(s')$ | Aporte al valor            |
-| -------------- | ----------------------- | -------------------------------- | ------------------------ | ----------- | -------------------------- |
-| $a_0$ (izq)    | $s_{13}$                | 0,33                             | 0                        | 0,3         | $0,33 \cdot 0,3$           |
-|                | $s_{10}$                | 0,33                             | 0                        | 0,2         | $0,33 \cdot 0,2$           |
-|                | $s_{14}$                | 0,33                             | 0                        | ?           | $0,33 \cdot V^\pi(s_{14})$ |
-| $a_1$ (abajo)  | $s_{14}$                | 0,33                             | 0                        | ?           | $0,33 \cdot V^\pi(s_{14})$ |
-|                | $s_{13}$                | 0,33                             | 0                        | 0,3         | $0,33 \cdot 0,3$           |
-|                | $s_{15}$                | 0,33                             | 1                        | 0           | $0,33 \cdot 1$             |
-| $a_2$ (der)    | $s_{15}$                | 0,33                             | 1                        | 0           | $0,33 \cdot 1$             |
-|                | $s_{10}$                | 0,33                             | 0                        | 0,2         | $0,33 \cdot 0,2$           |
-|                | $s_{14}$                | 0,33                             | 0                        | ?           | $0,33 \cdot V^\pi(s_{14})$ |
-| $a_3$ (arriba) | $s_{10}$                | 0,33                             | 0                        | 0,2         | $0,33 \cdot 0,2$           |
-|                | $s_{13}$                | 0,33                             | 0                        | 0,3         | $0,33 \cdot 0,3$           |
-|                | $s_{15}$                | 0,33                             | 1                        | 0           | $0,33 \cdot 1$             |
-
-Ahora sumamos todos los aportes y recordamos que hay que multiplicar por $0{,}25$ (peso de cada acción por política uniforme):
-
-- Aportes sin $V^\pi(s_{14})$:
-
-$$
-\text{Total fijo} = 0{,}25 \cdot \left[(0{,}33 \cdot 0{,}3 + 0{,}33 \cdot 0{,}2) + (0{,}33 \cdot 0{,}3 + 0{,}33 \cdot 1) + (0{,}33 \cdot 1 + 0{,}33 \cdot 0{,}2) + (0{,}33 \cdot 0{,}2 + 0{,}33 \cdot 0{,}3 + 0{,}33 \cdot 1) \right] = 0{,}25 \cdot (0{,}165 + 0{,}429 + 0{,}396 + 0{,}528) = 0{,}25 \cdot 1{,}518 = 0{,}3795
-$$
-
-- Aportes con $V^\pi(s_{14})$: 
-  Aparecen tres veces con peso $0{,}33$ cada una 
-  Total: $0{,}25 \cdot (3 \cdot 0{,}33 \cdot V^\pi(s_{14})) = 0{,}2475 \cdot V^\pi(s_{14})$
-
-Por tanto, la ecuación queda:
-
-$$
-V^\pi(s_{14}) = 0{,}3795 + 0{,}2475 \cdot V^\pi(s_{14})
-$$
-
-Resolviendo esta ecuación:
-
-$$
-V^\pi(s_{14}) \cdot (1 - 0{,}2475) = 0{,}3795 \quad \Rightarrow \quad V^\pi(s_{14}) = \frac{0{,}3795}{0{,}7525} \approx 0{,}504
-$$
-
-Este valor nos dice que, bajo la política uniforme, estar en $s_{14}$ tiene un retorno esperado de aproximadamente **0,504**, considerando el acceso cercano a la meta y la posibilidad de desviarse.
-
-Igualmente podemos, para este caso, calcular el valor de $Q^\pi(s_{14}, a_2)$
-
-$$
-Q^\pi(s_{14}, a_2) = \sum_{s'} \mathcal{P}(s' \mid s_{14}, a_2) \left[ \mathcal{R}(s_{14}, a_2) + \gamma \sum_{a'} \pi(a' \mid s') Q^\pi(s', a') \right]
-$$
-
-Recordemos que:
-
-- La política $\pi$ es uniforme: $\pi(a' \mid s') = \frac{1}{4}$ para todo $a'$  
-- El factor de descuento es $\gamma = 1$  
-- Desde $s_{14}$, ejecutar $a_2$ (derecha) puede llevar a:
-  - $s_{15}$ con probabilidad $0{,}33$ (acción deseada)
-  - $s_{10}$ con probabilidad $0{,}33$ (ortogonal arriba)
-  - $s_{14}$ con probabilidad $0{,}33$ (ortogonal abajo)
-
-Vamos a suponer los siguientes valores aproximados ya conocidos o estimados:
-
-- $Q^\pi(s_{10}, a') = 0{,}2$ para todo $a'$  
-- $Q^\pi(s_{14}, a') = 0{,}5$ para todo $a'$ (valor ya aproximado en el ejemplo anterior)  
-- $Q^\pi(s_{15}, a') = 0$ (estado absorbente)  
-- $\mathcal{R}(s_{14}, a_2) = 1$ si se transita a $s_{15}$, 0 en los demás casos
-
-Ahora desglosamos cada transición desde $s_{14}$ al ejecutar $a_2$:
-
-- Transición a $s_{15}$ (meta)
-
-  - Probabilidad: $0{,}33$
-
-  - Recompensa inmediata: $\mathcal{R} = 1$
-
-  - Estado absorbente: $Q^\pi(s_{15}, a') = 0$
-
-  La contribución sería
-
-$$
-0{,}33 \cdot (1 + 0) = 0{,}33
-$$
-
-- Transición a $s_{10}$
-
-  - Probabilidad: $0{,}33$
-
-  - Recompensa inmediata: $\mathcal{R} = 0$
-
-  - Valor esperado de acciones futuras:
-
-
-$$
-\sum_{a'} \pi(a' \mid s_{10}) Q^\pi(s_{10}, a') = \frac{1}{4} \cdot \sum Q^\pi(s_{10}, a') = \frac{1}{4} \cdot (4 \cdot 0{,}2) = 0{,}2
-$$
-
-​	La contribución seria:
-
-$$
-0{,}33 \cdot (0 + 0{,}2) = 0{,}066
-$$
-
-- Transición a $s_{14}$ (permanece)
-
-  - Probabilidad: $0{,}33$
-
-  - Recompensa inmediata: $\mathcal{R} = 0$
-
-  - Valor esperado de acciones futuras:
-
-
-$$
-\sum_{a'} \pi(a' \mid s_{14}) Q^\pi(s_{14}, a') = \frac{1}{4} \cdot \sum Q^\pi(s_{14}, a') = \frac{1}{4} \cdot (4 \cdot 0{,}5) = 0{,}5
-$$
-
-​	Y la contribución sería:
-
-$$
-0{,}33 \cdot (0 + 0{,}5) = 0{,}165
-$$
-
-Sumando todas las contribuciones tendríamos
-
-$$
-Q^\pi(s_{14}, a_2) = 0{,}33 + 0{,}066 + 0{,}165 = 0{,}561
-$$
-
-Este valor representa la **utilidad esperada** de ejecutar la acción $a_2$ (derecha) en $s_{14}$ bajo la política uniforme: una acción que, con cierta probabilidad, lleva directamente a la meta, pero que también puede mantener al agente en el mismo estado o desviarlo. El valor $0{,}561$ es consistente con la estimación previa de $V^\pi(s_{14}) \approx 0{,}504$, ya que:
-
-$$
-V^\pi(s_{14}) = \sum_{a \in \mathcal{A}} \pi(a \mid s_{14}) Q^\pi(s_{14}, a)
-$$
-
-y si $Q^\pi(s_{14}, a_2)$ es el más alto, eso eleva el promedio total.
-
-> [!note]
->
-> **¿Cómo utilizan las funciones de valor las políticas para mejorar?**
->
-> Hasta ahora hemos aprendido a calcular (o estimar) el valor de estar en un estado y el valor de tomar una acción en ese estado, suponiendo que el agente sigue una política $\pi$. Estas funciones resumen, de forma cuantitativa, **la calidad esperada del comportamiento del agente** bajo esa política.
->
-> Pero la verdadera potencia de las funciones de valor está en que **no solo permiten evaluar una política, sino también mejorarla**.
->
-> La idea fundamental es la siguiente: si el agente conoce (o ha estimado) los valores $Q^\pi(s, a)$ de todas las acciones posibles en un estado, entonces **puede comparar cuál de esas acciones ofrece la mayor recompensa esperada a largo plazo**. De esta forma, el agente puede modificar su comportamiento para favorecer las decisiones que tienen mejor expectativa.
->
-> Esto nos lleva a un principio esencial, que es **el principio de mejora de políticas**:  Si desde un estado $s$ existe una acción $a'$ tal que $Q^\pi(s, a') > V^\pi(s)$, entonces el agente puede obtener un mayor retorno si cambia su política para tomar $a'$ en ese estado.
->
-> En otras palabras, si la política actual $\pi$ no elige la mejor acción disponible según $Q^\pi(s, a)$, entonces existe margen de mejora.
->
-> Podemos imaginar este proceso como una especie de retroalimentación: el agente **evalúa su política actual** mediante las funciones de valor y, si encuentra una mejor opción en algún estado, **ajusta su política** para aprovechar esa información. Esto da lugar a un ciclo iterativo que veremos más adelante, y que es la base de muchos algoritmos de aprendizaje por refuerzo:
->
-> 1. **Evaluación de política**: calcular $V^\pi$ y/o $Q^\pi$ para la política actual.
-> 2. **Mejora de política**: modificar $\pi$ para tomar mejores decisiones basadas en esos valores.
-> 3. Repetir hasta convergencia.
->
-> Volviendo a nuestro ejemplo del tablero 4×4: si el agente aprende que tomar la acción $a_2$ (derecha) en $s_{14}$ tiene un valor $Q^\pi(s_{14}, a_2) = 0{,}561$ mientras que el promedio de las demás acciones es inferior, puede **redefinir su política** para tomar $a_2$ con más probabilidad (o de forma determinista) en ese estado. Esa nueva política tendrá un valor esperado más alto, y por tanto será **mejor** que la anterior.
->
-
-
-
-
-

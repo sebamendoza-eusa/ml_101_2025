@@ -659,6 +659,7 @@ En resumen, Q-learning proporciona al agente un mecanismo para aprender a actuar
 
 ##### **Ejemplo práctico de Q-learning**  
 Seguimos trabajando con el problema del agente saltarín. Ahora la idea es aplicar el algoritmo **Q‑learning** para el **control off‑policy** del agente. A diferencia de SARSA, Q‑learning actualiza los valores $Q(s,a)$ utilizando la **mejor acción posible** en el siguiente estado, independientemente de la acción que realmente se vaya a tomar. Esto permite aprender la política óptima mientras se sigue una política de comportamiento exploratoria (por ejemplo, $\epsilon$-greedy). La regla de actualización es entonces:
+
 $$
 Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \left[ r_{t+1} + \gamma \max_{a'} Q(s_{t+1}, a') - Q(s_t, a_t) \right],
 $$
@@ -736,6 +737,7 @@ Ahora la política $\epsilon$-greedy en estado $0$ prefiere saltar ($0.071 > 0$)
 **Actualización**:
 
 - $s=0$, $a=\text{saltar}$, $r=-10$, $s'=1$ (terminal). $\max_{a'} Q(1,a') = 0$.
+
 $$
   Q(0,\text{saltar}) \leftarrow 0.071 + 0.1 \bigl[ -10 + 0 - 0.071 \bigr] = 0.071 + 0.1 \cdot (-10.071) = 0.071 - 1.0071 = -0.9361
 $$

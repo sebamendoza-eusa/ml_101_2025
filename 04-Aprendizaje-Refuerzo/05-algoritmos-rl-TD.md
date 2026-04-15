@@ -228,23 +228,23 @@ Valores iniciales: $V(0)=0$, $V(2)=0$, $V(3)=0$.
 
 - **Paso 1** (transición de $0$ a $2$):
 
-  $$
+$$
   \delta = r + \gamma V(2) - V(0) = -1 + 0.9 \cdot 0 - 0 = -1
-  $$
+$$
   
-  $$
+$$
   V(0) \leftarrow 0 + 0.1 \cdot (-1) = -0.1
-  $$
+$$
 
 - **Paso 2** (transición de $2$ a $3$):
 
-  $$
+$$
   \delta = r + \gamma V(3) - V(2) = 19 + 0.9 \cdot 0 - 0 = 19
-  $$
+$$
   
-  $$
+$$
   V(2) \leftarrow 0 + 0.1 \cdot 19 = 1.9
-  $$
+$$
 
   Al final del episodio: $V(0) = -0.1$, $V(2) = 1.9$. Observamos que $V(0)$ ha bajado ligeramente (debido a la recompensa negativa del primer paso) y $V(2)$ ha subido notablemente al recibir la recompensa positiva de la meta.
 
@@ -259,13 +259,13 @@ Valores actuales antes del episodio: $V(0) = -0.1$, $V(2)=1.9$, $V(1)=0$.
 **Actualización** (único paso):
 - Transición de $0$ a $1$:
 
-  $$
+$$
   \delta = r + \gamma V(1) - V(0) = -10 + 0.9 \cdot 0 - (-0.1) = -10 + 0.1 = -9.9
-  $$
+$$
   
-  $$
+$$
   V(0) \leftarrow -0.1 + 0.1 \cdot (-9.9) = -0.1 - 0.99 = -1.09
-  $$
+$$
 
   Tras el episodio: $V(0) = -1.09$, $V(2)$ se mantiene en $1.9$. La mala experiencia ha hecho que la estimación de $V(0)$ baje considerablemente.
 
@@ -282,23 +282,23 @@ Valores antes del episodio: $V(0) = -1.09$, $V(2) = 1.9$, $V(\text{fuera})=0$.
 
 - **Paso 1** (transición de $0$ a $2$):
 
-  $$
+$$
   \delta = -1 + 0.9 \cdot V(2) - V(0) = -1 + 0.9 \cdot 1.9 - (-1.09) = -1 + 1.71 + 1.09 = 1.80
-  $$
+$$
   
-  $$
+$$
   V(0) \leftarrow -1.09 + 0.1 \cdot 1.80 = -1.09 + 0.18 = -0.91
-  $$
+$$
 
 - **Paso 2** (transición de $2$ a "fuera"):
 
-  $$
+$$
   \delta = -5 + 0.9 \cdot 0 - V(2) = -5 - 1.9 = -6.9
-  $$
+$$
   
-  $$
+$$
   V(2) \leftarrow 1.9 + 0.1 \cdot (-6.9) = 1.9 - 0.69 = 1.21
-  $$
+$$
 
   Resultados tras el episodio 3: $V(0) \approx -0.91$, $V(2) \approx 1.21$.
 
@@ -468,19 +468,19 @@ Registramos la secuencia de transiciones:
 
 - **Paso 2** (última transición): desde $t=1$, $s_1=2$, $a_1=\text{avanzar}$, $r=19$, $s_2=3$, $a_2$ no existe (estado terminal). En la práctica, para estados terminales se define $Q(s_{\text{terminal}}, \cdot)=0$, y la actualización se realiza sin el término $Q(s_{t+1},a_{t+1})$ (o se toma como $0$). La fórmula queda:
 
-  $$
+$$
   Q(2,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ 19 + 0.9 \cdot 0 - 0 \bigr] = 1.9
-  $$
+$$
 
 - **Paso 1** (primera transición): $s_0=0$, $a_0=\text{saltar}$, $r=-1$, $s_1=2$, $a_1=\text{avanzar}$ (ya conocido). Aplicamos:
 - 
-  $$
+$$
   \delta = r + \gamma Q(2,\text{avanzar}) - Q(0,\text{saltar}) = -1 + 0.9 \cdot 1.9 - 0 = -1 + 1.71 = 0.71
-  $$
+$$
   
-  $$
+$$
   Q(0,\text{saltar}) \leftarrow 0 + 0.1 \cdot 0.71 = 0.071
-  $$
+$$
 
 
 Tras el episodio 1, la tabla $Q$ es:
@@ -503,9 +503,9 @@ Ahora la política $\epsilon$-greedy se basa en estos valores. En el estado $0$,
 
 - $s_0=0$, $a_0=\text{saltar}$, $r=-10$, $s_1=1$ (terminal). No hay $a_1$.
 
-  $$
+$$
   Q(0,\text{saltar}) \leftarrow 0.071 + 0.1 \bigl[ -10 + 0.9 \cdot 0 - 0.071 \bigr] = 0.071 + 0.1 \cdot (-10.071) = 0.071 - 1.0071 = -0.9361
-  $$
+$$
 
 
 Tabla tras episodio 2:
@@ -527,9 +527,9 @@ Ahora en estado $0$, la acción greedy es avanzar (porque $Q(0,\text{avanzar})=0
 
 - $Q(0,\text{avanzar})$:
 
-  $$
+$$
   Q(0,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ -10 + 0 - 0 \bigr] = -1
-  $$
+$$
 
 
 Tabla tras episodio 3:
@@ -569,9 +569,9 @@ En estado $0$, la acción greedy es saltar ($-0,936 > -1$). Con probabilidad $1-
 
 - **Paso 2** (última transición): $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ (terminal). No hay $a'$ (se toma $Q(3,\cdot)=0$).
 
-  $$
+$$
   Q(2,\text{avanzar}) \leftarrow 1,9 + 0,1 \bigl[ 19 + 0,9 \cdot 0 - 1,9 \bigr] = 1,9 + 0,1 \cdot (19 - 1,9) = 1,9 + 0,1 \cdot 17,1 = 1,9 + 1,71 = 3,61
-  $$
+$$
 
 - **Paso 1** (primera transición): $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$, $a'=\text{avanzar}$ (la acción que se eligió en el siguiente estado).
 
@@ -703,19 +703,19 @@ A continuación, simulamos varios episodios.
 
 - **Paso 2** (última transición): $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ (terminal). Para estados terminales, $\max_{a'} Q(3,a') = 0$
 
-  $$
+$$
   Q(2,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ 19 + 0.9 \cdot 0 - 0 \bigr] = 1.9
-  $$
+$$
 
 - **Paso 1** (primera transición): $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$. Calculamos $\max_{a'} Q(2,a') = \max(1.9, 0) = 1.9$ (el valor que acabamos de actualizar, aunque en la práctica se usa el valor anterior si la actualización es secuencial; aquí asumimos que primero actualizamos el paso 2 y luego el paso 1, lo cual es válido porque en Q‑learning el orden no afecta a la convergencia).
 
-  $$
+$$
   \delta = -1 + 0.9 \cdot 1.9 - 0 = -1 + 1.71 = 0.71
-  $$
+$$
   
-  $$
+$$
   Q(0,\text{saltar}) \leftarrow 0 + 0.1 \cdot 0.71 = 0.071
-  $$
+$$
 
 
 Tabla tras episodio 1:
@@ -736,9 +736,9 @@ Ahora la política $\epsilon$-greedy en estado $0$ prefiere saltar ($0.071 > 0$)
 **Actualización**:
 
 - $s=0$, $a=\text{saltar}$, $r=-10$, $s'=1$ (terminal). $\max_{a'} Q(1,a') = 0$.
-  $$
+$$
   Q(0,\text{saltar}) \leftarrow 0.071 + 0.1 \bigl[ -10 + 0 - 0.071 \bigr] = 0.071 + 0.1 \cdot (-10.071) = 0.071 - 1.0071 = -0.9361
-  $$
+$$
 
 
 Tabla tras episodio 2:
@@ -761,9 +761,9 @@ En estado $0$, la política elige avanzar con probabilidad $0.8$. Supongamos que
 **Actualización**:
 - $s=0$, $a=\text{avanzar}$, $r=-10$, $s'=1$ terminal.
 
-  $$
+$$
   Q(0,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ -10 + 0 - 0 \bigr] = -1
-  $$
+$$
 
 
 Tabla tras episodio 3:
@@ -790,19 +790,19 @@ Supongamos una trayectoria más larga, donde la política elige saltar (greedy) 
 **Actualizaciones** (primero el último paso, luego el primero, usando siempre el máximo en el siguiente estado):
 
 - **Paso 2**: $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ terminal.
-  $$
+$$
   Q(2,\text{avanzar}) \leftarrow 1.9 + 0.1 \bigl[ 19 + 0 - 1.9 \bigr] = 1.9 + 0.1 \cdot 17.1 = 1.9 + 1.71 = 3.61
-  $$
+$$
 
 - **Paso 1**: $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$. Calculamos $\max_{a'} Q(2,a') = \max(3.61, 0) = 3.61$.
 
-  $$
+$$
   \delta = -1 + 0.9 \cdot 3.61 - (-0.936) = -1 + 3.249 + 0.936 = 3.185
-  $$
+$$
   
-  $$
+$$
   Q(0,\text{saltar}) \leftarrow -0.936 + 0.1 \cdot 3.185 = -0.936 + 0.3185 = -0.6175
-  $$
+$$
 
 
 Tabla tras episodio 4:

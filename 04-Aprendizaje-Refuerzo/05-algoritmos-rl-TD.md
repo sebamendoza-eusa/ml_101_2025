@@ -131,7 +131,7 @@ Para reflexionar…
 
 > **¿En qué se diferencia esta actualización de la de Monte Carlo, que usa el retorno completo $G_t$ en lugar de $r_{t+1} + \gamma V(s_{t+1})$?** 
 >
-> **Clave**: Monte Carlo espera a que termine el episodio y usa el retorno real $G_t$ (sin bootstrapping). TD(0) usa una estimación del futuro ($V(s_{t+1})$), lo que permite aprender antes pero introduce un posible sesgo si las estimaciones no son precisas.
+> **Clave**: Monte Carlo espera a que termine el episodio y usa el retorno real $G_t$ (sin bootstrapping). TD(0) usa una estimación del futuro, $V(s_{t+1})$, lo que permite aprender antes pero introduce un posible sesgo si las estimaciones no son precisas.
 
 
 
@@ -203,6 +203,7 @@ Los estados terminales ($1$, $3$ y "fuera") tienen valor $0$ por definición y n
 Los hiperparámetros del algoritmo serían: Un factor de descuento $\gamma = 0.9$ y una tasa de aprendizaje $\alpha = 0.1$ (constante). Inicializamos las estimaciones de los valores de los estados no terminales a cero: $V(0)=0$, $V(2)=0$.
 
 A continuación, simulamos varios episodios generados según la política $\pi$. En cada paso de cada episodio, aplicamos la regla de actualización de TD(0):
+
 $$
 V(s_t) \leftarrow V(s_t) + \alpha \bigl[ r_{t+1} + \gamma V(s_{t+1}) - V(s_t) \bigr].
 $$
@@ -226,17 +227,21 @@ Valores iniciales: $V(0)=0$, $V(2)=0$, $V(3)=0$.
 **Actualizaciones paso a paso** (aplicamos la regla inmediatamente después de cada transición):
 
 - **Paso 1** (transición de $0$ a $2$):
+
   $$
   \delta = r + \gamma V(2) - V(0) = -1 + 0.9 \cdot 0 - 0 = -1
   $$
+  
   $$
   V(0) \leftarrow 0 + 0.1 \cdot (-1) = -0.1
   $$
 
 - **Paso 2** (transición de $2$ a $3$):
+
   $$
   \delta = r + \gamma V(3) - V(2) = 19 + 0.9 \cdot 0 - 0 = 19
   $$
+  
   $$
   V(2) \leftarrow 0 + 0.1 \cdot 19 = 1.9
   $$
@@ -253,9 +258,11 @@ Valores actuales antes del episodio: $V(0) = -0.1$, $V(2)=1.9$, $V(1)=0$.
 
 **Actualización** (único paso):
 - Transición de $0$ a $1$:
+
   $$
   \delta = r + \gamma V(1) - V(0) = -10 + 0.9 \cdot 0 - (-0.1) = -10 + 0.1 = -9.9
   $$
+  
   $$
   V(0) \leftarrow -0.1 + 0.1 \cdot (-9.9) = -0.1 - 0.99 = -1.09
   $$
@@ -274,17 +281,21 @@ Valores antes del episodio: $V(0) = -1.09$, $V(2) = 1.9$, $V(\text{fuera})=0$.
 **Actualizaciones**:
 
 - **Paso 1** (transición de $0$ a $2$):
+
   $$
   \delta = -1 + 0.9 \cdot V(2) - V(0) = -1 + 0.9 \cdot 1.9 - (-1.09) = -1 + 1.71 + 1.09 = 1.80
   $$
+  
   $$
   V(0) \leftarrow -1.09 + 0.1 \cdot 1.80 = -1.09 + 0.18 = -0.91
   $$
 
 - **Paso 2** (transición de $2$ a "fuera"):
+
   $$
   \delta = -5 + 0.9 \cdot 0 - V(2) = -5 - 1.9 = -6.9
   $$
+  
   $$
   V(2) \leftarrow 1.9 + 0.1 \cdot (-6.9) = 1.9 - 0.69 = 1.21
   $$
@@ -302,8 +313,6 @@ En los tres episodios observamos fluctuaciones significativas en las estimacione
 Estas oscilaciones son propias de la alta varianza inherente a las trayectorias generadas por una política estocástica. Algunas veces se alcanza la meta (episodio 1), otras se cae en el agujero (episodio 2) o se sale del tablero (episodio 3). Con un número elevado de episodios, las estimaciones convergerían a los valores verdaderos bajo la política $\pi$, que se obtendrían resolviendo las ecuaciones de Bellman. Esos valores serían inferiores a los de la política óptima, porque esta política estocástica no siempre elige las mejores acciones.
 
 La principal ventaja de TD(0) frente a Monte Carlo es que **no necesita esperar a que termine el episodio** para actualizar. En este ejemplo los episodios son muy cortos y la diferencia no se aprecia, pero en entornos con episodios largos o continuos, TD(0) puede aprender en tiempo real, actualizando tras cada transición. Además, el **bootstrapping** (usar la estimación actual $V(s_{t+1})$ como parte del objetivo) permite que la información se propague hacia atrás incluso antes de conocer el retorno final.
-
-
 
 > Si hubiésemos aplicado Monte Carlo (first‑visit) a los mismos episodios, en el episodio 1 habríamos calculado el retorno completo desde el primer estado: $G_0 = -1 + 0.9 \cdot 19 = 16.1$, y habríamos actualizado $V(0)$ como promedio (con $\alpha = 1/n$ o con una constante). En TD(0), en cambio, actualizamos después de cada paso, lo que puede acelerar el aprendizaje, aunque introduce un posible sesgo si las estimaciones $V(s_{t+1})$ no son precisas al principio.
 >
@@ -427,7 +436,8 @@ Recordemos el entorno estocástico del agente saltarín:
 
 Inicializamos $Q(s,a)=0$ para todos los pares estado‑acción. Los estados terminales tienen valor $0$ por definición y no se actualizan.
 
-La regla de actualización de SARSA es:
+La regla de actualización de SARSA es
+
 $$
 Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha \bigl[ r_{t+1} + \gamma Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t) \bigr],
 $$
@@ -457,14 +467,17 @@ Registramos la secuencia de transiciones:
 **Actualizaciones** (recorremos hacia atrás o en orden, pero SARSA actualiza en cada paso inmediatamente después de conocer $a_{t+1}$):
 
 - **Paso 2** (última transición): desde $t=1$, $s_1=2$, $a_1=\text{avanzar}$, $r=19$, $s_2=3$, $a_2$ no existe (estado terminal). En la práctica, para estados terminales se define $Q(s_{\text{terminal}}, \cdot)=0$, y la actualización se realiza sin el término $Q(s_{t+1},a_{t+1})$ (o se toma como $0$). La fórmula queda:
+
   $$
   Q(2,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ 19 + 0.9 \cdot 0 - 0 \bigr] = 1.9
   $$
 
 - **Paso 1** (primera transición): $s_0=0$, $a_0=\text{saltar}$, $r=-1$, $s_1=2$, $a_1=\text{avanzar}$ (ya conocido). Aplicamos:
+- 
   $$
   \delta = r + \gamma Q(2,\text{avanzar}) - Q(0,\text{saltar}) = -1 + 0.9 \cdot 1.9 - 0 = -1 + 1.71 = 0.71
   $$
+  
   $$
   Q(0,\text{saltar}) \leftarrow 0 + 0.1 \cdot 0.71 = 0.071
   $$
@@ -489,6 +502,7 @@ Ahora la política $\epsilon$-greedy se basa en estos valores. En el estado $0$,
 **Actualización**:
 
 - $s_0=0$, $a_0=\text{saltar}$, $r=-10$, $s_1=1$ (terminal). No hay $a_1$.
+
   $$
   Q(0,\text{saltar}) \leftarrow 0.071 + 0.1 \bigl[ -10 + 0.9 \cdot 0 - 0.071 \bigr] = 0.071 + 0.1 \cdot (-10.071) = 0.071 - 1.0071 = -0.9361
   $$
@@ -512,6 +526,7 @@ Ahora en estado $0$, la acción greedy es avanzar (porque $Q(0,\text{avanzar})=0
   **Actualización**:
 
 - $Q(0,\text{avanzar})$:
+
   $$
   Q(0,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ -10 + 0 - 0 \bigr] = -1
   $$
@@ -553,18 +568,22 @@ En estado $0$, la acción greedy es saltar ($-0,936 > -1$). Con probabilidad $1-
 **Actualizaciones SARSA** (paso a paso, usando los valores previos al episodio):
 
 - **Paso 2** (última transición): $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ (terminal). No hay $a'$ (se toma $Q(3,\cdot)=0$).
+
   $$
   Q(2,\text{avanzar}) \leftarrow 1,9 + 0,1 \bigl[ 19 + 0,9 \cdot 0 - 1,9 \bigr] = 1,9 + 0,1 \cdot (19 - 1,9) = 1,9 + 0,1 \cdot 17,1 = 1,9 + 1,71 = 3,61
   $$
 
 - **Paso 1** (primera transición): $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$, $a'=\text{avanzar}$ (la acción que se eligió en el siguiente estado).
-  $$
+
+$$
   \delta = r + \gamma Q(2,\text{avanzar}) - Q(0,\text{saltar}) = -1 + 0,9 \cdot 3,61 - (-0,936)
-  $$
+$$
+
   Calculamos: $0,9 \cdot 3,61 = 3,249$; luego $\delta = -1 + 3,249 + 0,936 = 3,185$.
-  $$
+
+$$
   Q(0,\text{saltar}) \leftarrow -0,936 + 0,1 \cdot 3,185 = -0,936 + 0,3185 = -0,6175
-  $$
+$$
 
 
 **Tabla final tras el episodio 4**:
@@ -682,15 +701,18 @@ A continuación, simulamos varios episodios.
 
 **Actualizaciones Q‑learning** (se realizan después de cada transición, usando el máximo sobre acciones del siguiente estado):
 
-- **Paso 2** (última transición): $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ (terminal). Para estados terminales, $\max_{a'} Q(3,a') = 0$.
+- **Paso 2** (última transición): $s=2$, $a=\text{avanzar}$, $r=19$, $s'=3$ (terminal). Para estados terminales, $\max_{a'} Q(3,a') = 0$
+
   $$
   Q(2,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ 19 + 0.9 \cdot 0 - 0 \bigr] = 1.9
   $$
 
 - **Paso 1** (primera transición): $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$. Calculamos $\max_{a'} Q(2,a') = \max(1.9, 0) = 1.9$ (el valor que acabamos de actualizar, aunque en la práctica se usa el valor anterior si la actualización es secuencial; aquí asumimos que primero actualizamos el paso 2 y luego el paso 1, lo cual es válido porque en Q‑learning el orden no afecta a la convergencia).
+
   $$
   \delta = -1 + 0.9 \cdot 1.9 - 0 = -1 + 1.71 = 0.71
   $$
+  
   $$
   Q(0,\text{saltar}) \leftarrow 0 + 0.1 \cdot 0.71 = 0.071
   $$
@@ -738,6 +760,7 @@ En estado $0$, la política elige avanzar con probabilidad $0.8$. Supongamos que
 
 **Actualización**:
 - $s=0$, $a=\text{avanzar}$, $r=-10$, $s'=1$ terminal.
+
   $$
   Q(0,\text{avanzar}) \leftarrow 0 + 0.1 \bigl[ -10 + 0 - 0 \bigr] = -1
   $$
@@ -772,9 +795,11 @@ Supongamos una trayectoria más larga, donde la política elige saltar (greedy) 
   $$
 
 - **Paso 1**: $s=0$, $a=\text{saltar}$, $r=-1$, $s'=2$. Calculamos $\max_{a'} Q(2,a') = \max(3.61, 0) = 3.61$.
+
   $$
   \delta = -1 + 0.9 \cdot 3.61 - (-0.936) = -1 + 3.249 + 0.936 = 3.185
   $$
+  
   $$
   Q(0,\text{saltar}) \leftarrow -0.936 + 0.1 \cdot 3.185 = -0.936 + 0.3185 = -0.6175
   $$

@@ -84,7 +84,7 @@ Por esto es por lo que la política no solo es el medio por el cual el agente ac
 
 Una vez que el agente ha definido una política $\pi$, es natural preguntarse **cuán buena es esa política** y si conviene mantenerla o modificarla. Para responder a esta cuestión necesitamos herramientas que permitan evaluar su rendimiento. Una de ellas, y posiblemente la más importante, es la **función estado-valor**, también conocida como **función de valor**.
 
-Esta función, denotada como $v_\pi(s)$, asigna a cada estado $s$ el **valor esperado del retorno total** que obtendría el agente **si comenzara en ese estado y siguiera la política $\pi$ en adelante**. Es decir, mide **cuán valioso es estar en un determinado estado**, suponiendo que a partir de ahí el agente se comporta conforme a su política.
+Esta función, denotada como $v_{\pi}(s)$, asigna a cada estado $s$ el **valor esperado del retorno total** que obtendría el agente **si comenzara en ese estado y siguiera la política $\pi$ en adelante**. Es decir, mide **cuán valioso es estar en un determinado estado**, suponiendo que a partir de ahí el agente se comporta conforme a su política.
 
 Recordemos el anterior ejemplo del tablero bidimensional 4x4 y supongamos que el agente se encuentra en la casilla $s_8$, en la tercera fila de nuestro tablero, y sigue una política $\pi$ que intenta llegar a la casilla meta $s_{15}$. Podemos tratar de representar el **valor esperado de las recompensas acumuladas** que el agente obtendrá si empieza desde $s_8$ y aplica esa política hasta llegar a un estado terminal.
 
@@ -95,14 +95,14 @@ Realmente vemos como este valor no refleja una certeza, sino una **esperanza mat
 Formalmente, la función estado-valor bajo una política $\pi$ se define como:
 
 $$
-v_\pi(s) = \mathbb{E}_{\pi} \left[ G_t | S_t = s \right] = \mathbb{E}_{\pi} \left[ \sum_{k} \gamma^k \, R_{t+k+1} | S_t = s \right]
+v_{\pi}(s) = \mathbb{E}_{\pi} \left[ G_t | S_t = s \right] = \mathbb{E}_{\pi} \left[ \sum_{k} \gamma^k \, R_{t+k+1} | S_t = s \right]
 $$
 
 Es decir, es el **valor esperado** del **retorno descontado**, condicionado a que el agente comienza en el estado $s$ y sigue la política $\pi$ a partir de ese instante.
 
-Veamos con más detalle cada uno de los elementos presentes en la fórmula de $v_\pi(s)$:
+Veamos con más detalle cada uno de los elementos presentes en la fórmula de $v_{\pi}(s)$:
 
-- **$\mathbb{E}_\pi[\;]$**: denota una **esperanza matemática** (valor esperado) tomada sobre todas las posibles trayectorias que el agente puede seguir, suponiendo que actúa según la política $\pi$. La esperanza se calcula considerando la estocasticidad del entorno y de la propia política, si esta es probabilística.
+- **$\mathbb{E}_{\pi}[\;]$**: denota una **esperanza matemática** (valor esperado) tomada sobre todas las posibles trayectorias que el agente puede seguir, suponiendo que actúa según la política $\pi$. La esperanza se calcula considerando la estocasticidad del entorno y de la propia política, si esta es probabilística.
 
 - **$s_t = s$**: indica que el agente comienza en el estado $s$ en el instante $t$.
 
@@ -112,53 +112,53 @@ Veamos con más detalle cada uno de los elementos presentes en la fórmula de $v
 
 - **$R_{t+k+1}$**: representa la **recompensa recibida** al pasar del estado $s_{t+k}$ al estado $s_{t+k+1}$ tras ejecutar la acción correspondiente.
 
-  La función $v_\pi(s)$ cumple un papel crucial: **permite comparar estados entre sí** en términos de su valor futuro. Un estado con un valor alto bajo una política dada es preferible, ya que iniciar desde él conduce a un mayor retorno esperado. Esta función puede ser usada tanto para evaluar la calidad de una política como para guiar la mejora del comportamiento del agente.
+  La función $v_{\pi}(s)$ cumple un papel crucial: **permite comparar estados entre sí** en términos de su valor futuro. Un estado con un valor alto bajo una política dada es preferible, ya que iniciar desde él conduce a un mayor retorno esperado. Esta función puede ser usada tanto para evaluar la calidad de una política como para guiar la mejora del comportamiento del agente.
 
   En las próximas secciones veremos cómo esta función se relaciona con otra componente clave como es la **función acción-valor**.
 
 #### **La función acción-valor: evaluar decisiones concretas**
 
-Mientras que la función estado-valor $v_\pi(s)$ nos permite valorar **cuán bueno es estar en un estado** si se sigue una política determinada, a menudo nos interesa ir un paso más allá: **¿qué pasa si el agente se plantea ejecutar una acción concreta en ese estado?**. La respuesta a esta pregunta es lo que proporciona la **función acción-valor**, también conocida como función $q$.
+Mientras que la función estado-valor $v_{\pi}(s)$ nos permite valorar **cuán bueno es estar en un estado** si se sigue una política determinada, a menudo nos interesa ir un paso más allá: **¿qué pasa si el agente se plantea ejecutar una acción concreta en ese estado?**. La respuesta a esta pregunta es lo que proporciona la **función acción-valor**, también conocida como función $q$.
 
 Esta función permite al agente **comparar distintas decisiones posibles** en un mismo estado antes de ejecutarlas. No se limita a decir “este estado es bueno”, sino que responde a “si en este estado tomo esta acción, ¿qué resultado puedo esperar?”.
 
 Podemos pensar en ella como una especie de “evaluador interno” que estima el impacto futuro de cada acción en cada situación. Este conocimiento es clave cuando el agente necesita elegir entre varias alternativas disponibles, especialmente si la política aún no es definitiva.
 
-Recordemos el ejemplo del tablero bidimensional 4x4. Supongamos que el agente se encuentra en la casilla $s_{13}$ del tablero, justo al lado de la casilla $s_{14}$, que a su vez está adyacente al estado objetivo $s_{15}$. El agente podría tener dos acciones disponibles: moverse a la derecha ($a_2$, que lo lleva a $s_{14}$) o hacia arriba ($a_3$, que lo lleva a $s_9$). La función $q_\pi(s_{13}, a_2)$ estima el valor esperado de tomar la acción $a_2$ en el estado $s_{13}$, y luego continuar actuando según la política $\pi$ desde $s_{14}$ en adelante. Si este valor es alto, podría indicar que ese camino conduce con buena probabilidad hacia el objetivo. Por el contrario, si $q_\pi(s_{13}, a_3)$ es bajo, entonces moverse hacia arriba puede alejar al agente de la meta, o incluso acercarlo a estados absorbentes que cancelen el episodio.
+Recordemos el ejemplo del tablero bidimensional 4x4. Supongamos que el agente se encuentra en la casilla $s_{13}$ del tablero, justo al lado de la casilla $s_{14}$, que a su vez está adyacente al estado objetivo $s_{15}$. El agente podría tener dos acciones disponibles: moverse a la derecha ($a_2$, que lo lleva a $s_{14}$) o hacia arriba ($a_3$, que lo lleva a $s_9$). La función $q_{\pi}(s_{13}, a_2)$ estima el valor esperado de tomar la acción $a_2$ en el estado $s_{13}$, y luego continuar actuando según la política $\pi$ desde $s_{14}$ en adelante. Si este valor es alto, podría indicar que ese camino conduce con buena probabilidad hacia el objetivo. Por el contrario, si $q_{\pi}(s_{13}, a_3)$ es bajo, entonces moverse hacia arriba puede alejar al agente de la meta, o incluso acercarlo a estados absorbentes que cancelen el episodio.
 
-Así, mientras $V^\pi(s_{13})$ resume el valor esperado de estar en $s_{13}$ en general, $q_\pi(s_{13}, a)$ descompone ese valor en función de las distintas **acciones iniciales** disponibles. Esto da al agente un instrumento más fino para **decidir con criterio cuál es la mejor acción en cada situación**.
+Así, mientras $V^\pi(s_{13})$ resume el valor esperado de estar en $s_{13}$ en general, $q_{\pi}(s_{13}, a)$ descompone ese valor en función de las distintas **acciones iniciales** disponibles. Esto da al agente un instrumento más fino para **decidir con criterio cuál es la mejor acción en cada situación**.
 
-Cuando el agente dispone de la función $q_\pi(s, a)$, no necesita conocer $v_\pi(s)$ para actuar: puede elegir directamente la acción con mayor valor esperado entre todas las disponibles en $s$. De hecho, esta función será fundamental cuando tratemos de aprender no solo la política, sino la propia función de valor a partir de la experiencia.
+Cuando el agente dispone de la función $q_{\pi}(s, a)$, no necesita conocer $v_{\pi}(s)$ para actuar: puede elegir directamente la acción con mayor valor esperado entre todas las disponibles en $s$. De hecho, esta función será fundamental cuando tratemos de aprender no solo la política, sino la propia función de valor a partir de la experiencia.
 
 La definición formal de la función acción-valor bajo una política $\pi$ es la siguiente:
 
 $$
-q_\pi(s, a) = \mathbb{E}_\pi \left[ \sum_{k=0}^\infty \gamma^k  r_{t+k+1} | S_t = s, A_t = a \right]
+q_{\pi}(s, a) = \mathbb{E}_{\pi} \left[ \sum_{k=0}^\infty \gamma^k  r_{t+k+1} | S_t = s, A_t = a \right]
 $$
 
 Esta expresión cuantifica el **retorno esperado descontado** que el agente obtendrá si se encuentra en el estado $s$, ejecuta la acción $a$ en ese instante y luego sigue la política $\pi$ a partir de $t+1$.
 
 Analicemos sus componentes con atención. El estado inicial es $s_t = s$, pero a diferencia de la función $V$, aquí se fija también la acción inicial $a_t = a$. Es decir, se asume que el agente **elige explícitamente** la acción $a$ en ese estado. A partir de ahí, el resto del comportamiento se determina por la política $\pi$, y la esperanza se calcula como el promedio sobre todas las trayectorias posibles inducidas por esta.
 
-El término $\sum_{k=0}^{\infty} \gamma^k \, r_{t+k+1}$ sigue siendo el retorno acumulado, afectado por el factor de descuento $\gamma$, que penaliza las recompensas lejanas. La esperanza $\mathbb{E}_\pi[\cdot]$ tiene en cuenta tanto la estocasticidad de las transiciones del entorno como la posible aleatoriedad de la política a partir del segundo paso.
+El término $\sum_{k=0}^{\infty} \gamma^k \, r_{t+k+1}$ sigue siendo el retorno acumulado, afectado por el factor de descuento $\gamma$, que penaliza las recompensas lejanas. La esperanza $\mathbb{E}_{\pi}[\cdot]$ tiene en cuenta tanto la estocasticidad de las transiciones del entorno como la posible aleatoriedad de la política a partir del segundo paso.
 
 Esta función será crucial no solo para evaluar políticas, sino también para **mejorarlas**, ya que permite al agente identificar qué acciones tienen mayor potencial en cada estado. En las próximas secciones exploraremos cómo estas funciones se relacionan entre sí y cómo se utilizan para construir algoritmos de planificación y aprendizaje.
 
 #### **Relación entre la función estado-valor y la función acción-valor**
 
-Las funciones $v_\pi(s)$ y $q_\pi(s, a)$ no son independientes. Al contrario, existe una relación estrecha entre ellas que refleja la estructura misma del proceso de decisión. Comprender esta relación es clave para diseñar algoritmos que permitan evaluar y mejorar políticas de manera eficiente.
+Las funciones $v_{\pi}(s)$ y $q_{\pi}(s, a)$ no son independientes. Al contrario, existe una relación estrecha entre ellas que refleja la estructura misma del proceso de decisión. Comprender esta relación es clave para diseñar algoritmos que permitan evaluar y mejorar políticas de manera eficiente.
 
-Imaginemos de nuevo el tablero 4x4 y centrémonos en el estado $s_{13}$. Por un lado, la función estado-valor $v_\pi(s_{13})$ nos dice, en promedio, cuánto vale estar en esa casilla si a partir de ahí el agente sigue la política $\pi$. Por otro lado, la función acción-valor $q_\pi(s_{13}, a)$ nos dice cuánto vale tomar una acción concreta, digamos moverse a la derecha ($a_2$), y luego continuar con $\pi$. La conexión entre ambas es inmediata: **el valor de estar en un estado no es más que el promedio de los valores de las acciones posibles en ese estado, ponderado por la probabilidad de que la política elija cada una de ellas**.
+Imaginemos de nuevo el tablero 4x4 y centrémonos en el estado $s_{13}$. Por un lado, la función estado-valor $v_{\pi}(s_{13})$ nos dice, en promedio, cuánto vale estar en esa casilla si a partir de ahí el agente sigue la política $\pi$. Por otro lado, la función acción-valor $q_{\pi}(s_{13}, a)$ nos dice cuánto vale tomar una acción concreta, digamos moverse a la derecha ($a_2$), y luego continuar con $\pi$. La conexión entre ambas es inmediata: **el valor de estar en un estado no es más que el promedio de los valores de las acciones posibles en ese estado, ponderado por la probabilidad de que la política elija cada una de ellas**.
 
-En otras palabras, si el agente se encuentra en el estado $s$, puede optar por diferentes acciones según su política $\pi$. Cada una de esas acciones tiene asociado un valor $q_\pi(s, a)$. El valor global del estado $v_\pi(s)$ es simplemente la media de esos valores, donde los pesos son las probabilidades $\pi(a|s)$ que la política asigna a cada acción. Esta relación se expresa mediante la siguiente ecuación:
+En otras palabras, si el agente se encuentra en el estado $s$, puede optar por diferentes acciones según su política $\pi$. Cada una de esas acciones tiene asociado un valor $q_{\pi}(s, a)$. El valor global del estado $v_{\pi}(s)$ es simplemente la media de esos valores, donde los pesos son las probabilidades $\pi(a|s)$ que la política asigna a cada acción. Esta relación se expresa mediante la siguiente ecuación:
 
 $$
-v_\pi(s) = \sum_{a} \pi(a|s) \cdot q_\pi(s, a)\label{relacion_v_q}
+v_{\pi}(s) = \sum_{a} \pi(a|s) \cdot q_{\pi}(s, a)\label{relacion_v_q}
 $$
 
-Volvamos al ejemplo del tablero. Supongamos que en el estado $s_{13}$ la política $\pi$ del agente le lleva a elegir la acción de moverse a la derecha ($a_2$) con una probabilidad del 80% y la acción de moverse hacia arriba ($a_3$) con un 20%. Si conociéramos los valores $q_\pi(s_{13}, a_2)$ y $q_\pi(s_{13}, a_3)$, podríamos calcular el valor del estado $s_{13}$ como $0.8 \cdot q_\pi(s_{13}, a_2) + 0.2 \cdot q_\pi(s_{13}, a_3)$. Así, el valor de un estado es, en esencia, la esperanza de los valores de las acciones que se pueden tomar en él.
+Volvamos al ejemplo del tablero. Supongamos que en el estado $s_{13}$ la política $\pi$ del agente le lleva a elegir la acción de moverse a la derecha ($a_2$) con una probabilidad del 80% y la acción de moverse hacia arriba ($a_3$) con un 20%. Si conociéramos los valores $q_{\pi}(s_{13}, a_2)$ y $q_{\pi}(s_{13}, a_3)$, podríamos calcular el valor del estado $s_{13}$ como $0.8 \cdot q_{\pi}(s_{13}, a_2) + 0.2 \cdot q_{\pi}(s_{13}, a_3)$. Así, el valor de un estado es, en esencia, la esperanza de los valores de las acciones que se pueden tomar en él.
 
-En resumen, $v_\pi$ y $q_\pi$ son dos caras de la misma moneda. Conocer $q_\pi$ permite obtener $v_\pi$ promediando sobre acciones. Esta interrelación es la base de muchos algoritmos  que veremos en el resto del tema y también subyace en los métodos de aprendizaje por refuerzo, donde se estiman estas funciones a partir de la experiencia.
+En resumen, $v_{\pi}$ y $q_{\pi}$ son dos caras de la misma moneda. Conocer $q_{\pi}$ permite obtener $v_{\pi}$ promediando sobre acciones. Esta interrelación es la base de muchos algoritmos  que veremos en el resto del tema y también subyace en los métodos de aprendizaje por refuerzo, donde se estiman estas funciones a partir de la experiencia.
 
 En las siguientes secciones veremos cómo aprovechar estas relaciones para calcular de manera iterativa la política óptima, ya sea conociendo el modelo del entorno (programación dinámica) o aprendiendo directamente de la interacción (aprendizaje por refuerzo).
 
@@ -168,9 +168,9 @@ A estas alturas, hemos formalizado todos los componentes clave que permiten repr
 
 Para orientar su comportamiento, el agente sigue una política $\pi$, y evalúa su rendimiento en términos del retorno total esperado. Hemos introducido dos funciones fundamentales que permiten cuantificar este retorno:
 
-- La **función estado-valor** $v_\pi(s)$, que mide cuán buena es una posición inicial $s$ al seguir la política $\pi$.
+- La **función estado-valor** $v_{\pi}(s)$, que mide cuán buena es una posición inicial $s$ al seguir la política $\pi$.
 
-- La **función acción-valor** $q_\pi(s, a)$, que estima el retorno esperado si se toma una acción concreta $a$ en el estado $s$ y luego se sigue la política.
+- La **función acción-valor** $q_{\pi}(s, a)$, que estima el retorno esperado si se toma una acción concreta $a$ en el estado $s$ y luego se sigue la política.
 
   Estas funciones describen el rendimiento esperado de la política, pero **no son conocidas de antemano**. Para poder utilizarlas en algoritmos de planificación o mejora de políticas, necesitamos una manera de **calcularlas o aproximarlas**.
 
@@ -181,11 +181,11 @@ Para orientar su comportamiento, el agente sigue una política $\pi$, y evalúa 
 Recordemos las expresiones que definen formalmente las funciones de valor:
 
 $$
-v_\pi(s) = \mathbb{E}_\pi \left[ \sum_{k=0}^\infty \gamma^k , R_{t+k+1} | S_t = s \right]
+v_{\pi}(s) = \mathbb{E}_{\pi} \left[ \sum_{k=0}^\infty \gamma^k , R_{t+k+1} | S_t = s \right]
 $$
 
 $$
-q_\pi(s, a) = \mathbb{E}_\pi \left[ \sum_{k=0}^\infty \gamma^k , R_{t+k+1} | S_t = s, A_t = a \right]
+q_{\pi}(s, a) = \mathbb{E}_{\pi} \left[ \sum_{k=0}^\infty \gamma^k , R_{t+k+1} | S_t = s, A_t = a \right]
 $$
 
 Ambas funciones miden el **retorno futuro esperado**, pero lo hacen agregando todas las recompensas futuras en una suma infinita. Este tipo de definición no es práctica para el cálculo directo, ya que **depende de toda la trayectoria completa**.
@@ -207,11 +207,12 @@ Esta simple identidad es la clave para construir una **relación de consistencia
 
 ##### **Primera ecuación de Bellman: función estado-valor**
 
-La **ecuación de Bellman para $v_\pi(s)$** nos dice que el valor de un estado bajo una política $\pi$ es igual al **valor esperado de la recompensa inmediata más el valor descontado del siguiente estado**, considerando que el agente sigue la política $\pi$. Se expresa así:
+La **ecuación de Bellman para $v_{\pi}(s)$** nos dice que el valor de un estado bajo una política $\pi$ es igual al **valor esperado de la recompensa inmediata más el valor descontado del siguiente estado**, considerando que el agente sigue la política $\pi$. Se expresa así:
 
 $$
 v_π(s) = \sum_{a} \pi(a|s) \sum_{s', r} p(s', r \mid s, a) \bigl[ r + γ \, v_π(s') \bigr]
 $$
+
 Vamos a ver qué expresa cada componente de la ecuación anterior:
 
 - $\pi(a \mid s)$: probabilidad de que la política $\pi$ seleccione la acción $a$ cuando el agente se encuentra en el estado $s$.
@@ -220,22 +221,22 @@ Vamos a ver qué expresa cada componente de la ecuación anterior:
 
 - $r$: es la recompensa inmediata que se obtiene en esa transición concreta (no una esperanza). Aparece dentro del sumatorio porque estamos promediando sobre todos los posibles valores de $r$.
 
-- $\gamma \, v_\pi(s')$: valor descontado del estado siguiente $s'$. $v_\pi(s')$ es el valor esperado del retorno desde $s'$ siguiendo la política $\pi$, y $\gamma$ descuenta ese valor porque se recibe un paso más tarde.
+- $\gamma \, v_{\pi}(s')$: valor descontado del estado siguiente $s'$. $v_{\pi}(s')$ es el valor esperado del retorno desde $s'$ siguiendo la política $\pi$, y $\gamma$ descuenta ese valor porque se recibe un paso más tarde.
 
   Esta ecuación es un promedio ponderado: primero por la política del agente (qué acciones ejecuta) y luego por la estocasticidad del entorno (qué estados se alcanzan). La ecuación de Bellman **expresa el valor de un estado como una combinación de valores de sus estados sucesores**, lo que permite construir algoritmos iterativos para resolverla.
 
-  Es interesante ver como puede obtener la ecuación anterior partiendo de las definiciones del retorno esperado ($G_t$) y la funcion estado valor ($v_\pi(s)$). En efecto: La función de valor de un estado bajo una política $\pi$ se definía como el **valor esperado del retorno al empezar en ese estado y seguir la política $\pi$**:
+  Es interesante ver como puede obtener la ecuación anterior partiendo de las definiciones del retorno esperado ($G_t$) y la funcion estado valor ($v_{\pi}(s)$). En efecto: La función de valor de un estado bajo una política $\pi$ se definía como el **valor esperado del retorno al empezar en ese estado y seguir la política $\pi$**:
 
 $$
-v_\pi(s) = \mathbb{E}_\pi \left[ G_t \mid S_t = s \right]\label{definicion_v}
+v_{\pi}(s) = \mathbb{E}_{\pi} \left[ G_t \mid S_t = s \right]\label{definicion_v}
 $$
 
-Esta función nos informa acerca de la recompensa final que se espera si el agente actúa conforme a una determinada política. Cuanto mayor sea $v_\pi(s)$, más interesante era partir de ese estado $s$.
+Esta función nos informa acerca de la recompensa final que se espera si el agente actúa conforme a una determinada política. Cuanto mayor sea $v_{\pi}(s)$, más interesante era partir de ese estado $s$.
 
-Para ello volvamos a la expresión de $v_\pi(s)$ pero introduciendo la forma del retorno vista en la ecuacion ($\ref{G_recursivo}$)
+Para ello volvamos a la expresión de $v_{\pi}(s)$ pero introduciendo la forma del retorno vista en la ecuacion ($\ref{G_recursivo}$)
 
 $$
-v_π(s) = \mathbb{E}_π[ R_{t+1} + γ G_{t+1} \mid S_t = s ]
+v_{\pi}(s) = \mathbb{E}_{\pi}[ R_{t+1} + γ G_{t+1} \mid S_t = s ]
 $$
 
 Teniendo en cuenta que la esperanza matematica es una funcion lineal, podríamos separar la suma así:
@@ -260,7 +261,7 @@ Observa que el sumatorio anterior sobre $r$ recorre todos los valores posibles d
 
 Vamos ahora con el termino (B). Aqui, $\mathbb{E}_π[ G_{t+1} \mid S_t = s ]$ es la esperanza del retorno **a partir del siguiente paso**, condicionada solo al estado actual. Para relacionarlo con el valor del estado en $t+1$, debemos condicionar también a la acción $A_t$ y al siguiente estado $S_{t+1}$. Para ello se puede aplicar la ley de la esperanza total haciendo un condicionamiento en etapas:
 
-1. Primero condicionamos a la acción $A_t = a$ (con probabilidad $\pi(a|s)$).
+1. Primero condicionamos a la acción $A_t = a$ (con probabilidad $\pi\(a\|s\)$).
 
 2. Dado $a$, el entorno transita a $S_{t+1}=s'$ con recompensa $r$ con probabilidad $p(s', r \mid s, a)$.
 
@@ -304,7 +305,7 @@ $$
 
 Esta expresión constituye la **segunda ecuación de Bellman** para la funcion estado-acción. Los componentes de esta ecuación se pueden describir del mismo modo que en el caso de la primera ecuación de Bellman
 
-En este caso, el agente ya ha ejecutado la acción $a$ en el estado $s$, y a partir de $s'$ continúa siguiendo su política $\pi$. El valor de $q_\pi(s, a)$ se construye como una combinación de las decisiones futuras posibles desde $s'$, teniendo en cuenta el comportamiento inducido por la política.
+En este caso, el agente ya ha ejecutado la acción $a$ en el estado $s$, y a partir de $s'$ continúa siguiendo su política $\pi$. El valor de $q_{\pi}(s, a)$ se construye como una combinación de las decisiones futuras posibles desde $s'$, teniendo en cuenta el comportamiento inducido por la política.
 
 > Estas ecuaciones constituyen el **núcleo computacional del aprendizaje por refuerzo**. Son las herramientas que permiten:
 >
@@ -381,7 +382,7 @@ Estos métodos han ganado mucha popularidad en los últimos años, especialmente
 
 #### Predicción frente a control: dos objetivos fundamentales
 
-Otra distinción relevante en el estudio de algoritmos de RL tiene que ver con el objetivo que se persigue en cada caso. En algunas ocasiones, el interés se centra únicamente en evaluar el comportamiento de una política fija, es decir, en estimar cuánto retorno se puede esperar si se siguen siempre las mismas decisiones. Esta tarea recibe el nombre de **predicción**, y da lugar a algoritmos que calculan o aproximan las funciones de valor $v_\pi(s)$ o $q_\pi(s,a)$ para una política dada. La predicción es útil, por ejemplo, para evaluar soluciones predefinidas o como paso intermedio en métodos de mejora.
+Otra distinción relevante en el estudio de algoritmos de RL tiene que ver con el objetivo que se persigue en cada caso. En algunas ocasiones, el interés se centra únicamente en evaluar el comportamiento de una política fija, es decir, en estimar cuánto retorno se puede esperar si se siguen siempre las mismas decisiones. Esta tarea recibe el nombre de **predicción**, y da lugar a algoritmos que calculan o aproximan las funciones de valor $v_{\pi}(s)$ o $q_{\pi}(s,a)$ para una política dada. La predicción es útil, por ejemplo, para evaluar soluciones predefinidas o como paso intermedio en métodos de mejora.
 
 Sin embargo, el objetivo más habitual en aprendizaje por refuerzo es el de **control**, es decir, encontrar una política que sea óptima o, al menos, mejor que las anteriores. En estos casos, el agente debe combinar la estimación de valores con la mejora de la política, de forma iterativa. El control requiere, por tanto, métodos que no solo evalúan, sino que también ajustan las decisiones para maximizar el retorno esperado. Este proceso suele implicar mecanismos de exploración, mejora de política y actualización continua.
 
@@ -402,4 +403,4 @@ Cuando el modelo es desconocido, el agente debe aprender de la experiencia. Para
 
 Además de lo dicho, no olvidemos que existe una cuarta familia que responde a una pregunta diferente: ¿y si aprendemos directamente la política, sin pasar por la función de valor? Son los **métodos de gradiente de política**, que parametrizan la política y la ajustan para maximizar la recompensa esperada. Esta familia es especialmente útil cuando el espacio de acciones es continuo (por ejemplo, la fuerza que debe aplicar un brazo robótico) o cuando la política óptima es estocástica (como en el póker, donde a veces conviene farolear). Al igual que Q‑learning y SARSA, estos métodos son model‑free y se utilizan para control; constituyen una alternativa a los métodos basados en valor, no una categoría ortogonal a las dos dimensiones de la tabla.
 
-Y para finalizar lo más importante: No existe un “mejor algoritmo” universal. La elección depende de si disponemos de modelo, de si el problema es episódico o continuo, de si podemos permitirnos explorar sin miedo, del tamaño del espacio de estados y acciones, o de si la política óptima es determinista o estocástica. El aprendizaje por refuerzo es un campo de compromisos, y cada algoritmo representa un punto de equilibrio distinto en ese espacio de diseño. En los capítulos siguientes desgranaremos algunas de estas familias con más detalle: sus ecuaciones, sus algoritmos emblemáticos y los problemas para los que son más adecuadas.
+Y para finalizar lo más importante: No existe un “mejor algoritmo” universal. La elección depende de si disponemos de modelo, de si el problema es episódico o continuo, de si podemos permitirnos explorar sin mibellllledo, del tamaño del espacio de estados y acciones, o de si la política óptima es determinista o estocástica. El aprendizaje por refuerzo es un campo de compromisos, y cada algoritmo representa un punto de equilibrio distinto en ese espacio de diseño. En los capítulos siguientes desgranaremos algunas de estas familias con más detalle: sus ecuaciones, sus algoritmos emblemáticos y los problemas para los que son más adecuadas.

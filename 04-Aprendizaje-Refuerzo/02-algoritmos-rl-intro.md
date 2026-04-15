@@ -242,7 +242,7 @@ $$
 Teniendo en cuenta que la esperanza matematica es una funcion lineal, podríamos separar la suma así:
 
 $$
-v_π(s) = \underbrace{\mathbb{E}_π[ R_{t+1} \mid S_t = s ]}_{\text{(A)}} + γ \underbrace{\mathbb{E}_π[ G_{t+1} \mid S_t = s ]}_{\text{(B)}}\label{v_A_B}
+v_π(s) = \underbrace{\mathbb{E}_{\pi} [ R_{t+1} \mid S_t = s ]}_{\text{(A)}} + γ \underbrace{\mathbb{E}_{\pi} [ G_{t+1} \mid S_t = s ]}_{\text{(B)}}\label{v_A_B}
 $$
 
 Centrémonos primero en el término (A). La recompensa inmediata $R_{t+1}$ va a depender de dos cosas: Primero, de la acción $A_t$ que se toma en $S_t$, lo que viene dado por la política del agente, $\pi(A_t=a|S_t=s)$; y segundo, del modelo de la transición que proporciona el entorno, $p(S_{t+1}=s' \mid S_t=s, A_t=a)$. Para calcular la esperanza, debemos promediar sobre todas las acciones posibles (según la política π) y sobre todos los posibles resultados de la transición ($p$) (siguiente estado $s'$ y recompensa $r$). Recuerda que:
@@ -259,9 +259,9 @@ $$
 
 Observa que el sumatorio anterior sobre $r$ recorre todos los valores posibles de la recompensa; el término $r$ dentro del sumatorio es el valor numérico de esa recompensa.
 
-Vamos ahora con el termino (B). Aqui, $\mathbb{E}_{\pi}[ G_{t+1} \mid S_t = s ]$ es la esperanza del retorno **a partir del siguiente paso**, condicionada solo al estado actual. Para relacionarlo con el valor del estado en $t+1$, debemos condicionar también a la acción $A_t$ y al siguiente estado $S_{t+1}$. Para ello se puede aplicar la ley de la esperanza total haciendo un condicionamiento en etapas:
+Vamos ahora con el termino (B). Aqui, $\mathbb{E}_{\pi} [ G_{t+1} \mid S_t = s ]$ es la esperanza del retorno **a partir del siguiente paso**, condicionada solo al estado actual. Para relacionarlo con el valor del estado en $t+1$, debemos condicionar también a la acción $A_t$ y al siguiente estado $S_{t+1}$. Para ello se puede aplicar la ley de la esperanza total haciendo un condicionamiento en etapas:
 
-1. Primero condicionamos a la acción $A_t = a$ (con probabilidad $\pi(a,s)$).
+1. Primero condicionamos a la acción $A_t = a$, con probabilidad $\pi(a \mid s)$.
 
 2. Dado $a$, el entorno transita a $S_{t+1}=s'$ con recompensa $r$ con probabilidad $p(s', r \mid s, a)$.
 

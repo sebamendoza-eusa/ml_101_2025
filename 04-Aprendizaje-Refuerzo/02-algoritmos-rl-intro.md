@@ -36,6 +36,7 @@ En este contexto, el comportamiento del entorno puede ser **determinista o estoc
 El papel del agente es **elegir acciones** que le permitan alcanzar un objetivo. Pero este objetivo no se expresa como un estado concreto a alcanzar, sino como la **maximización del retorno acumulado de recompensas a lo largo del tiempo**. En este sentido, el agente actúa en un entorno incierto con el propósito de obtener, en promedio, la mayor utilidad posible.
 
 Formalmente, el **objetivo del agente** es maximizar el **retorno total esperado**, que como ya se ha definido, es:
+
 $$
 G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k r_{t+k+1}
 $$
@@ -190,12 +191,14 @@ $$
 Ambas funciones miden el **retorno futuro esperado**, pero lo hacen agregando todas las recompensas futuras en una suma infinita. Este tipo de definición no es práctica para el cálculo directo, ya que **depende de toda la trayectoria completa**.
 
 La idea de Bellman fue proponer un enfoque recursivo: dado que el retorno $G_t$​ es una suma, podemos expresar la recompensa acumulada **como una recompensa inmediata más el retorno futuro**. Es decir, si retorno $G_t$ se definia como **la suma de las recompensas futuras**, progresivamente descontadas por el factor $\gamma$:
+
 $$
 G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k r_{t+k+1}
 \label{retorno}
 $$
 
 podríamos expresar lo anterior así:
+
 $$
 G_t = R_{t+1} + \gamma \, G_{t+1}\label{G_recursivo}
 $$
@@ -230,14 +233,17 @@ $$
 Esta función nos informa acerca de la recompensa final que se espera si el agente actúa conforme a una determinada política. Cuanto mayor sea $v_\pi(s)$, más interesante era partir de ese estado $s$.
 
 Para ello volvamos a la expresión de $v_\pi(s)$ pero introduciendo la forma del retorno vista en la ecuacion ($\ref{G_recursivo}$)
+
 $$
 v_π(s) = \mathbb{E}_π[ R_{t+1} + γ G_{t+1} \mid S_t = s ]
 $$
+
 Teniendo en cuenta que la esperanza matematica es una funcion lineal, podríamos separar la suma así:
 
 $$
 v_π(s) = \underbrace{\mathbb{E}_π[ R_{t+1} \mid S_t = s ]}_{\text{(A)}} + γ \underbrace{\mathbb{E}_π[ G_{t+1} \mid S_t = s ]}_{\text{(B)}}\label{v_A_B}
 $$
+
 Centrémonos primero en el término (A). La recompensa inmediata $R_{t+1}$ va a depender de dos cosas: Primero, de la acción $A_t$ que se toma en $S_t$, lo que viene dado por la política del agente, $\pi(A_t=a|S_t=s)$; y segundo, del modelo de la transición que proporciona el entorno, $p(S_{t+1}=s' \mid S_t=s, A_t=a)$. Para calcular la esperanza, debemos promediar sobre todas las acciones posibles (según la política π) y sobre todos los posibles resultados de la transición ($p$) (siguiente estado $s'$ y recompensa $r$). Recuerda que:
 
 - La política π da la probabilidad de elegir cada acción $a$: $\pi(a|s)$.
@@ -269,26 +275,33 @@ $$
 Y ya tendríamos que la esperanza a partir del instante $t+1$ **dado que $S_t=s$** expresada en funcion de la esperanza en dicho $t+1$ pero dado un $S_{t+1}=s'$ .  
 
 Ahora bien, como por definición de vimos que
+
 $$
 v_π(s') = \mathbb{E}_π[ G_{t+1} \mid S_{t+1}=s' ]
 $$
+
 tendríamos entonces que:
+
 $$
 \mathbb{E}_π[ G_{t+1} \mid S_t = s ] = \sum_{a} \pi(a|s) \sum_{s', r} p(s', r \mid s, a) \; v_π(s')
 $$
 
 Por último, si unimos los términos tal y como teníamos en $(\ref{v_A_B})$, nos quedaría que:
+
 $$
 v_π(s) = \sum_{a} \pi(a|s) \sum_{s', r} p(s', r \mid s, a) \bigl[ r + γ \, v_π(s') \bigr]
 $$
+
 Y ya tendríamos la **ecuación de Bellman para la función valor de estado** . Vemos como se relaciona el valor de un estado con la recompensa inmediata esperada más el valor descontado del siguiente estado, promediado sobre todas las acciones según la política π y sobre todas las transiciones posibles del entorno $p$.
 
 **Segunda ecuación de Bellman: función estado-acción**
 
 Igualmente podríamos obtener un resultado análogo para la funcion de valor estado-acción. Basta con partir de la expresion $(\ref{relacion_v_q})$ y por comparación tendríamos:
+
 $$
 q_π(s,a) = \sum_{s', r} p(s', r \mid s, a) \bigl[ r + γ \sum_{a'} \pi(a'|s') q_π(s', a') \bigr]
 $$
+
 Esta expresión constituye la **segunda ecuación de Bellman** para la funcion estado-acción. Los componentes de esta ecuación se pueden describir del mismo modo que en el caso de la primera ecuación de Bellman
 
 En este caso, el agente ya ha ejecutado la acción $a$ en el estado $s$, y a partir de $s'$ continúa siguiendo su política $\pi$. El valor de $q_\pi(s, a)$ se construye como una combinación de las decisiones futuras posibles desde $s'$, teniendo en cuenta el comportamiento inducido por la política.
@@ -302,7 +315,6 @@ En este caso, el agente ya ha ejecutado la acción $a$ en el estado $s$, y a par
 > - Construir algoritmos como **iteración de valores**, **mejora de políticas** o **Q-learning**, que resolveremos en próximos módulos.
 >
 >   Pero, sobre todo, las ecuaciones de Bellman revelan una idea central: **el valor de un estado o acción no se define de forma aislada, sino en función de los estados futuros que se pueden alcanzar desde él**. Esta conexión entre presente y futuro es lo que hace del aprendizaje por refuerzo una disciplina secuencial y predictiva.
-
 
 
 ### Clasificación de los algoritmos de aprendizaje por refuerzo

@@ -185,9 +185,11 @@ $$
 El denominador asegura que las probabilidades sumen $1$. Esta parametrización tiene varias propiedades interesantes:
 
 - Es **diferenciable** respecto a $\theta$ (si $h$ lo es). El gradiente del logaritmo resulta:
+
   $$
   \nabla_\theta \log \pi(a|s,\theta) = \nabla_\theta h(s,a,\theta) - \sum_{b} \pi(b|s,\theta) \nabla_\theta h(s,b,\theta),
   $$
+
   que puede interpretarse como la diferencia entre el gradiente de la preferencia de la acción tomada y el gradiente medio ponderado de todas las preferencias.
 
 - La política es **estocástica** por naturaleza, salvo en el límite en que una preferencia domina infinitamente sobre las demás. Esto permite explorar de forma natural, sin necesidad de un mecanismo separado como $\epsilon$-greedy (aunque en la práctica a menudo se combina con exploración adicional).
@@ -318,7 +320,7 @@ El más sencillo de todos es **REINFORCE**, que utiliza retornos completos de ep
 
 En este módulo recorreremos este camino paso a paso, desde REINFORCE hasta el actor-crítico, ilustrando cada paso con ejemplos y, al final, con una implementación en Python para el problema del péndulo invertido (una tarea clásica de control con acciones continuas).
 
-El corazón de todos estos algoritmos es el **teorema del gradiente de política**. Para entenderlo, recordemos que queremos maximizar $J(\theta) = \mathbb{E}_{\pi_\theta}[G_0]$, donde $G_0$ es el retorno desde el inicio de un episodio. El gradiente $\nabla_\theta J(\theta)$ nos indica cómo cambiar $\theta$ para aumentar el rendimiento.
+El corazón de todos estos algoritmos es el **teorema del gradiente de política**. Para entenderlo, recordemos que queremos maximizar $J(\theta) = E_{\pi_\theta}[G_0]$, donde $G_0$ es el retorno desde el inicio de un episodio. El gradiente $\nabla_\theta J(\theta)$ nos indica cómo cambiar $\theta$ para aumentar el rendimiento.
 
 El teorema establece una expresión sorprendentemente sencilla:
 
@@ -416,6 +418,7 @@ Inicializamos $\theta = 0$, lo que da $\pi(\text{saltar}) = 0.5$. Fijamos la tas
 **Episodio 1**: El agente, con $\theta=0$, elige saltar (por azar, ya que ambas acciones tienen probabilidad 0.5). El entorno, en este caso, produce el resultado favorable (90% de probabilidad): va a 2 y luego a la meta. El retorno observado es $G_0 = 16.1$. 
 
 Calculamos el gradiente del logaritmo de la política para la acción saltar:
+
 $$
 \nabla_\theta \log \pi(\text{saltar}|\theta) = 1 - \pi(\text{saltar}|\theta) = 1 - 0.5 = 0.5.
 $$
@@ -431,6 +434,7 @@ La nueva probabilidad de saltar es $\pi(\text{saltar}) = 1/(1+e^{-0.805}) \appro
 **Episodio 2**: Con $\theta = 0.805$, la política elige saltar con probabilidad 0.691. Supongamos que vuelve a elegir saltar. Esta vez el entorno produce el resultado desfavorable (10% de probabilidad): cae en el agujero, obteniendo $G_0 = -10$. 
 
 Calculamos el gradiente para la acción saltar (con el $\theta$ actual):
+
 $$
 \pi(\text{saltar}) = 0.691, \quad \nabla_\theta \log \pi(\text{saltar}) = 1 - 0.691 = 0.309.
 $$
@@ -467,7 +471,7 @@ $$
 \theta \leftarrow \theta + \alpha \, (G_t - b(s_t)) \, \nabla_\theta \log \pi_\theta(a_t|s_t).
 $$
 
-Si $b(s_t)$ no depende de la acción, el valor esperado de la actualización no cambia (porque $\mathbb{E}[\nabla_\theta \log \pi_\theta(a|s)] = 0$). Sin embargo, la varianza puede reducirse si $b(s_t)$ se elige adecuadamente. La elección más común es utilizar el valor del estado $v_\pi(s_t)$ como línea de base. Así, el factor $(G_t - v_\pi(s_t))$ se interpreta como la **ventaja** de tomar la acción $a_t$: cuánto mejor (o peor) ha sido el resultado en comparación con lo que normalmente se espera de ese estado. Aprender esta línea de base requiere mantener una función de valor adicional, lo que nos lleva a los métodos actor-crítico, que veremos más adelante.
+Si $b(s_t)$ no depende de la acción, el valor esperado de la actualización no cambia (porque $E[\nabla_\theta \log \pi_\theta(a|s)] = 0$). Sin embargo, la varianza puede reducirse si $b(s_t)$ se elige adecuadamente. La elección más común es utilizar el valor del estado $v_\pi(s_t)$ como línea de base. Así, el factor $(G_t - v_\pi(s_t))$ se interpreta como la **ventaja** de tomar la acción $a_t$: cuánto mejor (o peor) ha sido el resultado en comparación con lo que normalmente se espera de ese estado. Aprender esta línea de base requiere mantener una función de valor adicional, lo que nos lleva a los métodos actor-crítico, que veremos más adelante.
 
 
 
@@ -512,13 +516,15 @@ $$
 \mathbb{E}_{s_t \sim \mu} \left[ b(s_t) \, \mathbb{E}_{a_t \sim \pi_\theta(\cdot|s_t)} \left[ \nabla_\theta \log \pi_\theta(a_t|s_t) \right] \right].
 $$
 
-Pero es una propiedad conocida que $\mathbb{E}_{a \sim \pi_\theta}[\nabla_\theta \log \pi_\theta(a|s)] = 0$ para cualquier estado $s$. La demostración es sencilla:
+Pero es una propiedad conocida que $E_{a \sim \pi_\theta}[\nabla_\theta \log \pi_\theta(a|s)] = 0$ para cualquier estado $s$. La demostración es sencilla:
+
 $$
 \sum_a \pi_\theta(a|s) \nabla_\theta \log \pi_\theta(a|s) = \nabla_\theta \sum_a \pi_\theta(a|s) = \nabla_\theta 1 = 0
 $$
+
 Por tanto, el segundo término se anula. Conclusión: **introducir una línea de base $b(s_t)$ que no dependa de la acción no introduce sesgo en la estimación del gradiente**. Podemos restar cualquier función del estado (o incluso una constante) y la esperanza de la actualización seguirá siendo el gradiente verdadero.
 
-¿Por qué se reduce la varianza con esta transformacion? La varianza de una variable aleatoria $X$ es $\mathbb{E}[X^2] - (\mathbb{E}[X])^2$. Al restar una constante (o una función del estado), estamos cambiando $X$ por $X - c$. La esperanza se modifica en $-c$, pero la varianza también cambia: $\text{Var}(X-c) = \text{Var}(X)$ si $c$ es constante. Sin embargo, si $c$ no es constante sino que depende del estado, la varianza puede disminuir si $c$ está correlacionada positivamente con $X$. En nuestro caso, $X = G_t \nabla_\theta \log \pi_\theta(a_t|s_t)$. La idea es elegir $b(s_t)$ de modo que se aproxime a lo que cabría esperar de $G_t$ en ese estado, para que la diferencia $G_t - b(s_t)$ sea pequeña en magnitud. Cuanto más se aproxime $b(s_t)$ al valor típico de $G_t$ dado $s_t$, menor será la varianza del producto.
+¿Por qué se reduce la varianza con esta transformacion? La varianza de una variable aleatoria $X$ es $E[X^2] - (\mathbb{E}[X])^2$. Al restar una constante (o una función del estado), estamos cambiando $X$ por $X - c$. La esperanza se modifica en $-c$, pero la varianza también cambia: $\text{Var}(X-c) = \text{Var}(X)$ si $c$ es constante. Sin embargo, si $c$ no es constante sino que depende del estado, la varianza puede disminuir si $c$ está correlacionada positivamente con $X$. En nuestro caso, $X = G_t \nabla_\theta \log \pi_\theta(a_t|s_t)$. La idea es elegir $b(s_t)$ de modo que se aproxime a lo que cabría esperar de $G_t$ en ese estado, para que la diferencia $G_t - b(s_t)$ sea pequeña en magnitud. Cuanto más se aproxime $b(s_t)$ al valor típico de $G_t$ dado $s_t$, menor será la varianza del producto.
 
 ##### La línea de base óptima (control por valores)
 
@@ -561,7 +567,7 @@ $$
 
 Este $\delta_t$ tiene una interpretación muy clara: mide la sorpresa o la discrepancia entre lo que el crítico esperaba ($v(s_t)$) y la nueva evidencia ($r_{t+1} + \gamma v(s_{t+1})$). Si $\delta_t$ es positivo, significa que la transición ha resultado mejor de lo esperado; si es negativo, peor.
 
-Recordemos que en REINFORCE con línea de base, la ventaja se definía como $A_t = G_t - v(s_t)$. En el actor‑crítico, definimos una **ventaja instantánea** como $\delta_t$. ¿Por qué es válido este cambio? Observemos que, en expectativa, el error de TD es una estimación de la ventaja. De hecho, se puede demostrar que $\mathbb{E}[\delta_t | s_t, a_t] = Q(s_t, a_t) - v(s_t)$, que es precisamente la ventaja. Al usar una sola muestra de $\delta_t$ en lugar de $G_t - v(s_t)$, estamos haciendo un bootstrap: reemplazamos el futuro incierto por la estimación actual del crítico. Esto reduce drásticamente la varianza, porque $\delta_t$ solo involucra una recompensa inmediata y una estimación, en lugar de una suma de muchas recompensas futuras. El precio que se paga es la introducción de un posible **sesgo**: si la estimación $v(s)$ no es perfecta, la dirección de la actualización puede no ser exactamente la del gradiente verdadero. Sin embargo, en la práctica, con buenas aproximaciones y tasas de aprendizaje adecuadas, el sesgo es manejable y la reducción de varianza compensa con creces.
+Recordemos que en REINFORCE con línea de base, la ventaja se definía como $A_t = G_t - v(s_t)$. En el actor‑crítico, definimos una **ventaja instantánea** como $\delta_t$. ¿Por qué es válido este cambio? Observemos que, en expectativa, el error de TD es una estimación de la ventaja. De hecho, se puede demostrar que $E[\delta_t | s_t, a_t] = Q(s_t, a_t) - v(s_t)$, que es precisamente la ventaja. Al usar una sola muestra de $\delta_t$ en lugar de $G_t - v(s_t)$, estamos haciendo un bootstrap: reemplazamos el futuro incierto por la estimación actual del crítico. Esto reduce drásticamente la varianza, porque $\delta_t$ solo involucra una recompensa inmediata y una estimación, en lugar de una suma de muchas recompensas futuras. El precio que se paga es la introducción de un posible **sesgo**: si la estimación $v(s)$ no es perfecta, la dirección de la actualización puede no ser exactamente la del gradiente verdadero. Sin embargo, en la práctica, con buenas aproximaciones y tasas de aprendizaje adecuadas, el sesgo es manejable y la reducción de varianza compensa con creces.
 
 #### El esquema general del actor‑crítico
 

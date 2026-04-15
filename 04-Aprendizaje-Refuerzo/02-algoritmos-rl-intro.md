@@ -259,7 +259,7 @@ $$
 
 Observa que el sumatorio anterior sobre $r$ recorre todos los valores posibles de la recompensa; el término $r$ dentro del sumatorio es el valor numérico de esa recompensa.
 
-Vamos ahora con el termino (B). Aqui, $\mathbb{E}_{\pi} [ G_{t+1} \mid S_t = s ]$ es la esperanza del retorno **a partir del siguiente paso**, condicionada solo al estado actual. Para relacionarlo con el valor del estado en $t+1$, debemos condicionar también a la acción $A_t$ y al siguiente estado $S_{t+1}$. Para ello se puede aplicar la ley de la esperanza total haciendo un condicionamiento en etapas:
+Vamos ahora con el termino (B). Aqui, $E_{\pi} [ G_{t+1} \mid S_t = s ]$ es la esperanza del retorno **a partir del siguiente paso**, condicionada solo al estado actual. Para relacionarlo con el valor del estado en $t+1$, debemos condicionar también a la acción $A_t$ y al siguiente estado $S_{t+1}$. Para ello se puede aplicar la ley de la esperanza total haciendo un condicionamiento en etapas:
 
 1. Primero condicionamos a la acción $A_t = a$, con probabilidad $\pi(a \mid s)$.
 

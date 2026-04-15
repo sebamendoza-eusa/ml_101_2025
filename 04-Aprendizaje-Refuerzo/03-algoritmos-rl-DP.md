@@ -77,9 +77,11 @@ v_{\pi}(s) = \mathbb{E} \left[ G_t \mid s_t = s \right] = \mathbb{E} \left[ \sum
 $$
 
 Donde hemos tenifdo en cuenta la expresion del retorno:
+
 $$
 G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k r_{t+k+1}
 $$
+
 Esta expectativa se toma sobre **todas las posibles trayectorias generadas por la política $\pi$, incluyendo la estocasticidad del entorno y de la propia política si no es determinista**. Para calcular esta función de valor, no es necesario simular episodios ni observar interacciones: basta con **resolver el sistema de ecuaciones que se deriva de la ecuación de Bellman para $v_\pi$**, aprovechando que se dispone del modelo completo del entorno.
 
 Recordemos que la **ecuación de Bellman para una política fija** describe el valor de un estado en función de las decisiones dictadas por la política y de las transiciones del entorno. Se expresa como:
@@ -114,6 +116,7 @@ Donde:
 Supongamos una política **determinista** que elige moverse **siempre a la derecha**.
 
 Para evaluar el valor de los estados usaremos la ecuación de Bellman:
+
 $$
 v_\pi(s) = \sum_{s'} p(s' \mid s, \pi(s)) \left[ R(s, \pi(s), s') + \gamma \cdot v_\pi(s') \right]
 $$
@@ -289,6 +292,7 @@ A continuación, aplicamos un **paso de mejora de la política**, usando el mode
 En el estado $s_1$:
 
 - Si el agente elige $a_0$, llega a $s_0$: 
+
 $$
 q(s_1, a_0) = R(s_1, a_0, s_0) + \gamma \cdot v_\pi(s_0) = 0 + 1 \cdot 0 = 0
 $$
@@ -425,7 +429,7 @@ Desde la casilla **2**:
 
 Desde el resto de casillas (1, 3 y 4) no tiene sentido modelar ninguna transición ya que son estados terminales
 
-Es interesante generar el grafo que correponde a nuestro problema. Sería este:
+Es interesante generar el grafo que correponde a nuestro problema. Sería este:
 
 ![image-20260412101744254](./assets/image-20260412101744254.png)
 
@@ -447,29 +451,43 @@ Así pues:
 
 
 
-Empezamos asignando el valor 0 a $v^{(0)}(0)$ y $v^{(0)}(2)$
+Empezamos asignando el valor 0 a $v^{(0)}(0)$ y $v^{(0)}(2)$
 
 Ahora aplicamos la ecuación de iteración de valores para $k=1$
+
 $$
 v^{(1)}(s) = \max_a \sum_{s'} p(s' \mid s, a) \left[ R(s, a, s') + \gamma \cdot v^{(0)}(s') \right]
 $$
+
 **Iteración 1**:
 
-$$v^{(1)}(0) = \max\left\{ \underbrace{0.8(-10)+0.2(-1)}_{-8.2},\; \underbrace{0.9(-1)+0.1(-10)}_{-1.9} \right\} = -1.9$$
+$$
+v^{(1)}(0) = \max\left\{ \underbrace{0.8(-10)+0.2(-1)}_{-8.2},\; \underbrace{0.9(-1)+0.1(-10)}_{-1.9} \right\} = -1.9
+$$
 
-$$v^{(1)}(2) = \max\left\{ \underbrace{0.9(19)+0.1(-1)}_{17.0},\; \underbrace{0.8(-5)+0.2(-1)}_{-4.2} \right\} = 17.0$$
+$$
+v^{(1)}(2) = \max\left\{ \underbrace{0.9(19)+0.1(-1)}_{17.0},\; \underbrace{0.8(-5)+0.2(-1)}_{-4.2} \right\} = 17.0
+$$
 
 **Iteración 2** (usando $v^{(1)}$):
 
-$$v^{(2)}(0) = \max\left\{ 0.8(-10)+0.2(-1+0.9\cdot(-1.9)) = -8.542,\; 0.9(-1+0.9\cdot17.0)+0.1(-10) = 11.87 \right\} = 11.87$$
+$$
+v^{(2)}(0) = \max\left\{ 0.8(-10)+0.2(-1+0.9\cdot(-1.9)) = -8.542,\; 0.9(-1+0.9\cdot17.0)+0.1(-10) = 11.87 \right\} = 11.87
+$$
 
-$$v^{(2)}(2) = \max\left\{ 0.9(19)+0.1(-1+0.9\cdot17.0) = 18.53,\; 0.8(-5)+0.2(-1+0.9\cdot17.0) = -1.14 \right\} = 18.53$$
+$$
+v^{(2)}(2) = \max\left\{ 0.9(19)+0.1(-1+0.9\cdot17.0) = 18.53,\; 0.8(-5)+0.2(-1+0.9\cdot17.0) = -1.14 \right\} = 18.53
+$$
 
 **Iteración 3**:
-$$v^{(3)}(0) = 13.1093,\quad v^{(3)}(2) = 18.6677$$
+$$
+v^{(3)}(0) = 13.1093,\quad v^{(3)}(2) = 18.6677
+$$
 
 **Iteración 4**:
-$$v^{(4)}(0) = 13.2208,\quad v^{(4)}(2) = 18.6801$$
+$$
+v^{(4)}(0) = 13.2208,\quad v^{(4)}(2) = 18.6801
+$$
 
 La convergencia se alcanza rápidamente. Los valores finales son aproximadamente $v^*(0) \approx 13.3$, $v^*(2) \approx 18.68$.
 
